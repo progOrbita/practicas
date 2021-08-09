@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="estilos.css">
+	<title>Formulario</title>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+</head>
+<body class="container">
+	<h2>Formulario 
+		<small class="text-muted">
+			para acceder
+		</small>
+	</h2>
+	<form class="needs-validation row-cols-4" method="post" id="formular" novalidate>
+		<div class="col-md">
+			<div class="form-floating mb-3">
+				<input class="form-control" type="text" name="texto" id="a" placeholder="inserte texto" autocomplete="off">
+				<label for="floatingInput">Texto teorico</label>
+			</div>
+				<label class="form-label">Numero teorico</label>
+			<div class="input-group mb-3">	
+				<input class="form-control" type="number" name="numerico" id="b">
+			</div>
+				<label class="form-label">Fecha teorica</label>
+			<div class="input-group mb-3">
+				<input class="form-control" type="date" name="fecha" id="c">
+			</div>
+			<div class="input-group flex-nowrap">
+				<input class="btn btn-primary" type="button" value="guardar datos" id="aceptar" name="guardarDatos">
+				<input class="btn btn-secondary" type="submit" value="boton submit" id="submitBut" name="submit">
+			</div>
+		</div>
+	</form>
+	<div class="lead text-success" id="respuesta">Si aparece en verde esta correcto</div>
+	<div class="lead text-danger" id="noestaBien">Si aparece en rojo esta incorrecto</div>
+	<div>
+	<script type="text/javascript">
+		/*Por partes para que lo comprenda en un futuro.
+			Coge todos los inputs del formulario y los serializa (lo convierte en un array?) para pasarlo. Ahora ajax
+			url: destino de los datos
+			context: el div/lugar/coso donde va a recibir la informacion
+			data: los datos que se van a enviar, en este caso los inputs serializados
+			type: el tipo (de normal es get, se puede cambiar. Usualmente POST)
+			Una vez haya hecho lo que tenga que hacer con los datos y demas el php lo devuelve como data (o cualquier nombre imagino)
+			entoces, ya puedes hacer lo que quieras con esos data. Si es un echo, simplemente se incluye en cualquier div o html y solucionado. Devuelve todo como una cadena?.
+		*/
+		function comprobarInput(value){
+				$('input[type="text"]').addClass("bg-success");
+				$('input[type="number"]').addClass("bg-success");
+				$('input[type="date"]').addClass("bg-success");
+			if($('input[name="'+value+'"').length){
+				$('input[name="'+value+'"').removeClass("bg-success")
+				$('input[name="'+value+'"').addClass("bg-danger");
+			}
+			else{
+				console.log("nope");
+			}
+		}
+		$(document).ready(function(){
+			$(document).on('click','#aceptar',function(){
+				let todoDatos = $('#formular').find("input");
+				let datosSerial = todoDatos.serialize();
+				let listo = $.ajax({
+					url: "ejercicio5.php",
+					context: document.body,
+					data: datosSerial,
+					type: "POST"
+				});
+				listo.done(function(data){
+					let jsonData = JSON.parse(data);
+					$('input').removeClass("bg-danger");
+					jsonData.forEach(element=> comprobarInput(element));					
+				});
+			});
+		});
+	</script>
+</body>
+</html>
