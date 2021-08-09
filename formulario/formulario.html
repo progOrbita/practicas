@@ -29,6 +29,7 @@
 			<div class="input-group flex-nowrap">
 				<input class="btn btn-primary" type="button" value="Validar datos" id="validate" name="dataValidate">
 				<input class="btn btn-secondary" type="button" value="Añadir datos" id="addData" name="dataAdd">
+				<input class="btn btn-primary bg-danger" type="button" value="Borrar datos" id="deleteData" name="dataRem">
 			</div>
 		</div>
 	</form>
@@ -44,7 +45,7 @@
 			if($('input[name="'+value+'"').length){
 				$('input[name="'+value+'"').removeClass("bg-success")
 				$('input[name="'+value+'"').addClass("bg-danger");	
-				correcto--;			
+				correcto = -1;			
 			}			
 		}
 		/*Por partes para que lo comprenda en un futuro.
@@ -82,17 +83,11 @@
 					let todoDatos = $('#formular').find("input");
 					let datosSerial = todoDatos.serialize();
 					let ajaxRequest = $.ajax({
-					url: "conexion.php",
-					context: document.body,
-					data: datosSerial,
-					type: "POST"
-				});
-				ajaxRequest.done(function(data){
-					
-				});
-				}
-				else{
-					
+						url: "conexion.php",
+						context: document.body,
+						data: datosSerial,
+						type: "POST"
+					});
 				}
 			});
 		});
