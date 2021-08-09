@@ -10,8 +10,16 @@
 			require_once '../../config/config.inc.php';
 			require_once '../../init.php';
 		}
-
-		var_dump(Db::getInstance()->executeS('select * from ps_product'));
+		$database = Db::getInstance();
+		if(isset($_POST['texto'])){
+			$name = $_POST['texto'];
+			$number = $_POST['numerico'];
+			$date = $_POST['fecha'];
+			$query = $database->execute('INSERT INTO test.tableto(name,number,fecha,fecha_creacion) VALUES ("'.$name.'",'.$number.',"'.$date.'",NOW())');
+			
+		}
+		
+		
 		
 		
 		
