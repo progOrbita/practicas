@@ -37,17 +37,15 @@
 	<div class="lead text-danger" id="noestaBien">Si aparece en rojo esta incorrecto</div>
 	<div>
 	<script type="text/javascript">
-			let correcto = 0;
-			function comprobarInput(value){
-				$('input[type="text"]').addClass("bg-success");
-				$('input[type="number"]').addClass("bg-success");
-				$('input[type="date"]').addClass("bg-success");
-			if($('input[name="'+value+'"').length){
-				$('input[name="'+value+'"').removeClass("bg-success")
-				$('input[name="'+value+'"').addClass("bg-danger");	
-				correcto = -1;			
-			}			
-		}
+			function inputCorrecto(value){
+					$('input[name="'+value+'"]').removeClass("bg-danger");
+					$('input[name="'+value+'"]').addClass("bg-success");	
+			}
+			function inputIncorrecto(value){
+				$('input[name="'+value+'"]').removeClass("bg-success");
+				$('input[name="'+value+'"]').addClass("bg-danger");							
+			}
+						
 		/*Por partes para que lo comprenda en un futuro.
 			Coge todos los inputs del formulario y los serializa (lo convierte en un array?) para pasarlo. Ahora ajax
 			url: destino de los datos
@@ -67,10 +65,9 @@
 					type: "POST"
 				});
 				ajaxRequest.done(function(data){
-					let jsonData = JSON.parse(data);
-					$('input').removeClass("bg-danger");
-					correcto = 0;
-					jsonData.forEach(element=> comprobarInput(element));					
+					let jsonData = JSON.parse(data);					
+					jsonData.bien.forEach(element => inputCorrecto(element));
+					jsonData.error.forEach(element => inputIncorrecto(element));
 				});
 		}
 		$(document).ready(function(){				
@@ -79,7 +76,7 @@
 			});
 			$(document).on('click','#addData',function(){
 				validarDatos();
-				if(correcto==0){
+				if(console.log(jsonData.error.length)==0){
 					let todoDatos = $('#formular').find("input");
 					let datosSerial = todoDatos.serialize();
 					let ajaxRequest = $.ajax({
