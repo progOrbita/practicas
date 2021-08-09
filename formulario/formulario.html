@@ -79,10 +79,20 @@
 			$(document).on('click','#addData',function(){
 				validarDatos();
 				if(correcto==0){
-					console.log('todo bie');
+					let todoDatos = $('#formular').find("input");
+					let datosSerial = todoDatos.serialize();
+					let ajaxRequest = $.ajax({
+					url: "conexion.php",
+					context: document.body,
+					data: datosSerial,
+					type: "POST"
+				});
+				ajaxRequest.done(function(data){
+					
+				});
 				}
 				else{
-					console.log('algo esta mal');
+					
 				}
 			});
 		});
