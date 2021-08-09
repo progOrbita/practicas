@@ -35,7 +35,7 @@
 	</form>
 	<div class="lead text-success" id="respuesta">Si aparece en verde esta correcto</div>
 	<div class="lead text-danger" id="noestaBien">Si aparece en rojo esta incorrecto</div>
-	<div id="resultado"></div></div>
+	<div id="resultado"></div>
 	<div>
 	<script type="text/javascript">
 	/*		Por partes para que lo comprenda en un futuro, el AJAX+JSON.
@@ -83,13 +83,16 @@
 						data: datosSerial,
 						type: "POST"
 					});
-					ajaxRequest.done(function(data){									
+					ajaxRequest.done(function(data){
+						$('#resultado').empty();									
 					let jsonData = JSON.parse(data);
 					if(typeof(jsonData) === "object"){
 						jsonData.good.forEach(element => inputCorrecto(element));
 						jsonData.error.forEach(element => inputIncorrecto(element));
+						$('#resultado').append("<p>Datos erroneos, revisalo de nuevo");
 					}					
 					if(jsonData === true){
+						$('#resultado').append("<p>Datos correctos, insertados con exito");
 						$('.form-control').removeClass("bg-danger");
 						$('.form-control').addClass("bg-success");
 					}
