@@ -69,7 +69,6 @@
 				});
 				ajaxRequest.done(function(data){
 					let jsonData = JSON.parse(data);
-					console.log(data);
 					$('input').removeClass("bg-danger");
 					jsonData.forEach(element=> comprobarInput(element));					
 				});
@@ -83,9 +82,8 @@
 					data: datosSerial,
 					type: "POST"
 				});
-				ajaxRequest.done(function(data){
-					let jsonData = JSON.parse(data);
-					console.log(data);					
+				ajaxRequest.done(function(data){					
+										
 				});
 			});
 		});
