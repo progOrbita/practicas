@@ -43,7 +43,7 @@
 			}
 			function inputIncorrecto(value){
 				$('input[name="'+value+'"]').removeClass("bg-success");
-				$('input[name="'+value+'"]').addClass("bg-danger");							
+				$('input[name="'+value+'"]').addClass("bg-danger");						
 			}
 						
 		/*Por partes para que lo comprenda en un futuro.
@@ -69,14 +69,13 @@
 					jsonData.bien.forEach(element => inputCorrecto(element));
 					jsonData.error.forEach(element => inputIncorrecto(element));
 				});
+				
 		}
 		$(document).ready(function(){				
 			$(document).on('click','#validate',function(){	
 				validarDatos();
 			});
-			$(document).on('click','#addData',function(){
-				validarDatos();
-				if(console.log(jsonData.error.length)==0){
+			$(document).on('click','#addData',function(){		
 					let todoDatos = $('#formular').find("input");
 					let datosSerial = todoDatos.serialize();
 					let ajaxRequest = $.ajax({
@@ -84,8 +83,7 @@
 						context: document.body,
 						data: datosSerial,
 						type: "POST"
-					});
-				}
+					});				
 			});
 		});
 	</script>
