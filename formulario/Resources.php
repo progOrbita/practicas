@@ -1,8 +1,12 @@
 <?php
 
 class Resources{
-
-    function validacion(array $array_data){
+/**
+ * valida el formulario
+ * @param array $array_data el array enviado
+ * @return array $arr el array con los datos ya verificados
+ */
+    function validacion(array $array_data): array{
         $arr = [];
         foreach ($array_data as $key => $value) {
             $cadenaVacia = trim($value);
@@ -15,5 +19,6 @@ class Resources{
         }
         return $arr;
     }
+    
 }
 ?>
