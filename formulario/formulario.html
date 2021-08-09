@@ -36,6 +36,19 @@
 	<div class="lead text-danger" id="noestaBien">Si aparece en rojo esta incorrecto</div>
 	<div>
 	<script type="text/javascript">
+		let right;
+				function comprobarInput(value){
+				$('input[type="text"]').addClass("bg-success");
+				$('input[type="number"]').addClass("bg-success");
+				$('input[type="date"]').addClass("bg-success");
+			if($('input[name="'+value+'"').length){
+				$('input[name="'+value+'"').removeClass("bg-success")
+				$('input[name="'+value+'"').addClass("bg-danger");
+			}
+			else{
+				//do something
+			}
+		}
 		/*Por partes para que lo comprenda en un futuro.
 			Coge todos los inputs del formulario y los serializa (lo convierte en un array?) para pasarlo. Ahora ajax
 			url: destino de los datos
@@ -45,18 +58,6 @@
 			Una vez haya hecho lo que tenga que hacer con los datos y demas el php lo devuelve como data (o cualquier nombre imagino)
 			entoces, ya puedes hacer lo que quieras con esos data. Si es un echo, simplemente se incluye en cualquier div o html y solucionado. Devuelve todo como una cadena?.
 		*/
-		function comprobarInput(value){
-				$('input[type="text"]').addClass("bg-success");
-				$('input[type="number"]').addClass("bg-success");
-				$('input[type="date"]').addClass("bg-success");
-			if($('input[name="'+value+'"').length){
-				$('input[name="'+value+'"').removeClass("bg-success")
-				$('input[name="'+value+'"').addClass("bg-danger");
-			}
-			else{
-				//if everything is right
-			}
-		}
 		$(document).ready(function(){				
 			$(document).on('click','#validate',function(){	
 				let todoDatos = $('#formular').find("input");
@@ -82,8 +83,11 @@
 					data: datosSerial,
 					type: "POST"
 				});
-				ajaxRequest.done(function(data){					
-										
+				ajaxRequest.done(function(data){
+					let jsonData = JSON.parse(data);
+					$('input').removeClass("bg-danger");
+					jsonData.forEach(element=> comprobarInput(element));
+
 				});
 			});
 		});
