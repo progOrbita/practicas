@@ -15,7 +15,7 @@
 			$cadena = $validados->validacion($array_datos);
 			echo json_encode($cadena);
 			if(sizeof($cadena['error']) === 0){
-			//	$query = $database->execute('INSERT INTO test.tableto(name,number,fecha,fecha_creacion) VALUES ("'.$name.'",'.$number.',"'.$date.'",NOW())');
+				$query = $database->execute('INSERT INTO test.tableto(name,number,fecha,fecha_creacion) VALUES ("'.$name.'",'.$number.',"'.$date.'",NOW())');
 			}		
 		}
 		
