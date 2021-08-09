@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
 	<?php
 		if(!defined('_PS_VERSION_')){
 			require_once '../../config/config.inc.php';
@@ -19,6 +13,3 @@
 		}		
 		
 	?>
-
-</body>
-</html>
