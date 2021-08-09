@@ -66,17 +66,15 @@
 				});
 				ajaxRequest.done(function(data){
 					let jsonData = JSON.parse(data);					
-					jsonData.bien.forEach(element => inputCorrecto(element));
+					jsonData.good.forEach(element => inputCorrecto(element));
 					jsonData.error.forEach(element => inputIncorrecto(element));
-				});
-				
+				});				
 		}
 		$(document).ready(function(){				
 			$(document).on('click','#validate',function(){	
 				validarDatos();
 			});
 			$(document).on('click','#addData',function(){	
-				validarDatos();	
 					let todoDatos = $('#formular').find("input");
 					let datosSerial = todoDatos.serialize();
 					let ajaxRequest = $.ajax({
@@ -85,7 +83,13 @@
 						data: datosSerial,
 						type: "POST"
 					});
+					ajaxRequest.done(function(data){					
+					jsonData = JSON.parse(data);
+					jsonData.good.forEach(element => inputCorrecto(element));
+					jsonData.error.forEach(element => inputIncorrecto(element));
+				});
 			});
+			
 		});
 	</script>
 </body>
