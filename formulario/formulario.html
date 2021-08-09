@@ -37,16 +37,7 @@
 	<div class="lead text-danger" id="noestaBien">Si aparece en rojo esta incorrecto</div>
 	<div>
 	<script type="text/javascript">
-			function inputCorrecto(value){
-					$('input[name="'+value+'"]').removeClass("bg-danger");
-					$('input[name="'+value+'"]').addClass("bg-success");	
-			}
-			function inputIncorrecto(value){
-				$('input[name="'+value+'"]').removeClass("bg-success");
-				$('input[name="'+value+'"]').addClass("bg-danger");						
-			}
-						
-		/*Por partes para que lo comprenda en un futuro.
+	/*		Por partes para que lo comprenda en un futuro, el AJAX+JSON.
 			Coge todos los inputs del formulario y los serializa (lo convierte en un array?) para pasarlo. Ahora ajax
 			url: destino de los datos
 			context: el div/lugar/coso donde va a recibir la informacion
@@ -55,26 +46,34 @@
 			Una vez haya hecho lo que tenga que hacer con los datos y demas el php lo devuelve como data (o cualquier nombre imagino)
 			entoces, ya puedes hacer lo que quieras con esos data. Si es un echo, simplemente se incluye en cualquier div o html y solucionado. Devuelve todo como una cadena?.
 		*/
+			function inputCorrecto(value){
+					$('input[name="'+value+'"]').removeClass("bg-danger");
+					$('input[name="'+value+'"]').addClass("bg-success");	
+			}
+			function inputIncorrecto(value){
+				$('input[name="'+value+'"]').removeClass("bg-success");
+				$('input[name="'+value+'"]').addClass("bg-danger");						
+			}
 		function validarDatos(){
 			let todoDatos = $('#formular').find("input");
-				let datosSerial = todoDatos.serialize();	
-				let ajaxRequest = $.ajax({
-					url: "validacion.php",
-					context: document.body,
-					data: datosSerial,
-					type: "POST"
-				});
-				ajaxRequest.done(function(data){
-					let jsonData = JSON.parse(data);					
-					jsonData.good.forEach(element => inputCorrecto(element));
-					jsonData.error.forEach(element => inputIncorrecto(element));
-				});				
+			let datosSerial = todoDatos.serialize();	
+			let ajaxRequest = $.ajax({
+				url: "validacion.php",
+				context: document.body,
+				data: datosSerial,
+				type: "POST"
+			});
+			ajaxRequest.done(function(data){
+				let jsonData = JSON.parse(data);
+				jsonData.good.forEach(element => inputCorrecto(element));
+				jsonData.error.forEach(element => inputIncorrecto(element));
+			});				
 		}
 		$(document).ready(function(){				
 			$(document).on('click','#validate',function(){	
 				validarDatos();
 			});
-			$(document).on('click','#addData',function(){	
+			$(document).on('click','#addData',function(){				
 					let todoDatos = $('#formular').find("input");
 					let datosSerial = todoDatos.serialize();
 					let ajaxRequest = $.ajax({
@@ -84,12 +83,9 @@
 						type: "POST"
 					});
 					ajaxRequest.done(function(data){					
-					jsonData = JSON.parse(data);
-					jsonData.good.forEach(element => inputCorrecto(element));
-					jsonData.error.forEach(element => inputIncorrecto(element));
+					console.log(data);
 				});
-			});
-			
+			});			
 		});
 	</script>
 </body>
