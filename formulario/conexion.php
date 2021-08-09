@@ -8,8 +8,7 @@
 			$name = $_POST['texto'];
 			$number = $_POST['numerico'];
 			$date = $_POST['fecha'];
-			$query = $database->execute('INSERT INTO test.tableto(name,number,fecha,fecha_creacion) VALUES ("'.$name.'",'.$number.',"'.$date.'",NOW())');
-			
+			$query = $database->execute('INSERT INTO test.tableto(name,number,fecha,fecha_creacion) VALUES ("'.$name.'",'.$number.',"'.$date.'",NOW())');		
 		}		
 		
 	?>
