@@ -12,10 +12,11 @@
 				$number = $_POST['numerico'];
 				$date = $_POST['fecha'];
 				$array_datos = ["texto" => $_POST['texto'],"numerico" => $_POST['numerico'],"fecha" => $_POST['fecha']];
-			$cadena = $validados->validacion($array_datos);		
+			$cadena = $validados->validacion($array_datos);
+			echo json_encode($cadena);
 			if(sizeof($cadena['error']) === 0){
-				$query = $database->execute('INSERT INTO test.tableto(name,number,fecha,fecha_creacion) VALUES ("'.$name.'",'.$number.',"'.$date.'",NOW())');
-			}			
+			//	$query = $database->execute('INSERT INTO test.tableto(name,number,fecha,fecha_creacion) VALUES ("'.$name.'",'.$number.',"'.$date.'",NOW())');
+			}		
 		}
 		
 	?>
