@@ -36,18 +36,16 @@
 	<div class="lead text-danger" id="noestaBien">Si aparece en rojo esta incorrecto</div>
 	<div>
 	<script type="text/javascript">
-		let right;
-				function comprobarInput(value){
+			let correcto = 0;
+			function comprobarInput(value){
 				$('input[type="text"]').addClass("bg-success");
 				$('input[type="number"]').addClass("bg-success");
 				$('input[type="date"]').addClass("bg-success");
 			if($('input[name="'+value+'"').length){
 				$('input[name="'+value+'"').removeClass("bg-success")
-				$('input[name="'+value+'"').addClass("bg-danger");
-			}
-			else{
-				//do something
-			}
+				$('input[name="'+value+'"').addClass("bg-danger");	
+				correcto--;			
+			}			
 		}
 		/*Por partes para que lo comprenda en un futuro.
 			Coge todos los inputs del formulario y los serializa (lo convierte en un array?) para pasarlo. Ahora ajax
@@ -58,9 +56,8 @@
 			Una vez haya hecho lo que tenga que hacer con los datos y demas el php lo devuelve como data (o cualquier nombre imagino)
 			entoces, ya puedes hacer lo que quieras con esos data. Si es un echo, simplemente se incluye en cualquier div o html y solucionado. Devuelve todo como una cadena?.
 		*/
-		$(document).ready(function(){				
-			$(document).on('click','#validate',function(){	
-				let todoDatos = $('#formular').find("input");
+		function validarDatos(){
+			let todoDatos = $('#formular').find("input");
 				let datosSerial = todoDatos.serialize();	
 				let ajaxRequest = $.ajax({
 					url: "validacion.php",
@@ -71,24 +68,22 @@
 				ajaxRequest.done(function(data){
 					let jsonData = JSON.parse(data);
 					$('input').removeClass("bg-danger");
+					correcto = 0;
 					jsonData.forEach(element=> comprobarInput(element));					
 				});
+		}
+		$(document).ready(function(){				
+			$(document).on('click','#validate',function(){	
+				validarDatos();
 			});
-			$(document).on('click','#addData',function(){	
-				let todoDatos = $('#formular').find("input");
-				let datosSerial = todoDatos.serialize();	
-				let ajaxRequest = $.ajax({
-					url: "conexion.php",
-					context: document.body,
-					data: datosSerial,
-					type: "POST"
-				});
-				ajaxRequest.done(function(data){
-					let jsonData = JSON.parse(data);
-					$('input').removeClass("bg-danger");
-					jsonData.forEach(element=> comprobarInput(element));
-
-				});
+			$(document).on('click','#addData',function(){
+				validarDatos();
+				if(correcto==0){
+					console.log('todo bie');
+				}
+				else{
+					console.log('algo esta mal');
+				}
 			});
 		});
 	</script>
