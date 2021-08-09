@@ -4,7 +4,6 @@
 	<title></title>
 </head>
 <body>
-	<p>Conexion con la base de datos, si esta bien saldra un mensaje</p>
 	<?php
 		if(!defined('_PS_VERSION_')){
 			require_once '../../config/config.inc.php';
@@ -17,11 +16,7 @@
 			$date = $_POST['fecha'];
 			$query = $database->execute('INSERT INTO test.tableto(name,number,fecha,fecha_creacion) VALUES ("'.$name.'",'.$number.',"'.$date.'",NOW())');
 			
-		}
-		
-		
-		
-		
+		}		
 		
 	?>
 
