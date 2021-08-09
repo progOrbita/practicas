@@ -19,7 +19,11 @@ class Resources{
         }
         return $arr;
     }
-
+    /**
+     * Insert the array into the database
+     * @param array $array_data array with the elements that are going to be added to the database
+     * @return $query if the validation is successfully or $array_save with the errors if the array have some.
+     */
     function save(array $array_data){
     $array_save = $this->validacion($array_data);    
 		if(count($array_save['error']) === 0){
