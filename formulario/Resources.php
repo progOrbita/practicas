@@ -23,7 +23,7 @@ class Resources{
     function save(array $array_data){
     $array_save = $this->validacion($array_data);    
 		if(count($array_save['error']) === 0){
-            $query = Db::getInstance()->execute('INSERT INTO test.tableto(name,number,fecha,fecha_creacion) VALUES ("'.$name.'",'.$number.',"'.$date.'",NOW())');
+            $query = Db::getInstance()->execute('INSERT INTO test.tableto(name,number,fecha,fecha_creacion) VALUES ("'.$array_data['texto'].'",'.$array_data['numerico'].',"'.$array_data['fecha'].'",NOW())');
             return $query;
         }
         else{
