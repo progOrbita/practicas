@@ -88,9 +88,10 @@
 					type: "POST"
 				});
 			ajaxRequest.done(function(data){
-				$('#resultado').empty();									
+				$('#resultado').empty();
+				$('#resultado').removeClass('text-danger');									
 				let jsonData = JSON.parse(data);	
-				//if the return is an array			
+				//if there's errors in the formulary		
 				if(typeof(jsonData) === "object"){
 					jsonData.good.forEach(element => inputCorrecto(element));
 					jsonData.error.forEach(element => inputIncorrecto(element));
@@ -104,12 +105,14 @@
 				//if there's some error in the query
 				else{
 					$('#resultado').append("<p>Error al insertar los datos</p>");
-					changeToError(".form-control");
+					changeToSuccess(".form-control");
+					$("#resultado").addClass('text-danger');
 				}
 			});
 		}
 		function removeData(){			
 			$('#resultado').empty();
+			$('#resultado').removeClass('text-danger');
 				//if name is empty
 				let check_empty_name = $('#campoTexto').val();
 				if((check_empty_name.trim() === "")){
@@ -124,9 +127,8 @@
 					type: "POST"
 				});
 			ajaxRequest.done(function(data){	
-				console.log(data);
 				let jsonData = JSON.parse(data);    				
-				//if name is wrong
+				//if name isn't in the database
 				if(typeof(jsonData) === "object"){
 					$('#resultado').append('<p>Name dont found in database</p>');
 					changeToError("#campoTexto");
@@ -140,7 +142,8 @@
 				//if there's an error somewhere in the delete query
 				else{
 					$('#resultado').append('<p>Error somewhere in the query</p>');
-					changeToError("#campoTexto");
+					$('#resultado').addClass('text-danger');
+					changeToSuccess("#campoTexto");
 				}
 			});
 		}
