@@ -39,9 +39,9 @@
 	<div>
 	<script type="text/javascript">
 	/*		Por partes para que lo comprenda en un futuro, el AJAX+JSON.
-			Coge todos los inputs del formulario y los serializa (lo convierte en un array?) para pasarlo. Ahora ajax
+			Coge todos los inputs del formulario (tipo array) y los serializa (lo convierte en un objeto). Ahora ajax
 			url: destino de los datos
-			context: el div/lugar/coso donde va a recibir la informacion
+			context: el div/etiqueta donde va a recibir la informacion
 			data: De tipo objeto {}, los datos que se van a enviar, en este caso los inputs serializados (serialize convierte el array en objeto)
 			type: el tipo (de normal es get, se puede cambiar. Usualmente POST)
 			Una vez haya hecho lo que tenga que hacer con los datos y demas el php lo devuelve como data (o cualquier nombre imagino)
@@ -89,16 +89,19 @@
 				});
 			ajaxRequest.done(function(data){
 				$('#resultado').empty();									
-				let jsonData = JSON.parse(data);				
+				let jsonData = JSON.parse(data);	
+				//if the return is an array			
 				if(typeof(jsonData) === "object"){
 					jsonData.good.forEach(element => inputCorrecto(element));
 					jsonData.error.forEach(element => inputIncorrecto(element));
 					$('#resultado').append("<p>Datos erroneos, revisalo de nuevo");
 				}					
+				//if the query is right
 				else if(jsonData === true){
 					$('#resultado').append("<p>Datos correctos, insertados con exito");
 					changeToSuccess(".form-control");
 				}
+				//if there's some error in the query
 				else{
 					$('#resultado').append("<p>Error al insertar los datos</p>");
 					changeToError(".form-control");
@@ -129,12 +132,12 @@
 					changeToError("#campoTexto");
 					return;
 				}
-				//if name and delete query is successfull       		
+				//if name and delete query is successfull
 				if(jsonData === true){
 					$('#resultado').append('<p>Name removed from database</p>');
 					changeToSuccess("#campoTexto");
 				}		
-				//if there's an error somewhere in the delete query			
+				//if there's an error somewhere in the delete query
 				else{
 					$('#resultado').append('<p>Error somewhere in the query</p>');
 					changeToError("#campoTexto");
