@@ -40,9 +40,10 @@ class Resources{
      * @return $query result of the query, or false if the var is empty
      */
     function delete(string $name){
-        $cadenaVacia = trim($name);
-        if(empty($cadenaVacia)){
-           return false;
+    
+       $check_name = Db::getInstance()->executeS('SELECT * FROM test.tableto WHERE name="'.$name.'"');
+        if(count($check_name)===0){
+            return false;
         }
         else{
             $query = Db::getInstance()->execute('DELETE FROM test.tableto WHERE name="'.$name.'"');
