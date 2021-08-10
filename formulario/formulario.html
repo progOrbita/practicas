@@ -34,7 +34,6 @@
 		</div>
 	</form>
 	<div id="resultado"></div>
-	<div>
 	<script type="text/javascript">
 		/*	Por partes para que lo comprenda en un futuro, el AJAX+JSON.
 			Coge todos los inputs del formulario (tipo array) y los serializa (lo convierte en un objeto). Ahora ajax
@@ -67,7 +66,7 @@
 		function comprobarApi(value){
 			if(typeof(value)=="string"){
 				$('#resultado').empty();
-				$('#resultado').append("There was an unexpected error with the server connection");
+				$('#resultado').append(value);
 				$('#resultado').addClass('text-danger');
 				$('.form-control').removeClass('bg-success');
 				$('.form-control').removeClass('bg-danger');
