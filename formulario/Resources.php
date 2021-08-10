@@ -24,10 +24,10 @@ class Resources{
      * @param array $array_data array with the elements that are going to be added to the database
      * @return $query if the validation is successfully or $array_save with the errors if the array have some.
      */
-    function save(array $array_data): array{
+    function save(array $array_data){
     $array_save = $this->validacion($array_data);    
 		if(count($array_save['error']) === 0){           
-            $query = Db::getInstance()->execute('INSERT INTO test.tableto(name,number,fecha,fecha_creacion) VALUES ("'.$array_data['texto'].'",'.$array_data['numerico'].',"'.$array_data['fecha'].'",NOW())');
+            $query = Db::getInstance()->execute('INSERT INTO \'_DB_PREFIX_\'.formulario(name,number,fecha,fecha_creacion) VALUES ("'.$array_data['texto'].'",'.$array_data['numerico'].',"'.$array_data['fecha'].'",NOW())');
             return $query;
         }
         else{
@@ -45,7 +45,7 @@ class Resources{
             return false;
         }
         else{
-            $query = Db::getInstance()->execute('DELETE FROM test.tableto WHERE name="'.$name.'"');
+            $query = Db::getInstance()->execute('DELETEFROM test.tableto WHERE name="'.$name.'"');
             return $query;
         }
     } 
