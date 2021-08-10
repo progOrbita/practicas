@@ -25,7 +25,6 @@
     
     $accion = (string) Tools::getValue('action','default');
     $api_functions = new Resources();
-    
     switch($accion){
         //to validate the formulary
         case "validate":
@@ -42,8 +41,9 @@
 		    $name = Tools::getValue('texto',"");	
 		    $resultado = $api_functions->delete($name);
             break;
-        //if there's an error with the action that is going to be executed
-        case 'default':
+        //if there's an error with the action sent or isnt written
+        case "default":
+        default:
             $resultado = "function dont found";
         break;      
     }  
