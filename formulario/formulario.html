@@ -71,7 +71,6 @@
 				type: "POST"
 			});
 			ajaxRequest.done(function(data){
-				console.log(data);
 				let jsonData = JSON.parse(data);
 				jsonData.good.forEach(element => inputCorrecto(element));
 				jsonData.error.forEach(element => inputIncorrecto(element));
@@ -81,12 +80,13 @@
 			let todoDatos = $('#formular').find("input");
 				let datosSerial = todoDatos.serialize();
 				let ajaxRequest = $.ajax({
-					url: "save.php",
+					url: "api.php?action=save",
 					context: document.body,
 					data: datosSerial,
 					type: "POST"
 				});
 			ajaxRequest.done(function(data){
+				console.log(data);
 				$('#resultado').empty();
 				$('#resultado').removeClass('text-danger');									
 				let jsonData = JSON.parse(data);	
