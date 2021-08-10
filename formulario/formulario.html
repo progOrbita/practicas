@@ -65,12 +65,13 @@
 			let todoDatos = $('#formular').find("input");
 			let datosSerial = todoDatos.serialize();	
 			let ajaxRequest = $.ajax({
-				url: "validacion.php",
+				url: "api.php?action=validate",
 				context: document.body,
 				data: datosSerial,
 				type: "POST"
 			});
 			ajaxRequest.done(function(data){
+				console.log(data);
 				let jsonData = JSON.parse(data);
 				jsonData.good.forEach(element => inputCorrecto(element));
 				jsonData.error.forEach(element => inputIncorrecto(element));
