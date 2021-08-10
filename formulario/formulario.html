@@ -86,7 +86,6 @@
 					type: "POST"
 				});
 			ajaxRequest.done(function(data){
-				console.log(data);
 				$('#resultado').empty();
 				$('#resultado').removeClass('text-danger');									
 				let jsonData = JSON.parse(data);	
@@ -109,7 +108,7 @@
 				}
 			});
 		}
-		function removeData(){			
+		function removeData(){
 			$('#resultado').empty();
 			$('#resultado').removeClass('text-danger');
 				//if name is empty
@@ -120,12 +119,12 @@
 					return;
 				};			
 				let ajaxRequest = $.ajax({
-					url: "delete.php",
+					url: "api.php?action=delete",
 					context: document.body,
 					data: {texto: check_empty_name},
 					type: "POST"
 				});
-			ajaxRequest.done(function(data){	
+			ajaxRequest.done(function(data){
 				let jsonData = JSON.parse(data);    				
 				//if name isn't in the database
 				if(typeof(jsonData) === "object"){
