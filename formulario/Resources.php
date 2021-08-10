@@ -38,7 +38,7 @@ class Resources{
     /**
      * Check and remove a name from the table 
      * @param string $name name to be deleted from the table
-     * @return $query result of the query, or false if the var is empty
+     * @return $query result of the query, or the array with the query if doesn't exist
      */
     function delete(string $name){    
        $check_name = Db::getInstance()->executeS('SELECT * FROM '.$this->table.' WHERE name="'.$name.'"');
