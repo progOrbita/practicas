@@ -15,16 +15,16 @@
 	<form class="needs-validation row-cols-4" method="post" id="formular" novalidate>
 		<div class="col-md">
 			<div class="form-floating mb-3">
-				<input class="form-control" type="text" name="texto" id="a" placeholder="inserte texto" autocomplete="off">
+				<input class="form-control" type="text" name="texto" id="campoTexto" placeholder="inserte texto" autocomplete="off">
 				<label for="floatingInput">Texto teorico</label>
 			</div>
 				<label class="form-label">Numero teorico</label>
 			<div class="input-group mb-3">	
-				<input class="form-control" type="number" name="numerico" id="b">
+				<input class="form-control" type="number" name="numerico" id="campoNumero">
 			</div>
 				<label class="form-label">Fecha teorica</label>
 			<div class="input-group mb-3">
-				<input class="form-control" type="date" name="fecha" id="c">
+				<input class="form-control" type="date" name="fecha" id="campoFecha">
 			</div>
 			<div class="input-group flex-nowrap">
 				<input class="btn btn-primary" type="button" value="Validar datos" id="validate" name="dataValidate">
@@ -111,14 +111,27 @@
 						type: "POST"
 					});
 					ajaxRequest.done(function(data){
-						console.log(data);
 						$('#resultado').empty();
-					let jsonData = JSON.parse(data);
+					//if name is empty
+						let check_empty_name = $('#campoTexto').val();
+					if((check_empty_name.trim() === "")){
+						$('#resultado').append('<p>El nombre esta vacio</p>');
+						$('#campoTexto').removeClass("bg-success");
+						$('#campoTexto').addClass("bg-danger");
+						return;
+					}
+					let jsonData = JSON.parse(data);     
+					//if name and delete query is successfull       		
 					if(jsonData === true){
 						$('#resultado').append('<p>Se ha eliminado el nombre</p>');
-					}					
+						$('#campoTexto').removeClass("bg-danger");
+						$('#campoTexto').addClass("bg-success");
+					}		
+					//if there's an error somewhere with reading the name			
 					else{
-						$('#resultado').append('<p>Error, nombre no encontrado</p>');
+						$('#resultado').append('<p>Error al leer el nombre</p>');
+						$('#campoTexto').removeClass("bg-success");
+						$('#campoTexto').addClass("bg-danger");
 					}
 				});
 			});				
