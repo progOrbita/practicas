@@ -21,18 +21,25 @@
 		require_once '../../init.php';
 	}
     include "Resources.php";
+    $resultado = "";
     
     $accion = (string) Tools::getValue('action','default');
+    
     switch($accion){
         case "validate":
                 $validate = new Resources();
                 $array_datos = ["texto" => Tools::getValue('texto',""),"numerico" => Tools::getValue('numerico',0),"fecha" => Tools::getValue('fecha',0)];             
-                $datos = $validate->validacion($array_datos);
-                echo json_encode($datos);
-        break;
+                $resultado = $validate->validacion($array_datos);
+                break;
+        case "save":
+            $validados = new Resources();	
+		    $array_datos = ["texto" => Tools::getValue('texto',""),"numerico" => Tools::getValue('numerico',0),"fecha" => Tools::getValue('fecha',0)];
+		    $resultado =  $validados->save($array_datos);
+            break;
         case 'default':
             $resultado = "function dont found";
         break;
-       // echo json_encode($resultado);
+        
     }  
+    echo json_encode($resultado);
 ?>
