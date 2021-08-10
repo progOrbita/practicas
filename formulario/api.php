@@ -24,23 +24,25 @@
     $resultado = "";
     
     $accion = (string) Tools::getValue('action','default');
+    $api_functions = new Resources();
     
     switch($accion){
+        //to validate the formulary
         case "validate":
-                $validate = new Resources();
-                $array_datos = ["texto" => Tools::getValue('texto',""),"numerico" => Tools::getValue('numerico',0),"fecha" => Tools::getValue('fecha',0)];             
-                $resultado = $validate->validacion($array_datos);
-                break;
-        case "save":
-            $validados = new Resources();	
+            $array_datos = ["texto" => Tools::getValue('texto',""),"numerico" => Tools::getValue('numerico',0),"fecha" => Tools::getValue('fecha',0)];             
+            $resultado = $api_functions->validate($array_datos);
+            break;
+        //store the formulary data sent in the table. Checking before that the data obtained is fine
+        case "save":	
 		    $array_datos = ["texto" => Tools::getValue('texto',""),"numerico" => Tools::getValue('numerico',0),"fecha" => Tools::getValue('fecha',0)];
-		    $resultado =  $validados->save($array_datos);
+		    $resultado =  $api_functions->save($array_datos);
             break;
-        case "delete":
-            $validados = new Resources();	
+        //remove the row given a name.
+        case "delete":	
 		    $name = Tools::getValue('texto',"");	
-		    $resultado = $validados->delete($name);
+		    $resultado = $api_functions->delete($name);
             break;
+        //if there's an error with the action that is going to be executed
         case 'default':
             $resultado = "function dont found";
         break;      
