@@ -24,15 +24,30 @@ class Resources{
      * @param array $array_data array with the elements that are going to be added to the database
      * @return $query if the validation is successfully or $array_save with the errors if the array have some.
      */
-    function save(array $array_data){
+    function save(array $array_data): array{
     $array_save = $this->validacion($array_data);    
-		if(count($array_save['error']) === 0){
+		if(count($array_save['error']) === 0){           
             $query = Db::getInstance()->execute('INSERT INTO test.tableto(name,number,fecha,fecha_creacion) VALUES ("'.$array_data['texto'].'",'.$array_data['numerico'].',"'.$array_data['fecha'].'",NOW())');
             return $query;
         }
         else{
             return $array_save;
         }
-    }  
+    } 
+    /**
+     * Check and remove a name from the table 
+     * @param string $name name to be deleted from the table
+     * @return $query result of the query, or false if the var is empty
+     */
+    function delete(string $name){
+        $cadenaVacia = trim($name);
+        if(empty($cadenaVacia)){
+           return false;
+        }
+        else{
+            $query = Db::getInstance()->execute('DELETE FROM test.tableto WHERE name="'.$name.'"');
+            return $query;
+        }
+    } 
 }
 ?>
