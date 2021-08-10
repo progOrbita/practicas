@@ -48,12 +48,12 @@
 			entoces, ya puedes hacer lo que quieras con esos data. Si es un echo, simplemente se incluye en cualquier div o html y solucionado. Devuelve todo como una cadena?.
 		*/
 		function changeToSuccess(value){
-			$(''+value+'').removeClass("bg-success");
-			$(''+value+'').addClass("bg-danger");
-		}
-		function changeToError(value){
 			$(''+value+'').removeClass("bg-danger");
 			$(''+value+'').addClass("bg-success");
+		}
+		function changeToError(value){
+			$(''+value+'').removeClass("bg-success");
+			$(''+value+'').addClass("bg-danger");
 		}
 		function inputCorrecto(value){
 			$('input[name="'+value+'"]').removeClass("bg-danger");
@@ -97,11 +97,11 @@
 				}					
 				else if(jsonData === true){
 					$('#resultado').append("<p>Datos correctos, insertados con exito");
-					$('.form-control').removeClass("bg-danger");
-					$('.form-control').addClass("bg-success");
+					changeToSuccess(".form-control");
 				}
 				else{
 					$('#resultado').append("<p>Error al insertar los datos</p>");
+					changeToError(".form-control");
 				}
 			});
 		}
@@ -111,8 +111,7 @@
 				let check_empty_name = $('#campoTexto').val();
 				if((check_empty_name.trim() === "")){
 					$('#resultado').append('<p>Name is empty</p>');
-					$('#campoTexto').removeClass("bg-success");
-					$('#campoTexto').addClass("bg-danger");
+					changeToError("#campoTexto");
 					return;
 				};			
 				let ajaxRequest = $.ajax({
@@ -127,21 +126,18 @@
 				//if name is wrong
 				if(typeof(jsonData) === "object"){
 					$('#resultado').append('<p>Name dont found in database</p>');
-					$('#campoTexto').removeClass("bg-success");
-					$('#campoTexto').addClass("bg-danger");
+					changeToError("#campoTexto");
 					return;
 				}
 				//if name and delete query is successfull       		
 				if(jsonData === true){
 					$('#resultado').append('<p>Name removed from database</p>');
-					$('#campoTexto').removeClass("bg-danger");
-					$('#campoTexto').addClass("bg-success");
+					changeToSuccess("#campoTexto");
 				}		
 				//if there's an error somewhere in the delete query			
 				else{
 					$('#resultado').append('<p>Error somewhere in the query</p>');
-					$('#campoTexto').removeClass("bg-success");
-					$('#campoTexto').addClass("bg-danger");
+					changeToError("#campoTexto");
 				}
 			});
 		}
