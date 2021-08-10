@@ -27,7 +27,7 @@ class Resources{
      */
     function save(array $array_data){
     $array_save = $this->validacion($array_data);    
-		if(count($array_save['error']) === 0){           
+		if(count($array_save['error']) === 0){
             $query = Db::getInstance()->execute('INSERT INTO '.$this->table.'(name,number,fecha,fecha_creacion) VALUES ("'.$array_data['texto'].'",'.$array_data['numerico'].',"'.$array_data['fecha'].'",NOW())');
             return $query;
         }
@@ -40,7 +40,7 @@ class Resources{
      * @param string $name name to be deleted from the table
      * @return $query result of the query, or the array with the query if doesn't exist
      */
-    function delete(string $name){    
+    function delete(string $name){
        $check_name = Db::getInstance()->executeS('SELECT * FROM '.$this->table.' WHERE name="'.$name.'"');
         if(count($check_name)===0){
             return $check_name;
