@@ -62,20 +62,6 @@
 			$(''+value+'').addClass("bg-danger");
 		}
 		/**
-		 * Change the background of inputs from red to green
-		 */
-		function inputCorrecto(value){
-			$('input[name="'+value+'"]').removeClass("bg-danger");
-			$('input[name="'+value+'"]').addClass("bg-success");	
-		}
-		/**
-		 * Change the background of inputs from green to red
-		 */
-		function inputIncorrecto(value){
-			$('input[name="'+value+'"]').removeClass("bg-success");
-			$('input[name="'+value+'"]').addClass("bg-danger");						
-		}
-		/**
 		 * Check if the call to api.php gives an error.
 		 */
 		function comprobarApi(value){
@@ -87,8 +73,7 @@
 				$('.form-control').removeClass('bg-danger');
 				return false;
 			}
-			return true;
-			
+			return true;			
 		}
 		function validarDatos(){
 			let todoDatos = $('#formular').find("input");
@@ -102,10 +87,10 @@
 			ajaxRequest.done(function(data){
 				let jsonData = JSON.parse(data);
 				if(comprobarApi(jsonData)){
-					jsonData.good.forEach(element => inputCorrecto(element));
-					jsonData.error.forEach(element => inputIncorrecto(element));
+					jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
+					jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
 				}
-			});				
+			});
 		}
 		function addData(){
 			let todoDatos = $('#formular').find("input");
@@ -123,8 +108,8 @@
 				if(comprobarApi(jsonData)){	
 					//if there's errors in the formulary		
 					if(typeof(jsonData) === "object"){
-						jsonData.good.forEach(element => inputCorrecto(element));
-						jsonData.error.forEach(element => inputIncorrecto(element));
+						jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
+						jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
 						$('#resultado').append("<p>Datos erroneos, revisalo de nuevo");
 					}					
 					//if the query is right
