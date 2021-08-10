@@ -45,21 +45,50 @@
 			Una vez haya hecho lo que tenga que hacer con los datos y demas el php lo devuelve como data (o cualquier nombre imagino)
 			entoces, ya puedes hacer lo que quieras con esos data. Si es un echo, simplemente se incluye en cualquier div o html y solucionado. Devuelve todo como una cadena?.
 		*/
+		/**
+		 * Change the background of any input or text from red to green
+		 * @param value input or element to change the background color
+		 */
 		function changeToSuccess(value){
 			$(''+value+'').removeClass("bg-danger");
 			$(''+value+'').addClass("bg-success");
 		}
+		/**
+		 * Change the background of any input or text from green to red
+		 * @param value input or element to change the background color
+		 */
 		function changeToError(value){
 			$(''+value+'').removeClass("bg-success");
 			$(''+value+'').addClass("bg-danger");
 		}
+		/**
+		 * Change the background of inputs from red to green
+		 */
 		function inputCorrecto(value){
 			$('input[name="'+value+'"]').removeClass("bg-danger");
 			$('input[name="'+value+'"]').addClass("bg-success");	
 		}
+		/**
+		 * Change the background of inputs from green to red
+		 */
 		function inputIncorrecto(value){
 			$('input[name="'+value+'"]').removeClass("bg-success");
 			$('input[name="'+value+'"]').addClass("bg-danger");						
+		}
+		/**
+		 * Check if the call to api.php gives an error.
+		 */
+		function comprobarApi(value){
+			if(typeof(value)=="string"){
+				$('#resultado').empty();
+				$('#resultado').append("Ha habido algun error en la conexion con php");
+				$('#resultado').addClass('text-danger');
+				$('.form-control').removeClass('bg-success');
+				$('.form-control').removeClass('bg-danger');
+				return false;
+			}
+			return true;
+			
 		}
 		function validarDatos(){
 			let todoDatos = $('#formular').find("input");
@@ -72,8 +101,10 @@
 			});
 			ajaxRequest.done(function(data){
 				let jsonData = JSON.parse(data);
-				jsonData.good.forEach(element => inputCorrecto(element));
-				jsonData.error.forEach(element => inputIncorrecto(element));
+				if(comprobarApi(jsonData)){
+					jsonData.good.forEach(element => inputCorrecto(element));
+					jsonData.error.forEach(element => inputIncorrecto(element));
+				}
 			});				
 		}
 		function addData(){
@@ -88,23 +119,25 @@
 			ajaxRequest.done(function(data){
 				$('#resultado').empty();
 				$('#resultado').removeClass('text-danger');									
-				let jsonData = JSON.parse(data);	
-				//if there's errors in the formulary		
-				if(typeof(jsonData) === "object"){
-					jsonData.good.forEach(element => inputCorrecto(element));
-					jsonData.error.forEach(element => inputIncorrecto(element));
-					$('#resultado').append("<p>Datos erroneos, revisalo de nuevo");
-				}					
-				//if the query is right
-				else if(jsonData === true){
-					$('#resultado').append("<p>Datos correctos, insertados con exito");
-					changeToSuccess(".form-control");
-				}
-				//if there's some error in the query
-				else{
-					$('#resultado').append("<p>Error al insertar los datos</p>");
-					changeToSuccess(".form-control");
-					$("#resultado").addClass('text-danger');
+				let jsonData = JSON.parse(data);
+				if(comprobarApi(jsonData)){	
+					//if there's errors in the formulary		
+					if(typeof(jsonData) === "object"){
+						jsonData.good.forEach(element => inputCorrecto(element));
+						jsonData.error.forEach(element => inputIncorrecto(element));
+						$('#resultado').append("<p>Datos erroneos, revisalo de nuevo");
+					}					
+					//if the query is right
+					else if(jsonData === true){
+						$('#resultado').append("<p>Datos correctos, insertados con exito");
+						changeToSuccess(".form-control");
+					}
+					//if there's some error in the query
+					else{
+						$('#resultado').append("<p>Error al insertar los datos</p>");
+						changeToSuccess(".form-control");
+						$("#resultado").addClass('text-danger');
+					}
 				}
 			});
 		}
@@ -125,23 +158,25 @@
 					type: "POST"
 				});
 			ajaxRequest.done(function(data){
-				let jsonData = JSON.parse(data);    				
-				//if name isn't in the database
-				if(typeof(jsonData) === "object"){
-					$('#resultado').append('<p>Name dont found in database</p>');
-					changeToError("#campoTexto");
-					return;
-				}
-				//if name and delete query is successfull
-				if(jsonData === true){
-					$('#resultado').append('<p>Name removed from database</p>');
-					changeToSuccess("#campoTexto");
-				}		
-				//if there's an error somewhere in the delete query
-				else{
-					$('#resultado').append('<p>Error somewhere in the query</p>');
-					$('#resultado').addClass('text-danger');
-					changeToSuccess("#campoTexto");
+				let jsonData = JSON.parse(data);
+				if(comprobarApi(jsonData)){
+					//if name isn't in the database
+					if(typeof(jsonData) === "object"){
+						$('#resultado').append('<p>Name dont found in database</p>');
+						changeToError("#campoTexto");
+						return;
+					}
+					//if name and delete query is successfull
+					if(jsonData === true){
+						$('#resultado').append('<p>Name removed from database</p>');
+						changeToSuccess("#campoTexto");
+					}		
+					//if there's an error somewhere in the delete query
+					else{
+						$('#resultado').append('<p>Error somewhere in the query</p>');
+						$('#resultado').addClass('text-danger');
+						changeToSuccess("#campoTexto");
+					}
 				}
 			});
 		}
