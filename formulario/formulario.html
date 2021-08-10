@@ -42,11 +42,19 @@
 			Coge todos los inputs del formulario y los serializa (lo convierte en un array?) para pasarlo. Ahora ajax
 			url: destino de los datos
 			context: el div/lugar/coso donde va a recibir la informacion
-			data: los datos que se van a enviar, en este caso los inputs serializados
+			data: De tipo objeto {}, los datos que se van a enviar, en este caso los inputs serializados (serialize convierte el array en objeto)
 			type: el tipo (de normal es get, se puede cambiar. Usualmente POST)
 			Una vez haya hecho lo que tenga que hacer con los datos y demas el php lo devuelve como data (o cualquier nombre imagino)
 			entoces, ya puedes hacer lo que quieras con esos data. Si es un echo, simplemente se incluye en cualquier div o html y solucionado. Devuelve todo como una cadena?.
 		*/
+		function changeToSuccess(value){
+			$(''+value+'').removeClass("bg-success");
+			$(''+value+'').addClass("bg-danger");
+		}
+		function changeToError(value){
+			$(''+value+'').removeClass("bg-danger");
+			$(''+value+'').addClass("bg-success");
+		}
 		function inputCorrecto(value){
 			$('input[name="'+value+'"]').removeClass("bg-danger");
 			$('input[name="'+value+'"]').addClass("bg-success");	
@@ -97,17 +105,8 @@
 				}
 			});
 		}
-		function removeData(){
-			let todoDatos = $('#formular').find("input");
-			let datosSerial = todoDatos.serialize();
-				let ajaxRequest = $.ajax({
-					url: "delete.php",
-					context: document.body,
-					data: datosSerial,
-					type: "POST"
-				});
-			ajaxRequest.done(function(data){
-				$('#resultado').empty();
+		function removeData(){			
+			$('#resultado').empty();
 				//if name is empty
 				let check_empty_name = $('#campoTexto').val();
 				if((check_empty_name.trim() === "")){
@@ -115,17 +114,32 @@
 					$('#campoTexto').removeClass("bg-success");
 					$('#campoTexto').addClass("bg-danger");
 					return;
+				};			
+				let ajaxRequest = $.ajax({
+					url: "delete.php",
+					context: document.body,
+					data: {texto: check_empty_name},
+					type: "POST"
+				});
+			ajaxRequest.done(function(data){	
+				console.log(data);
+				let jsonData = JSON.parse(data);    				
+				//if name is wrong
+				if(typeof(jsonData) === "object"){
+					$('#resultado').append('<p>Name dont found in database</p>');
+					$('#campoTexto').removeClass("bg-success");
+					$('#campoTexto').addClass("bg-danger");
+					return;
 				}
-				let jsonData = JSON.parse(data);     
 				//if name and delete query is successfull       		
 				if(jsonData === true){
 					$('#resultado').append('<p>Name removed from database</p>');
 					$('#campoTexto').removeClass("bg-danger");
 					$('#campoTexto').addClass("bg-success");
 				}		
-				//if there's an error somewhere with reading the name			
+				//if there's an error somewhere in the delete query			
 				else{
-					$('#resultado').append('<p>Name doesnt exist in database</p>');
+					$('#resultado').append('<p>Error somewhere in the query</p>');
 					$('#campoTexto').removeClass("bg-success");
 					$('#campoTexto').addClass("bg-danger");
 				}
