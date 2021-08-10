@@ -46,7 +46,7 @@ class Resources{
             return $check_name;
         }
         else{
-            $query = Db::getInstance()->execute('DELETE FROM test.tableto WHERE name="'.$name.'"');
+            $query = Db::getInstance()->execute('DELETE FROM '.$this->table.' WHERE name="'.$name.'"');
             return $query;
         }
     } 
