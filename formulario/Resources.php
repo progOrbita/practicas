@@ -39,8 +39,7 @@ class Resources{
      * @param string $name name to be deleted from the table
      * @return $query result of the query, or false if the var is empty
      */
-    function delete(string $name){
-    
+    function delete(string $name){    
        $check_name = Db::getInstance()->executeS('SELECT * FROM test.tableto WHERE name="'.$name.'"');
         if(count($check_name)===0){
             return false;

@@ -47,14 +47,14 @@
 			Una vez haya hecho lo que tenga que hacer con los datos y demas el php lo devuelve como data (o cualquier nombre imagino)
 			entoces, ya puedes hacer lo que quieras con esos data. Si es un echo, simplemente se incluye en cualquier div o html y solucionado. Devuelve todo como una cadena?.
 		*/
-			function inputCorrecto(value){
-					$('input[name="'+value+'"]').removeClass("bg-danger");
-					$('input[name="'+value+'"]').addClass("bg-success");	
-			}
-			function inputIncorrecto(value){
-				$('input[name="'+value+'"]').removeClass("bg-success");
-				$('input[name="'+value+'"]').addClass("bg-danger");						
-			}
+		function inputCorrecto(value){
+			$('input[name="'+value+'"]').removeClass("bg-danger");
+			$('input[name="'+value+'"]').addClass("bg-success");	
+		}
+		function inputIncorrecto(value){
+			$('input[name="'+value+'"]').removeClass("bg-success");
+			$('input[name="'+value+'"]').addClass("bg-danger");						
+		}
 		function validarDatos(){
 			let todoDatos = $('#formular').find("input");
 			let datosSerial = todoDatos.serialize();	
@@ -70,71 +70,77 @@
 				jsonData.error.forEach(element => inputIncorrecto(element));
 			});				
 		}
+		function addData(){
+			let todoDatos = $('#formular').find("input");
+				let datosSerial = todoDatos.serialize();
+				let ajaxRequest = $.ajax({
+					url: "save.php",
+					context: document.body,
+					data: datosSerial,
+					type: "POST"
+				});
+			ajaxRequest.done(function(data){
+				$('#resultado').empty();									
+				let jsonData = JSON.parse(data);				
+				if(typeof(jsonData) === "object"){
+					jsonData.good.forEach(element => inputCorrecto(element));
+					jsonData.error.forEach(element => inputIncorrecto(element));
+					$('#resultado').append("<p>Datos erroneos, revisalo de nuevo");
+				}					
+				else if(jsonData === true){
+					$('#resultado').append("<p>Datos correctos, insertados con exito");
+					$('.form-control').removeClass("bg-danger");
+					$('.form-control').addClass("bg-success");
+				}
+				else{
+					$('#resultado').append("<p>Error al insertar los datos</p>");
+				}
+			});
+		}
+		function removeData(){
+			let todoDatos = $('#formular').find("input");
+			let datosSerial = todoDatos.serialize();
+				let ajaxRequest = $.ajax({
+					url: "delete.php",
+					context: document.body,
+					data: datosSerial,
+					type: "POST"
+				});
+			ajaxRequest.done(function(data){
+				$('#resultado').empty();
+				//if name is empty
+				let check_empty_name = $('#campoTexto').val();
+				if((check_empty_name.trim() === "")){
+					$('#resultado').append('<p>Name is empty</p>');
+					$('#campoTexto').removeClass("bg-success");
+					$('#campoTexto').addClass("bg-danger");
+					return;
+				}
+				let jsonData = JSON.parse(data);     
+				//if name and delete query is successfull       		
+				if(jsonData === true){
+					$('#resultado').append('<p>Name removed from database</p>');
+					$('#campoTexto').removeClass("bg-danger");
+					$('#campoTexto').addClass("bg-success");
+				}		
+				//if there's an error somewhere with reading the name			
+				else{
+					$('#resultado').append('<p>Name doesnt exist in database</p>');
+					$('#campoTexto').removeClass("bg-success");
+					$('#campoTexto').addClass("bg-danger");
+				}
+			});
+		}
 		$(document).ready(function(){				
 			$(document).on('click','#validate',function(){	
 				validarDatos();
 			});
 			$(document).on('click','#addData',function(){				
-					let todoDatos = $('#formular').find("input");
-					let datosSerial = todoDatos.serialize();
-					let ajaxRequest = $.ajax({
-						url: "save.php",
-						context: document.body,
-						data: datosSerial,
-						type: "POST"
-					});
-					ajaxRequest.done(function(data){
-						$('#resultado').empty();									
-					let jsonData = JSON.parse(data);
-					if(typeof(jsonData) === "object"){
-						jsonData.good.forEach(element => inputCorrecto(element));
-						jsonData.error.forEach(element => inputIncorrecto(element));
-						$('#resultado').append("<p>Datos erroneos, revisalo de nuevo");
-					}					
-					else if(jsonData === true){
-						$('#resultado').append("<p>Datos correctos, insertados con exito");
-						$('.form-control').removeClass("bg-danger");
-						$('.form-control').addClass("bg-success");
-					}
-					else{
-						$('#resultado').append("<p>Error al insertar los datos</p>");
-					}
-				});
+				addData();
 			});
 			$(document).on('click','#deleteData',function(){				
-					let todoDatos = $('#formular').find("input");
-					let datosSerial = todoDatos.serialize();
-					let ajaxRequest = $.ajax({
-						url: "delete.php",
-						context: document.body,
-						data: datosSerial,
-						type: "POST"
-					});
-					ajaxRequest.done(function(data){
-						$('#resultado').empty();
-					//if name is empty
-						let check_empty_name = $('#campoTexto').val();
-					if((check_empty_name.trim() === "")){
-						$('#resultado').append('<p>El nombre esta vacio</p>');
-						$('#campoTexto').removeClass("bg-success");
-						$('#campoTexto').addClass("bg-danger");
-						return;
-					}
-					let jsonData = JSON.parse(data);     
-					//if name and delete query is successfull       		
-					if(jsonData === true){
-						$('#resultado').append('<p>Se ha eliminado el nombre</p>');
-						$('#campoTexto').removeClass("bg-danger");
-						$('#campoTexto').addClass("bg-success");
-					}		
-					//if there's an error somewhere with reading the name			
-					else{
-						$('#resultado').append('<p>Error al leer el nombre</p>');
-						$('#campoTexto').removeClass("bg-success");
-						$('#campoTexto').addClass("bg-danger");
-					}
-				});
-			});				
+				removeData();	
+			});
 		});
 	</script>
 </body>
