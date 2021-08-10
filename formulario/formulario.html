@@ -7,9 +7,9 @@
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
 <body class="container">
-	<h2>Formulario 
+	<h2>Formulario
 		<small class="text-muted">
-			para acceder
+			para añadir datos
 		</small>
 	</h2>
 	<form class="needs-validation row-cols-4" method="post" id="formular" novalidate>
@@ -67,7 +67,7 @@
 		function comprobarApi(value){
 			if(typeof(value)=="string"){
 				$('#resultado').empty();
-				$('#resultado').append("Ha habido algun error en la conexion con php");
+				$('#resultado').append("There was an unexpected error with the server connection");
 				$('#resultado').addClass('text-danger');
 				$('.form-control').removeClass('bg-success');
 				$('.form-control').removeClass('bg-danger');
@@ -110,16 +110,16 @@
 					if(typeof(jsonData) === "object"){
 						jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
 						jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
-						$('#resultado').append("<p>Datos erroneos, revisalo de nuevo");
+						$('#resultado').append("<p>Wrong data, please check them again");
 					}					
 					//if the query is right
 					else if(jsonData === true){
-						$('#resultado').append("<p>Datos correctos, insertados con exito");
+						$('#resultado').append("<p>Data is correct, inserted succesfully");
 						changeToSuccess(".form-control");
 					}
 					//if there's some error in the query
 					else{
-						$('#resultado').append("<p>Error al insertar los datos</p>");
+						$('#resultado').append("<p>Error trying to insert the data</p>");
 						changeToSuccess(".form-control");
 						$("#resultado").addClass('text-danger');
 					}
@@ -134,6 +134,7 @@
 				if((check_empty_name.trim() === "")){
 					$('#resultado').append('<p>Name is empty</p>');
 					changeToError("#campoTexto");
+
 					return;
 				};			
 				let ajaxRequest = $.ajax({
