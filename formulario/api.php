@@ -36,10 +36,14 @@
 		    $array_datos = ["texto" => Tools::getValue('texto',""),"numerico" => Tools::getValue('numerico',0),"fecha" => Tools::getValue('fecha',0)];
 		    $resultado =  $validados->save($array_datos);
             break;
+        case "delete":
+            $validados = new Resources();	
+		    $name = Tools::getValue('texto',"");	
+		    $resultado = $validados->delete($name);
+            break;
         case 'default':
             $resultado = "function dont found";
-        break;
-        
+        break;      
     }  
     echo json_encode($resultado);
 ?>
