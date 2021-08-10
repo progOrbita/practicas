@@ -100,7 +100,28 @@
 						$('#resultado').append("<p>Error al insertar los datos</p>");
 					}
 				});
-			});			
+			});
+			$(document).on('click','#deleteData',function(){				
+					let todoDatos = $('#formular').find("input");
+					let datosSerial = todoDatos.serialize();
+					let ajaxRequest = $.ajax({
+						url: "delete.php",
+						context: document.body,
+						data: datosSerial,
+						type: "POST"
+					});
+					ajaxRequest.done(function(data){
+						console.log(data);
+						$('#resultado').empty();
+					let jsonData = JSON.parse(data);
+					if(jsonData === true){
+						$('#resultado').append('<p>Se ha eliminado el nombre</p>');
+					}					
+					else{
+						$('#resultado').append('<p>Error, nombre no encontrado</p>');
+					}
+				});
+			});				
 		});
 	</script>
 </body>
