@@ -39,7 +39,7 @@
         //if there's an error with the action sent or isnt written
         case "default":
         default:
-            $resultado = "function dont found";
+            $resultado = "There was an unexpected error with the server connection";
         break;      
     }  
     echo json_encode($resultado);
