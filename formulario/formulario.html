@@ -49,16 +49,16 @@
 		 * @param value input or element to change the background color
 		 */
 		function changeToSuccess(value){
-			$(''+value+'').removeClass("bg-danger");
-			$(''+value+'').addClass("bg-success");
+			$(value).removeClass("bg-danger");
+			$(value).addClass("bg-success");
 		}
 		/**
 		 * Change the background of any input or text from green to red
 		 * @param value input or element to change the background color
 		 */
 		function changeToError(value){
-			$(''+value+'').removeClass("bg-success");
-			$(''+value+'').addClass("bg-danger");
+			$(value).removeClass("bg-success");
+			$(value).addClass("bg-danger");
 		}
 		/**
 		 * Check if the call to api.php gives an error.
@@ -74,11 +74,14 @@
 			}
 			return true;			
 		}
+		/**
+		 * Validate data given with Ajax and show the inputs that are right and wrong 
+		 */
 		function validarDatos(){
 			let todoDatos = $('#formular').find("input");
 			let datosSerial = todoDatos.serialize();	
 			let ajaxRequest = $.ajax({
-				url: "api.php?action=validate",
+				url: "api.php?action=ghfgh",
 				context: document.body,
 				data: datosSerial,
 				type: "POST"
@@ -91,6 +94,9 @@
 				}
 			});
 		}
+		/**
+		 * Add data using Ajax showing messages if was added or there's an error
+		 */
 		function addData(){
 			let todoDatos = $('#formular').find("input");
 				let datosSerial = todoDatos.serialize();
@@ -125,6 +131,9 @@
 				}
 			});
 		}
+		/**
+		 * Delete data calling Ajax, and display messages according the result.
+		 */
 		function removeData(){
 			$('#resultado').empty();
 			$('#resultado').removeClass('text-danger');
@@ -133,7 +142,6 @@
 				if((check_empty_name.trim() === "")){
 					$('#resultado').append('<p>Name is empty</p>');
 					changeToError("#campoTexto");
-
 					return;
 				};			
 				let ajaxRequest = $.ajax({
