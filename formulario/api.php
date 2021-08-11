@@ -18,28 +18,38 @@
 	}
     include "Resources.php";
     
-    $accion = (string) Tools::getValue('action','default');
+    $action = (string) Tools::getValue('action','default');
     $api_functions = new Resources();
-    switch($accion){
+    switch($action){
         //to validate the formulary
         case "validate":
-            $array_datos = ["formText" => Tools::getValue('formText',""),"formNumber" => Tools::getValue('formNumber',0),"formDate" => Tools::getValue('formDate',0)];             
-            $resultado = $api_functions->validate($array_datos);
+            $data_array = ["formText" => Tools::getValue('formText',""),"formNumber" => Tools::getValue('formNumber',0),"formDate" => Tools::getValue('formDate',0)];             
+            $result = $api_functions->validate($data_array);
             break;
         //store the formulary data sent in the table. Checking before that the data obtained is fine
         case "save":	
-		    $array_datos = ["formText" => Tools::getValue('formText',""),"formNumber" => Tools::getValue('formNumber',0),"formDate" => Tools::getValue('formDate',0)];
-		    $resultado =  $api_functions->save($array_datos);
+		    $data_array = ["formText" => Tools::getValue('formText',""),"formNumber" => Tools::getValue('formNumber',0),"formDate" => Tools::getValue('formDate',0)];
+		    $result =  $api_functions->save($data_array);
             break;
         //remove the row given a name.
         case "delete":	
 		    $name = Tools::getValue('name',"");
-		    $resultado = $api_functions->delete($name);
+		    $result = $api_functions->delete($name);
+            break;
+        case "find":
+            $data_array = ["findValue" => Tools::getValue('findText'), "dateBeggining" => Tools::getValue('begDate'), "dateEnd" => Tools::getValue('endingDate'), "listType" => Tools::getValue('formSlider',false)];
+            if($data_array["listType"]=="on"){
+                $data_array["listType"]=0;
+            }
+            else{
+                $data_array["listType"]=1;
+            }
+            $result = $api_functions->find($data_array);
             break;
         //if there's an error with the action sent or isnt written
         default:
-            $resultado = "There was an unexpected error with the server connection";
+            $result = "There was an unexpected error with the server connection";
         break;      
     }  
-    echo json_encode($resultado);
+    echo json_encode($result);
 ?>
