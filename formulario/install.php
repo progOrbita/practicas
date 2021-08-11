@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Crea la tabla formulario si no existe
+ * Create formulario table if not exist, automatically update to latest version
  */
     if(!defined('_PS_VERSION_')){
         require_once '../../config/config.inc.php';
@@ -16,6 +16,7 @@
         fecha_creacion DATETIME,
         fecha_mod DATETIME
         )";
-    $check = Db::getInstance()->execute($query);
+    Db::getInstance()->execute($query);
+    updateTable();
     echo "tabla generada<br/>";
 ?>
