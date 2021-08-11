@@ -141,8 +141,19 @@
 					$('#resultado').append('<p>Name is empty</p>');
 					changeToError("#campoTexto");
 					return;
-				};			
-				let ajaxRequest = apiCall("delete",{texto: check_empty_name});
+				};
+				let caution = confirm("¿Are you sure you want to delete it?");
+				let ajaxRequest;
+				console.log(caution);
+				if(caution === true){
+					ajaxRequest = apiCall("delete",{texto: check_empty_name});
+				}
+				else{
+					$('#resultado').append('<p>Nothing have been removed</p>');
+					$('#campoTexto').removeClass('bg-danger');
+					$('#campoTexto').removeClass('bg-success');
+					return;
+				}
 			ajaxRequest.done(function(data){
 				let jsonData = JSON.parse(data);
 				if(comprobarApi(jsonData)){
@@ -154,9 +165,11 @@
 					}
 					//if name and delete query is successfull
 					if(jsonData === true){
+						if(caution){
 						$('#resultado').append('<p>Name removed from database</p>');
 						changeToSuccess("#campoTexto");
-					}		
+						}
+					}
 					//if there's an error somewhere in the delete query
 					else{
 						$('#resultado').append('<p>Error somewhere in the query</p>');
