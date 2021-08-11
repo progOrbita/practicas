@@ -74,18 +74,21 @@
 			}
 			return true;			
 		}
+		 function apiCall(call,datos){
+			return $.ajax({
+				url: "api.php?action="+call,
+				context: document.body,
+				data: datos,
+				type: "POST"
+			});
+		 }
 		/**
 		 * Validate data given with Ajax and show the inputs that are right and wrong 
 		 */
 		function validarDatos(){
 			let todoDatos = $('#formular').find("input");
 			let datosSerial = todoDatos.serialize();	
-			let ajaxRequest = $.ajax({
-				url: "api.php?action=ghfgh",
-				context: document.body,
-				data: datosSerial,
-				type: "POST"
-			});
+			let ajaxRequest = apiCall("validate",datosSerial);
 			ajaxRequest.done(function(data){
 				let jsonData = JSON.parse(data);
 				if(comprobarApi(jsonData)){
@@ -100,12 +103,7 @@
 		function addData(){
 			let todoDatos = $('#formular').find("input");
 				let datosSerial = todoDatos.serialize();
-				let ajaxRequest = $.ajax({
-					url: "api.php?action=save",
-					context: document.body,
-					data: datosSerial,
-					type: "POST"
-				});
+				let ajaxRequest = apiCall("save",datosSerial);
 			ajaxRequest.done(function(data){
 				$('#resultado').empty();
 				$('#resultado').removeClass('text-danger');									
@@ -144,12 +142,7 @@
 					changeToError("#campoTexto");
 					return;
 				};			
-				let ajaxRequest = $.ajax({
-					url: "api.php?action=delete",
-					context: document.body,
-					data: {texto: check_empty_name},
-					type: "POST"
-				});
+				let ajaxRequest = apiCall("delete",{texto: check_empty_name});
 			ajaxRequest.done(function(data){
 				let jsonData = JSON.parse(data);
 				if(comprobarApi(jsonData)){
