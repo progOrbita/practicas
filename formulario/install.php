@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Create formulario table if not exist, automatically update to latest version
+ * Create the formulary table, already updated to the lastest versoin
  */
     if(!defined('_PS_VERSION_')){
         require_once '../../config/config.inc.php';
@@ -14,7 +14,14 @@
         fecha DATE,
         fecha_creacion DATETIME,
         fecha_mod DATETIME,
+        fecha_eliminacion DATETIME,
+        eliminado BIT DEFAULT 0
         )";
-    Db::getInstance()->execute($query);
+    $check = Db::getInstance()->execute($query);
+    if($check){
     echo "tabla generada<br/>";
+    }
+    else{
+        echo "there is an error in the query<br/>";
+    }
 ?>
