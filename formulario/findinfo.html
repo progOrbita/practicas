@@ -30,13 +30,13 @@
                 <div class="col">
                     <label for="endDate">To...</label>
                     <div class="input-group">                   
-                        <input class="form-control" type="date" name="endDate" id="endDate">
+                        <input class="form-control" type="date" name="endingDate" id="endDate">
                     </div>
                 </div>
                 <div class="col">
                     <label for="sliderForm">Which one...</label>
                     <div class="input-group">                        
-                        <input class="form-control" checked data-toggle="toggle" data-on="list" data-off="removed" data-offstyle="btn btn-dark" type="checkbox" name="formSlider" id="sliderForm">
+                        <input class="form-control" checked data-toggle="toggle" data-on="non-deleted" data-off="removed" data-offstyle="btn btn-dark" type="checkbox" name="formSlider" id="sliderForm">
                     </div>
                 </div>
                 <div class="col">
@@ -90,7 +90,21 @@
 			});	
         }
         $(document).ready(function(){	
-            checkDate();		
+            checkDate();
+            $(document).on('click','#searchButton',function(){
+				let getData = $('#formularyContent').find("input");             
+				let dataSerial = getData.serialize();
+				let ajaxRequest = $.ajax({
+                    url: "api.php?action=find",
+                    context: document.body,
+                    data: dataSerial,
+                    type: "POST"
+			    });
+                ajaxRequest.done(function(data){
+                    console.log(data);
+                    let jsonData = JSON.parse(data);
+                });
+			});
 		});
     </script>
 </html>
