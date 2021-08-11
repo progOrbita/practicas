@@ -76,10 +76,10 @@
 		/**
 		 * Validate data given with Ajax and show the inputs that are right and wrong 
 		 */
-		function validateDatos(){
-			let todoDatos = $('#formulary').find("input");
-			let datosSerial = todoDatos.serialize();	
-			let ajaxRequest = apiCall("validate",datosSerial);
+		function validateData(){
+			let getData = $('#formulary').find("input");
+			let dataSerial = getData.serialize();	
+			let ajaxRequest = apiCall("validate",dataSerial);
 			ajaxRequest.done(function(data){
 				let jsonData = JSON.parse(data);
 				if(comprobarApi(jsonData)){
@@ -92,9 +92,9 @@
 		 * Add data using Ajax showing messages if was added or there's an error
 		 */
 		function addData(){
-			let todoDatos = $('#formulary').find("input");
-				let datosSerial = todoDatos.serialize();
-				let ajaxRequest = apiCall("save",datosSerial);
+			let getData = $('#formulary').find("input");
+				let dataSerial = getData.serialize();
+				let ajaxRequest = apiCall("save",dataSerial);
 			ajaxRequest.done(function(data){
 				$('#divResult').empty();
 				$('#divResult').removeClass('text-danger');								
@@ -171,7 +171,7 @@
 		}
 		$(document).ready(function(){				
 			$(document).on('click','#validate',function(){	
-				validateDatos();
+				validateData();
 			});
 			$(document).on('click','#addData',function(){				
 				addData();
