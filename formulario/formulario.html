@@ -142,10 +142,9 @@
 					changeToError("#campoTexto");
 					return;
 				};
-				let caution = confirm("¿Are you sure you want to delete it?");
+				let confirmation = confirm("¿Are you sure you want to delete it?");
 				let ajaxRequest;
-				console.log(caution);
-				if(caution === true){
+				if(confirmation === true){
 					ajaxRequest = apiCall("delete",{texto: check_empty_name});
 				}
 				else{
