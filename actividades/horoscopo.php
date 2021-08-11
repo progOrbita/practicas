@@ -1,4 +1,7 @@
 <?php 
+/**
+ * Escribe una tabla desde 1960 hasta 2029 para indicar posteriormente el horoscopo.
+ */
 $start = 1960;
 echo "<!DOCTYPE html>
 <html>
