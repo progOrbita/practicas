@@ -3,47 +3,38 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
-	<title>Formulario</title>
+	<title>Formulary</title>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
 <body class="container">
-	<h2>Formulario
+	<h2>Formulary
 		<small class="text-muted">
-			para añadir datos
+			to add data
 		</small>
 	</h2>
-	<form class="needs-validation row-cols-4" method="post" id="formular" novalidate>
+	<form class="needs-validation row-cols-4" method="post" id="formulary" novalidate>
 		<div class="col-md">
 			<div class="form-floating mb-3">
-				<input class="form-control" type="text" name="texto" id="campoTexto" placeholder="inserte texto" autocomplete="off">
-				<label for="floatingInput">Nombre teorico</label>
+				<input class="form-control" type="text" name="formText" id="textData" placeholder="insert your name" autocomplete="off">
+				<label for="floatingInput">Teoric name</label>
 			</div>
-				<label class="form-label">Edad teorica</label>
+				<label class="form-label">Teoric age</label>
 			<div class="input-group mb-3">	
-				<input class="form-control" type="number" name="numerico" id="campoNumero">
+				<input class="form-control" type="number" name="formNumber" id="numberData">
 			</div>
-				<label class="form-label">Fecha teorica</label>
+				<label class="form-label">Teoric date</label>
 			<div class="input-group mb-3">
-				<input class="form-control" type="date" name="fecha" id="campoFecha">
+				<input class="form-control" type="date" name="formDate" id="dateData">
 			</div>
 			<div class="input-group flex-nowrap">
-				<input class="btn btn-primary" type="button" value="Validar datos" id="validate" name="dataValidate">
-				<input class="btn btn-secondary" type="button" value="Añadir datos" id="addData" name="dataAdd">
-				<input class="btn btn-primary bg-danger" type="button" value="Borrar datos" id="deleteData" name="dataRem">
+				<input class="btn btn-primary" type="button" value="Validate data" id="validate" name="dataValidate">
+				<input class="btn btn-secondary" type="button" value="Add data" id="addData" name="dataAdd">
+				<input class="btn btn-primary bg-danger" type="button" value="Delete data" id="deleteData" name="dataRem">
 			</div>
 		</div>
 	</form>
-	<div id="resultado"></div>
+	<div id="divResult"></div>
 	<script type="text/javascript">
-		/*	Por partes para que lo comprenda en un futuro, el AJAX+JSON.
-			Coge todos los inputs del formulario (tipo array) y los serializa (lo convierte en un objeto). Ahora ajax
-			url: destino de los datos
-			context: el div/etiqueta donde va a recibir la informacion
-			data: De tipo objeto {}, los datos que se van a enviar, en este caso los inputs serializados (serialize convierte el array en objeto)
-			type: el tipo (de normal es get, se puede cambiar. Usualmente POST)
-			Una vez haya hecho lo que tenga que hacer con los datos y demas el php lo devuelve como data (o cualquier nombre imagino)
-			entoces, ya puedes hacer lo que quieras con esos data. Si es un echo, simplemente se incluye en cualquier div o html y solucionado. Devuelve todo como una cadena?.
-		*/
 		/**
 		 * Change the background of any input or text from red to green
 		 * @param value input or element to change the background color
@@ -65,28 +56,28 @@
 		 */
 		function comprobarApi(value){
 			if(typeof(value)=="string"){
-				$('#resultado').empty();
-				$('#resultado').append(value);
-				$('#resultado').addClass('text-danger');
+				$('#divResult').empty();
+				$('#divResult').append(value);
+				$('#divResult').addClass('text-danger');
 				$('.form-control').removeClass('bg-success');
 				$('.form-control').removeClass('bg-danger');
 				return false;
 			}
 			return true;			
 		}
-		 function apiCall(call,datos){
+		 function apiCall(call,dataSend){
 			return $.ajax({
 				url: "api.php?action="+call,
 				context: document.body,
-				data: datos,
+				data: dataSend,
 				type: "POST"
 			});
 		 }
 		/**
 		 * Validate data given with Ajax and show the inputs that are right and wrong 
 		 */
-		function validarDatos(){
-			let todoDatos = $('#formular').find("input");
+		function validateDatos(){
+			let todoDatos = $('#formulary').find("input");
 			let datosSerial = todoDatos.serialize();	
 			let ajaxRequest = apiCall("validate",datosSerial);
 			ajaxRequest.done(function(data){
@@ -101,30 +92,30 @@
 		 * Add data using Ajax showing messages if was added or there's an error
 		 */
 		function addData(){
-			let todoDatos = $('#formular').find("input");
+			let todoDatos = $('#formulary').find("input");
 				let datosSerial = todoDatos.serialize();
 				let ajaxRequest = apiCall("save",datosSerial);
 			ajaxRequest.done(function(data){
-				$('#resultado').empty();
-				$('#resultado').removeClass('text-danger');									
+				$('#divResult').empty();
+				$('#divResult').removeClass('text-danger');								
 				let jsonData = JSON.parse(data);
 				if(comprobarApi(jsonData)){	
 					//if there's errors in the formulary		
 					if(typeof(jsonData) === "object"){
 						jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
 						jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
-						$('#resultado').append("<p>Wrong data, please check them again");
+						$('#divResult').append("<p>Wrong data, please check them again");
 					}					
 					//if the query is right
 					else if(jsonData === true){
-						$('#resultado').append("<p>Data is correct, inserted succesfully");
+						$('#divResult').append("<p>Data is correct, inserted succesfully");
 						changeToSuccess(".form-control");
 					}
 					//if there's some error in the query
 					else{
-						$('#resultado').append("<p>Error trying to insert the data</p>");
+						$('#divResult').append("<p>Error trying to insert the data</p>");
 						changeToSuccess(".form-control");
-						$("#resultado").addClass('text-danger');
+						$("#divResult").addClass('text-danger');
 					}
 				}
 			});
@@ -133,24 +124,24 @@
 		 * Delete data calling Ajax, and display messages according the result.
 		 */
 		function removeData(){
-			$('#resultado').empty();
-			$('#resultado').removeClass('text-danger');
+			$('#divResult').empty();
+			$('#divResult').removeClass('text-danger');
 				//if name is empty
-				let check_empty_name = $('#campoTexto').val();
+				let check_empty_name = $('#textData').val();
 				if((check_empty_name.trim() === "")){
-					$('#resultado').append('<p>Name is empty</p>');
-					changeToError("#campoTexto");
+					$('#divResult').append('<p>Name is empty</p>');
+					changeToError("#textData");
 					return;
 				};
 				let confirmation = confirm("¿Are you sure you want to delete it?");
 				let ajaxRequest;
 				if(confirmation === true){
-					ajaxRequest = apiCall("delete",{texto: check_empty_name});
+					ajaxRequest = apiCall("delete",{name: check_empty_name});
 				}
 				else{
-					$('#resultado').append('<p>Nothing have been removed</p>');
-					$('#campoTexto').removeClass('bg-danger');
-					$('#campoTexto').removeClass('bg-success');
+					$('#divResult').append('<p>Nothing have been removed</p>');
+					$('#textData').removeClass('bg-danger');
+					$('#textData').removeClass('bg-success');
 					return;
 				}
 			ajaxRequest.done(function(data){
@@ -158,29 +149,29 @@
 				if(comprobarApi(jsonData)){
 					//if name isn't in the database
 					if(typeof(jsonData) === "object"){
-						$('#resultado').append('<p>Name dont found in database</p>');
-						changeToError("#campoTexto");
+						$('#divResult').append('<p>Name dont found in database</p>');
+						changeToError("#textData");
 						return;
 					}
 					//if name and delete query is successfull
 					if(jsonData === true){
 						if(confirmation){
-						$('#resultado').append('<p>Name removed from database</p>');
-						changeToSuccess("#campoTexto");
+						$('#divResult').append('<p>Name removed from database</p>');
+						changeToSuccess("#textData");
 						}
 					}
 					//if there's an error somewhere in the delete query
 					else{
-						$('#resultado').append('<p>Error somewhere in the query</p>');
-						$('#resultado').addClass('text-danger');
-						changeToSuccess("#campoTexto");
+						$('#divResult').append('<p>Error somewhere in the query</p>');
+						$('#divResult').addClass('text-danger');
+						changeToSuccess("#textData");
 					}
 				}
 			});
 		}
 		$(document).ready(function(){				
 			$(document).on('click','#validate',function(){	
-				validarDatos();
+				validateDatos();
 			});
 			$(document).on('click','#addData',function(){				
 				addData();

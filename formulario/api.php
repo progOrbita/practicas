@@ -1,7 +1,7 @@
 <?php
     /**
      * Api that validate/add and remove data from a formulary
-     * Pasos a seguir:
+     * Steps to follow:
      * 1. Load PS_Version
      * 2. Load la clase resource
      * 3. Usetools::getvalue('$POST/$GET','default)
@@ -23,21 +23,20 @@
     switch($accion){
         //to validate the formulary
         case "validate":
-            $array_datos = ["texto" => Tools::getValue('texto',""),"numerico" => Tools::getValue('numerico',0),"fecha" => Tools::getValue('fecha',0)];             
+            $array_datos = ["formText" => Tools::getValue('formText',""),"formNumber" => Tools::getValue('formNumber',0),"formDate" => Tools::getValue('formDate',0)];             
             $resultado = $api_functions->validate($array_datos);
             break;
         //store the formulary data sent in the table. Checking before that the data obtained is fine
         case "save":	
-		    $array_datos = ["texto" => Tools::getValue('texto',""),"numerico" => Tools::getValue('numerico',0),"fecha" => Tools::getValue('fecha',0)];
+		    $array_datos = ["formText" => Tools::getValue('formText',""),"formNumber" => Tools::getValue('formNumber',0),"formDate" => Tools::getValue('formDate',0)];
 		    $resultado =  $api_functions->save($array_datos);
             break;
         //remove the row given a name.
         case "delete":	
-		    $name = Tools::getValue('texto',"");	
+		    $name = Tools::getValue('name',"");
 		    $resultado = $api_functions->delete($name);
             break;
         //if there's an error with the action sent or isnt written
-        case "default":
         default:
             $resultado = "There was an unexpected error with the server connection";
         break;      
