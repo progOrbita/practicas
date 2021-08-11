@@ -7,6 +7,7 @@
         require_once '../../config/config.inc.php';
         require_once '../../init.php';
     }
+    include "update.php";
     $query = "CREATE TABLE IF NOT EXISTS "._DB_PREFIX_."formulario(
         ID int AUTO_INCREMENT PRIMARY KEY,
         name varchar(255),
@@ -16,6 +17,5 @@
         fecha_mod DATETIME
         )";
     $check = Db::getInstance()->execute($query);
-    var_dump($check);
-    echo "tabla generada";
+    echo "tabla generada<br/>";
 ?>
