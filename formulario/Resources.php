@@ -1,7 +1,7 @@
 <?php
 
 class Resources{
-    protected $table = _DB_PREFIX_.'formulario';
+    protected $table = _DB_PREFIX_.'formulary';
 /**
  * validate an array of elements, used for the form
  * @param array $array_data array to be checked. Insert in error if values are wrong otherwise in good if values are fine
@@ -29,7 +29,7 @@ class Resources{
     $array_save = $this->validate($array_data);
     // Only attempt to execute the query when there's no errors.
 		if(count($array_save['error']) === 0){
-            $query = Db::getInstance()->execute('INSERT INTO '.$this->table.'(name,number,fecha,fecha_creacion) VALUES ("'.$array_data['texto'].'",'.$array_data['numerico'].',"'.$array_data['fecha'].'",NOW())');
+            $query = Db::getInstance()->execute('INSERT INTO '.$this->table.'(name,age,date,creation_date,mod_date) VALUES ("'.$array_data['formText'].'",'.$array_data['formNumber'].',"'.$array_data['formDate'].'",NOW(),NOW())');
             return $query;
         }
         else{
@@ -48,7 +48,7 @@ class Resources{
             return $check_name;
         }
         else{
-            $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET eliminado=1, fecha_eliminacion=NOW() WHERE name="'.$name.'"');
+            $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET removed=1, mod_date=NOW(), del_date=NOW() WHERE name="'.$name.'"');
             return $query;
         }
     } 
