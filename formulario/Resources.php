@@ -7,7 +7,7 @@ class Resources{
  * @param array $array_data array to be checked. Insert in error if values are wrong otherwise in good if values are fine
  * @return array $arr array with the verified elements divided in error and good
  */
-    function validate(array $array_data): array{        
+    function validate(array $array_data): array{       
         $arr = ['error' => [], 'good' => []];
         foreach ($array_data as $key => $value) {
             $cadenaVacia = trim($value);
@@ -48,7 +48,7 @@ class Resources{
             return $check_name;
         }
         else{
-            $query = Db::getInstance()->execute('DELETE FROM '.$this->table.' WHERE name="'.$name.'"');
+            $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET eliminado=1, fecha_eliminacion=NOW() WHERE name="'.$name.'"');
             return $query;
         }
     } 
