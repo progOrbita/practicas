@@ -36,23 +36,23 @@ if(!defined('_PS_VERSION_')){
             break;
         //remove the row given a name.
         case "delete":	
-		    $name = Tools::getValue('name',"");
-		    $result = $api_functions->delete($name);
+		    $id = Tools::getValue('id',"");
+		    $result = $api_functions->delete($id);
             break;
-            case "find":
-                $post = file_get_contents('php://input');
-                //decode jsonstring into an array of json objects
-                $jsonData = json_decode($post);
-                
-                $data_array = ["name" => $jsonData[0]->value, "dateBeg" => $jsonData[1]->value, "dateEnd" => $jsonData[2]->value, "dateType" => $jsonData[3]->value, "removed" => $jsonData[4]->value];  
-                if($data_array["removed"]=="on"){
-                    $data_array["removed"]=0;
-                }
-                else{
-                    $data_array["removed"]=1;
-                }
-                $result = $api_functions->find($data_array);
-                break;
+        case "find":
+            $post = file_get_contents('php://input');
+            //decode jsonstring into an array of json objects
+            $jsonData = json_decode($post);
+             
+            $data_array = ["name" => $jsonData[0]->value, "dateBeg" => $jsonData[1]->value, "dateEnd" => $jsonData[2]->value, "dateType" => $jsonData[3]->value, "removed" => $jsonData[4]->value];  
+            if($data_array["removed"]=="on"){
+                $data_array["removed"]=0;
+            }
+            else{
+                $data_array["removed"]=1;
+            }
+            $result = $api_functions->find($data_array);
+            break;
         //if there's an error with the action sent or isnt written
         default:
             $result = "There was an unexpected error with the server connection";
