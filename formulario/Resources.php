@@ -55,6 +55,7 @@ class Resources{
     function find(array $array_data){
         $queryString = 'SELECT * FROM '.$this->table.' WHERE ';
         $whereArr = [];
+        $dateQuery = $array_data['dateType'];
         foreach ($array_data as $column => $value) {   
             //Removed is 0, so is needed to check it. 
             if(empty($value) && $column !="removed"){
@@ -64,10 +65,10 @@ class Resources{
                 $whereArr[] = $column.' = "'.$value.'"';
             }
             if($column=="dateBeg"){
-                $whereArr[] = ' date >= "'.$value.'"';
+                $whereArr[] = $dateQuery.' >= "'.$value.'"';
             }
             if($column=="dateEnd"){
-                $whereArr[] = ' date <= "'.$value.'"';
+                $whereArr[] = $dateQuery.' <= "'.$value.'"';
             }
             if($column=="removed"){
                 $whereArr[] = $column.' = '.$value;
