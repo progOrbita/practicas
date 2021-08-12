@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
         <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
         <title>Information</title>
         <style>
             body{
@@ -67,7 +68,8 @@
                         <th>Date</th>
                         <th>Creation date</th>
                         <th>Modification date</th>
-                        <th>Deletion date</th>                       
+                        <th>Deletion date</th> 
+                        <th>Actions</th>                      
                     </tr>
                 </thead>
                 <tbody>
@@ -83,8 +85,9 @@
                 </tbody>
             </table>
         </div>
-        <div class="text-danger" id="errors">
-            
+        <!-- Show messages-->
+        <div id="messages">
+           
         </div>
     </body>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -120,12 +123,56 @@
                     <td>${element.creation_date}</td>
                     <td>${element.mod_date}</td>
                     <td>${element.del_date}</td>
+                    <td><i class="bi bi-x-octagon-fill" type="button" name="delete" id="delete" value="${element.ID}"></i></td>
                 </tr>`
             );
         }
+        function comprobarApi(value){
+			if(typeof(value)=="string"){
+				$('#messages').append(value);
+				$('#messages').addClass('text-danger');
+				return false;
+			}
+			return true;			
+		}
         $(document).ready(function(){	
             checkDate();
+            $(document).on('click',"#delete",function(){
+                $('#messages').empty();
+                let selfID = $(this).attr('value');
+                let confirmation = confirm("¿Are you sure you want to delete the user with ID "+selfID);
+				if(confirmation === true){
+                    let ajaxRequest = $.ajax({
+                        url: "api.php?action=delete",
+                        context: document.body,
+                        data: {id: selfID},
+                        type: "POST"
+                    });
+                    ajaxRequest.done(function(data){
+                    let jsonData = JSON.parse(data);
+                    if(comprobarApi(jsonData)){
+                        //if name isn't in the database
+                        //if name and delete query is successfull
+                        if(jsonData === true){
+                            if(confirmation){
+                            $('#messages').append('<p>Name removed</p>');
+                            }
+                        }
+                        //if there's an error somewhere in the delete query
+                        else{
+                            $('#messages').append('<p>Error somewhere in the query</p>');
+                            $('#messages').addClass('text-danger');
+                        }
+                    }
+			    });
+				}
+				else{
+					$('#messages').append('<p>Nothing have been removed</p>');
+					return;
+				}                
+            });
             $(document).on('click','#searchButton',function(){
+                $('#messages').empty();
 				let getData = $('#formularyContent').find("input,select");
                 //send the data as a JSON string
 				let dataSerial = getData.serializeArray();
@@ -138,7 +185,7 @@
 			    });
                 ajaxRequest.done(function(data){
                     let jsonData = JSON.parse(data);
-                    $('#errors').empty();                   
+                    $('#errors').empty();
                     $('tbody').empty();
                     $('#tableCaption').empty();
                     //If query have an error
