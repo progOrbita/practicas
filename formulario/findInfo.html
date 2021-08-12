@@ -13,6 +13,7 @@
             #tableContent{
                 margin-top: 25px;
                 overflow: auto;
+                max-height: 800px;
             }
         </style>
     </head>
@@ -59,32 +60,7 @@
             </form>
         </div>
         <div class="container table-responsive" id="tableContent">
-            <table class="table table-dark table-striped table-hover">
-                <caption id="tableCaption"></caption>
-                <thead>
-                    <tr class="bg-info">
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Age</th>
-                        <th>Date</th>
-                        <th>Creation date</th>
-                        <th>Modification date</th>
-                        <th>Deletion date</th> 
-                        <th>Actions</th>                      
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+           
         </div>
         <!-- Show messages-->
         <div id="messages">
@@ -111,29 +87,6 @@
          * Given an element from the query append the data onto the table
          * @param element element from the table to be added in the table 
          */
-        function addTable(element){
-            if(element.del_date==null){
-                element.del_date="";
-            }
-            //Prepare the table data insertion
-            let insert = `<tr>
-                    <td>${element.ID}</td>
-                    <td>${element.name}</td>
-                    <td>${element.age}</td>
-                    <td>${element.date}</td>
-                    <td>${element.creation_date}</td>
-                    <td>${element.mod_date}</td>
-                    <td>${element.del_date}</td>`;
-                //check if users are registered or removed for the actions
-                if(element.removed==0){
-                    insert+=`<td><i class="bi bi-x-octagon-fill" type="button" name="delete" id="delete" value="${element.ID}"></i></td>
-                </tr>`;
-                }
-                else{
-                    insert+='</tr>';
-                }
-            $('tbody').append(insert);
-        }
         function comprobarApi(value){
 			if(typeof(value)=="string"){
 				$('#messages').append(value);
@@ -142,11 +95,50 @@
 			}
 			return true;			
 		}
+        function findInfo(){
+            $('#messages').empty();
+			let getData = $('#formularyContent').find("input,select");
+            //send the data as a JSON string
+			let dataSerial = getData.serializeArray();
+            let jsonString = JSON.stringify(dataSerial);
+			let ajaxRequest = $.ajax({
+                url: "api.php?action=find",
+                context: document.body,
+                data: jsonString,
+                type: "POST"
+			});
+            ajaxRequest.done(function(data){
+                $('#tableContent').empty();
+                $('#errors').empty();
+                $('#tableCaption').empty();
+                //Insert the table data
+                let jsonData = JSON.parse(data);
+                $('#tableContent').append(jsonData);
+                //If query have an error
+                if(typeof(jsonData)=="boolean"){
+                    $('#errors').append('Unexpected error retrieving the data');
+                    return;
+                }
+                if(jsonData.length !== 0){
+                    //if checked return 1
+                    if($('#sliderForm:checked').length == 1){
+                       $('#tableCaption').append('Users registered');
+                    }
+                    else{
+                        $('#tableCaption').append('Users removed');
+                    }
+                }
+                //if the query is empty
+                else{
+                    $('#tableCaption').append('No users found');
+                }
+            });
+        }
         function removeUser(){
             $('#messages').empty();
             let selfID = $(this).attr('value');
             let confirmation = confirm("¿Are you sure you want to delete the user with ID "+selfID);
-			if(confirmation === true){
+            if(confirmation === true){
                 let ajaxRequest = $.ajax({
                     url: "api.php?action=delete",
                     context: this,
@@ -156,8 +148,7 @@
                 ajaxRequest.done(function(data){
                     let jsonData = JSON.parse(data);
                     if(comprobarApi(jsonData)){
-                        //if name isn't in the database
-                        //if name and delete query is successfull
+                        //if query is successfull
                         if(jsonData === true){
                             $(this).closest("tr").remove();
                             $('#messages').append('<p>Name removed</p>');
@@ -168,56 +159,20 @@
                             $('#messages').addClass('text-danger');
                         }
                     }
-			    });
-			}
-			else{
-			    $('#messages').append('<p>Nothing have been removed</p>');
-				return;
-			}   
+                });
+            }
+            else{
+                $('#messages').append('<p>Nothing have been removed</p>');
+                return;
+            }    
         }
         $(document).ready(function(){	
             checkDate();
-            $(document).on('click',"#delete",function(){
-                removeUser.call(this);               
-            });
-            $(document).on('click','#searchButton',function(){
-                $('#messages').empty();
-				let getData = $('#formularyContent').find("input,select");
-                //send the data as a JSON string
-				let dataSerial = getData.serializeArray();
-                let jsonString = JSON.stringify(dataSerial);
-				let ajaxRequest = $.ajax({
-                    url: "api.php?action=find",
-                    context: document.body,
-                    data: jsonString,
-                    type: "POST"
-			    });
-                ajaxRequest.done(function(data){
-                    let jsonData = JSON.parse(data);
-                    $('#errors').empty();
-                    $('tbody').empty();
-                    $('#tableCaption').empty();
-                    //If query have an error
-                    if(typeof(jsonData)=="boolean"){
-                        $('#errors').append('Unexpected error retrieving the data');
-                        return;
-                    }
-                    //Whenever there's at least 1 result
-                    if(jsonData.length !== 0){
-                        jsonData.forEach(element => addTable(element));
-                        //if checked return 1
-                        if($('#sliderForm:checked').length == 1){
-                            $('#tableCaption').append('Users registered');
-                        }
-                        else{
-                            $('#tableCaption').append('Users removed');
-                        }
-                    }
-                    //if the query is empty
-                    else{
-                        $('#tableCaption').append('No users found');
-                    }
+                $(document).on('click',"#delete",function(){
+                   removeUser.call(this);      
                 });
+            $(document).on('click','#searchButton',function(){
+                findInfo();
 			});
 		});
     </script>
