@@ -20,7 +20,47 @@ if(!defined('_PS_VERSION_')){
 		require_once '../../init.php';
 	}
     include "Resources.php";
-    
+    function createTable(array $tableData){
+        /**
+             * This is the entire table. 
+             * Beggining is table start and thead. 
+             * Main data all the rows with the information 
+             * end close tbody and table tags.
+             */
+            $mainData = "";
+            $beggining = '<table class="table table-dark table-striped table-hover">
+            <caption id="tableCaption"></caption>            
+            <thead>
+                <tr class="bg-info">
+                   <th>#</th>
+                   <th>Name</th>
+                   <th>Age</th>
+                   <th>Date</th>
+                   <th>Creation date</th>
+                   <th>Modification date</th>
+                   <th>Deletion date</th> 
+                   <th>Actions</th>
+                </tr>
+                </thead>
+            <tbody>';
+        //Key is the result number. Value is array containing the data
+            foreach ($tableData as $key => $value) {
+                $mainData .= '<tr>';
+                //array have keyVal (ID, name...) and the string which is keyVal value (12,user).
+                foreach ($value as $keyVal => $string) {
+                    if($keyVal=="removed" && $string==0){
+                        $mainData .='<td><i class="bi bi-x-octagon-fill" type="button" name="delete" id="delete" value="'.$value["ID"].'"></i></td>'; 
+                    }
+                    if($keyVal=="removed"){
+                        continue;
+                    }
+                    $mainData .= '<td>'.$string.'</td>';
+                }
+                $mainData .= '</tr>';
+            }
+        $end = '</tbody></table>';
+        return $beggining.$mainData.$end;
+    }
     $accion = (string) Tools::getValue('action','default');
     $api_functions = new Resources();
     switch($accion){
@@ -51,7 +91,8 @@ if(!defined('_PS_VERSION_')){
             else{
                 $data_array["removed"]=1;
             }
-            $result = $api_functions->find($data_array);
+            $resultQuery = $api_functions->find($data_array);
+            $result = createTable($resultQuery);
             break;
         //if there's an error with the action sent or isnt written
         default:
