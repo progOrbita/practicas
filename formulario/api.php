@@ -12,7 +12,10 @@
      * a resultado var which always return a value so json_encode is used once
      * creating a resources object/class once and not in each case
      */
-    if(!defined('_PS_VERSION_')){
+
+use Symfony\Component\Validator\Constraints\Length;
+
+if(!defined('_PS_VERSION_')){
 		require_once '../../config/config.inc.php';
 		require_once '../../init.php';
 	}
@@ -37,7 +40,10 @@
 		    $result = $api_functions->delete($name);
             break;
             case "find":
-                $data_array = ["name" => Tools::getValue('findText'), "dateBeg" => Tools::getValue('begDate'), "dateEnd" => Tools::getValue('endingDate'), "removed" => Tools::getValue('formSlider',false)];
+                $post = file_get_contents('php://input');
+                //decode jsonstring into an array of json objects
+                $jsonData = json_decode($post);
+                $data_array = ["name" => $jsonData[0]->value, "dateBeg" => $jsonData[1]->value, "dateEnd" => $jsonData[2]->value, "removed" => $jsonData[3]->value];  
                 if($data_array["removed"]=="on"){
                     $data_array["removed"]=0;
                 }
