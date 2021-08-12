@@ -55,20 +55,26 @@ class Resources{
     function find(array $array_data){
         $queryString = 'SELECT * FROM '.$this->table.' WHERE ';
         $whereArr = [];
-        foreach ($array_data as $column => $value) {            
+        foreach ($array_data as $column => $value) {   
+            //Removed is 0, so is needed to check it. 
+            if(empty($value) && $column !="removed"){
+                continue;
+            }        
             if($column=="name"){
-                if(empty($value)){
-                    continue;
-                }
                 $whereArr[] = $column.' = "'.$value.'"';
+            }
+            if($column=="dateBeg"){
+                $whereArr[] = ' date >= "'.$value.'"';
+            }
+            if($column=="dateEnd"){
+                $whereArr[] = ' date <= "'.$value.'"';
             }
             if($column=="removed"){
                 $whereArr[] = $column.' = '.$value;
             }
             $whereStr = implode(' AND ',$whereArr);
         }
-        $queryRequest = $queryString.$whereStr;
-        
+        $queryRequest = $queryString.$whereStr;        
         $query = Db::getInstance()->executeS($queryRequest);
         return $query;
     }
