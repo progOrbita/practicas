@@ -41,16 +41,10 @@ class Resources{
      * @param string $name name to be deleted from the table
      * @return $query result of the query, or the array with the query if doesn't exist
      */
-    function delete(string $name){
+    function delete(int $id){
         //First check if name it's on the table, if isn't found doesn't try to execute the delete query.
-       $check_name = Db::getInstance()->executeS('SELECT * FROM '.$this->table.' WHERE name="'.$name.'"');
-        if(count($check_name)===0){
-            return $check_name;
-        }
-        else{
-            $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET removed=1, mod_date=NOW(), del_date=NOW() WHERE name="'.$name.'"');
+            $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
             return $query;
-        }
     } 
     function find(array $array_data){
         $queryString = 'SELECT * FROM '.$this->table.' WHERE ';
