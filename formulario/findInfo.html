@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+        <title>Information</title>
+        <style>
+            body{
+                margin-top: 25px;
+            }
+            #tableContent{
+                margin-top: 25px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <form class="row" id="formularyContent">
+                <div class="form-floating col-3">
+                    <label for="textData">Search...</label>
+                    <input class="form-control" type="text" name="findText" id="textData" placeholder="term to find">
+                </div>
+                <div class="col">
+                    <label for="startDate">From...</label>
+                    <div class="input-group">                    
+                        <input class="form-control" type="date" name="begDate" id="startDate">
+                    </div>
+                </div>
+                <div class="col">
+                    <label for="endDate">To...</label>
+                    <div class="input-group">                   
+                        <input class="form-control" type="date" name="endingDate" id="endDate">
+                    </div>
+                </div>
+                <div class="col">
+                    <label for="sliderForm">Which one...</label>
+                    <div class="input-group">                        
+                        <input class="form-control" checked data-toggle="toggle" data-on="registered" data-off="removed" data-offstyle="btn btn-dark" type="checkbox" name="formSlider" id="sliderForm">
+                    </div>
+                </div>
+                <div class="col">
+                    <label for="searchButton">Find data</label>
+                    <div class="input-group">
+                        <input class="form-control btn-info" type="button" name="buttonSearch" id="searchButton" value="Search">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="container table-responsive" id="tableContent">
+            <table class="table table-dark table-striped table-hover">
+                <caption id="tableCaption"></caption>
+                <thead>
+                    <tr class="bg-info">
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Date</th>
+                        <th>Creation date</th>
+                        <th>Modification date</th>
+                        <th>Deletion date</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>       
+    <script type="text/javascript">
+        /**
+         * Function that checks the date limits whenever it changes
+         */
+        function checkDate(){
+            $(document).on('change','#endDate',function(){
+                let dateEnd = $('#endDate').val();
+                $('#startDate').attr("max",dateEnd);
+			});	
+            $(document).on('change','#startDate',function(){
+                let dateBeg = $('#startDate').val();
+                $('#endDate').attr("min",dateBeg);
+			});	
+        }
+        /**
+         * Given an element from the query append the data onto the table
+         * @param element element from the table to be added in the table 
+         */
+        function addTable(element){
+            if(element.del_date==null){
+                element.del_date="";
+            }
+            $('tbody').append(
+                `<tr>
+                    <td>${element.ID}</td>
+                    <td>${element.name}</td>
+                    <td>${element.age}</td>
+                    <td>${element.date}</td>
+                    <td>${element.creation_date}</td>
+                    <td>${element.mod_date}</td>
+                    <td>${element.del_date}</td>
+                </tr>`
+            );
+        }
+        $(document).ready(function(){	
+            checkDate();
+            $(document).on('click','#searchButton',function(){
+				let getData = $('#formularyContent').find("input");             
+				let dataSerial = getData.serialize();
+				let ajaxRequest = $.ajax({
+                    url: "api.php?action=find",
+                    context: document.body,
+                    data: dataSerial,
+                    type: "POST"
+			    });
+                ajaxRequest.done(function(data){   
+                    let jsonData = JSON.parse(data);
+                    $('tbody').empty();
+                    $('#tableCaption').empty();
+                    jsonData.forEach(element => addTable(element));
+                    //if checked return 1
+                    if($('#sliderForm:checked').length == 1){
+                        $('#tableCaption').append('Users registered');
+                    }
+                    else{
+                        $('#tableCaption').append('Users removed');
+                    }
+                });
+			});
+		});
+    </script>
+</html>
