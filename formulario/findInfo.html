@@ -142,28 +142,25 @@
 			}
 			return true;			
 		}
-        $(document).ready(function(){	
-            checkDate();
-            $(document).on('click',"#delete",function(){
-                $('#messages').empty();
-                let selfID = $(this).attr('value');
-                let confirmation = confirm("¿Are you sure you want to delete the user with ID "+selfID);
-				if(confirmation === true){
-                    let ajaxRequest = $.ajax({
-                        url: "api.php?action=delete",
-                        context: document.body,
-                        data: {id: selfID},
-                        type: "POST"
-                    });
-                    ajaxRequest.done(function(data){
+        function removeUser(){
+            $('#messages').empty();
+            let selfID = $(this).attr('value');
+            let confirmation = confirm("¿Are you sure you want to delete the user with ID "+selfID);
+			if(confirmation === true){
+                let ajaxRequest = $.ajax({
+                    url: "api.php?action=delete",
+                    context: this,
+                    data: {id: selfID},
+                    type: "POST"
+                });
+                ajaxRequest.done(function(data){
                     let jsonData = JSON.parse(data);
                     if(comprobarApi(jsonData)){
                         //if name isn't in the database
                         //if name and delete query is successfull
                         if(jsonData === true){
-                            if(confirmation){
+                            $(this).closest("tr").remove();
                             $('#messages').append('<p>Name removed</p>');
-                            }
                         }
                         //if there's an error somewhere in the delete query
                         else{
@@ -172,11 +169,16 @@
                         }
                     }
 			    });
-				}
-				else{
-					$('#messages').append('<p>Nothing have been removed</p>');
-					return;
-				}                
+			}
+			else{
+			    $('#messages').append('<p>Nothing have been removed</p>');
+				return;
+			}   
+        }
+        $(document).ready(function(){	
+            checkDate();
+            $(document).on('click',"#delete",function(){
+                removeUser.call(this);               
             });
             $(document).on('click','#searchButton',function(){
                 $('#messages').empty();
