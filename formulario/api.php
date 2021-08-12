@@ -43,7 +43,8 @@ if(!defined('_PS_VERSION_')){
                 $post = file_get_contents('php://input');
                 //decode jsonstring into an array of json objects
                 $jsonData = json_decode($post);
-                $data_array = ["name" => $jsonData[0]->value, "dateBeg" => $jsonData[1]->value, "dateEnd" => $jsonData[2]->value, "removed" => $jsonData[3]->value];  
+                
+                $data_array = ["name" => $jsonData[0]->value, "dateBeg" => $jsonData[1]->value, "dateEnd" => $jsonData[2]->value, "dateType" => $jsonData[3]->value, "removed" => $jsonData[4]->value];  
                 if($data_array["removed"]=="on"){
                     $data_array["removed"]=0;
                 }
