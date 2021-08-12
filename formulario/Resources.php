@@ -52,5 +52,25 @@ class Resources{
             return $query;
         }
     } 
+    function find(array $array_data){
+        $queryString = 'SELECT * FROM '.$this->table.' WHERE ';
+        $whereArr = [];
+        foreach ($array_data as $column => $value) {            
+            if($column=="name"){
+                if(empty($value)){
+                    continue;
+                }
+                $whereArr[] = $column.' = "'.$value.'"';
+            }
+            if($column=="removed"){
+                $whereArr[] = $column.' = '.$value;
+            }
+            $whereStr = implode(' AND ',$whereArr);
+        }
+        $queryRequest = $queryString.$whereStr;
+        
+        $query = Db::getInstance()->executeS($queryRequest);
+        return $query;
+    }
 }
 ?>

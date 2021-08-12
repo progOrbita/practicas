@@ -24,22 +24,32 @@
         //to validate the formulary
         case "validate":
             $array_datos = ["formText" => Tools::getValue('formText',""),"formNumber" => Tools::getValue('formNumber',0),"formDate" => Tools::getValue('formDate',0)];             
-            $resultado = $api_functions->validate($array_datos);
+            $result = $api_functions->validate($array_datos);
             break;
         //store the formulary data sent in the table. Checking before that the data obtained is fine
         case "save":	
 		    $array_datos = ["formText" => Tools::getValue('formText',""),"formNumber" => Tools::getValue('formNumber',0),"formDate" => Tools::getValue('formDate',0)];
-		    $resultado =  $api_functions->save($array_datos);
+		    $result =  $api_functions->save($array_datos);
             break;
         //remove the row given a name.
         case "delete":	
 		    $name = Tools::getValue('name',"");
-		    $resultado = $api_functions->delete($name);
+		    $result = $api_functions->delete($name);
             break;
+            case "find":
+                $data_array = ["name" => Tools::getValue('findText'), "dateBeg" => Tools::getValue('begDate'), "dateEnd" => Tools::getValue('endingDate'), "removed" => Tools::getValue('formSlider',false)];
+                if($data_array["removed"]=="on"){
+                    $data_array["removed"]=0;
+                }
+                else{
+                    $data_array["removed"]=1;
+                }
+                $result = $api_functions->find($data_array);
+                break;
         //if there's an error with the action sent or isnt written
         default:
-            $resultado = "There was an unexpected error with the server connection";
+            $result = "There was an unexpected error with the server connection";
         break;      
     }  
-    echo json_encode($resultado);
+    echo json_encode($result);
 ?>
