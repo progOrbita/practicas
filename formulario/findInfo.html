@@ -17,7 +17,7 @@
     <body>
         <div class="container">
             <form class="row" id="formularyContent">
-                <div class="form-floating col-3">
+                <div class="form-floating col">
                     <label for="textData">Search...</label>
                     <input class="form-control" type="text" name="name" id="textData" placeholder="term to find">
                 </div>
@@ -32,6 +32,15 @@
                     <div class="input-group">                   
                         <input class="form-control" type="date" name="endingDate" id="endDate">
                     </div>
+                </div>
+                <div class="col-2">
+                    <label>Which date</label>
+                    <select class="form-control" list="dateSelect" name="dateType" id="dateType">
+                        <option selected value="date">Date</option>
+                        <option value="creation_date">Creation date</option>
+                        <option value="mod_date">Modif. date</option>
+                        <option value="del_date">Deletion date</option>
+                    </select>
                 </div>
                 <div class="col">
                     <label for="sliderForm">Which one...</label>
@@ -117,7 +126,7 @@
         $(document).ready(function(){	
             checkDate();
             $(document).on('click','#searchButton',function(){
-				let getData = $('#formularyContent').find("input");
+				let getData = $('#formularyContent').find("input,select");
                 //send the data as a JSON string
 				let dataSerial = getData.serializeArray();
                 let jsonString = JSON.stringify(dataSerial);
@@ -127,22 +136,30 @@
                     data: jsonString,
                     type: "POST"
 			    });
-                ajaxRequest.done(function(data){   
+                ajaxRequest.done(function(data){
                     let jsonData = JSON.parse(data);
-                    $('#errors').empty();
-                    if(jsonData==false){
+                    $('#errors').empty();                   
+                    $('tbody').empty();
+                    $('#tableCaption').empty();
+                    //If query have an error
+                    if(typeof(jsonData)=="boolean"){
                         $('#errors').append('Unexpected error retrieving the data');
                         return;
                     }
-                    $('tbody').empty();
-                    $('#tableCaption').empty();
-                    jsonData.forEach(element => addTable(element));
-                    //if checked return 1
-                    if($('#sliderForm:checked').length == 1){
-                        $('#tableCaption').append('Users registered');
+                    //Whenever there's at least 1 result
+                    if(jsonData.length !== 0){
+                        jsonData.forEach(element => addTable(element));
+                        //if checked return 1
+                        if($('#sliderForm:checked').length == 1){
+                            $('#tableCaption').append('Users registered');
+                        }
+                        else{
+                            $('#tableCaption').append('Users removed');
+                        }
                     }
+                    //if the query is empty
                     else{
-                        $('#tableCaption').append('Users removed');
+                        $('#tableCaption').append('No users found');
                     }
                 });
 			});
