@@ -19,7 +19,7 @@
             <form class="row" id="formularyContent">
                 <div class="form-floating col-3">
                     <label for="textData">Search...</label>
-                    <input class="form-control" type="text" name="findText" id="textData" placeholder="term to find">
+                    <input class="form-control" type="text" name="name" id="textData" placeholder="term to find">
                 </div>
                 <div class="col">
                     <label for="startDate">From...</label>
@@ -36,7 +36,7 @@
                 <div class="col">
                     <label for="sliderForm">Which one...</label>
                     <div class="input-group">                        
-                        <input class="form-control" checked data-toggle="toggle" data-on="registered" data-off="removed" data-offstyle="btn btn-dark" type="checkbox" name="formSlider" id="sliderForm">
+                        <input class="form-control" checked data-toggle="toggle" data-on="registered" data-off="removed" data-offstyle="btn btn-dark" type="checkbox" name="removed" id="sliderForm">
                     </div>
                 </div>
                 <div class="col">
@@ -73,6 +73,9 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="text-danger" id="errors">
+            
         </div>
     </body>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -114,16 +117,23 @@
         $(document).ready(function(){	
             checkDate();
             $(document).on('click','#searchButton',function(){
-				let getData = $('#formularyContent').find("input");             
-				let dataSerial = getData.serialize();
+				let getData = $('#formularyContent').find("input");
+                //send the data as a JSON string
+				let dataSerial = getData.serializeArray();
+                let jsonString = JSON.stringify(dataSerial);
 				let ajaxRequest = $.ajax({
                     url: "api.php?action=find",
                     context: document.body,
-                    data: dataSerial,
+                    data: jsonString,
                     type: "POST"
 			    });
                 ajaxRequest.done(function(data){   
                     let jsonData = JSON.parse(data);
+                    $('#errors').empty();
+                    if(jsonData==false){
+                        $('#errors').append('Unexpected error retrieving the data');
+                        return;
+                    }
                     $('tbody').empty();
                     $('#tableCaption').empty();
                     jsonData.forEach(element => addTable(element));
