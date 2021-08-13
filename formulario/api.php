@@ -49,7 +49,8 @@ if(!defined('_PS_VERSION_')){
                 //array have keyVal (ID, name...) and the string which is keyVal value (12,user).
                 foreach ($value as $keyVal => $string) {
                     if($keyVal=="removed" && $string==0){
-                        $mainData .='<td><i class="bi bi-x-octagon-fill" type="button" name="delete" id="delete" value="'.$value["ID"].'"></i></td>'; 
+                        $mainData .='<td><i class="bi bi-x-octagon-fill" type="button" name="delete" id="delete" value="'.$value["ID"].'"></i>
+                        <i class="bi bi-check-square" type="button" name="verify" id="verify" value="'.$value["ID"].'"></i></td>'; 
                     }
                     if($keyVal=="removed"){
                         continue;
@@ -65,9 +66,12 @@ if(!defined('_PS_VERSION_')){
     $api_functions = new Resources();
     switch($accion){
         //to validate the formulary
-        case "validate":
-            $array_datos = ["formText" => Tools::getValue('formText',""),"formNumber" => Tools::getValue('formNumber',0),"formDate" => Tools::getValue('formDate',0)];             
-            $result = $api_functions->validate($array_datos);
+        case "verify":
+            //temp, until table turned into inputs
+            //$array_datos = ["formText" => Tools::getValue('formText',""),"formNumber" => Tools::getValue('formNumber',0),"formDate" => Tools::getValue('formDate',0)];             
+            //$result = $api_functions->validate($array_datos);
+            $id = Tools::getValue('id');
+            $result = $api_functions->validate($id);
             break;
         //store the formulary data sent in the table. Checking before that the data obtained is fine
         case "save":	
