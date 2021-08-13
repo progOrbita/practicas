@@ -20,13 +20,15 @@ if(!defined('_PS_VERSION_')){
 		require_once '../../init.php';
 	}
     include "Resources.php";
-    function createTable(array $tableData){
         /**
-             * This is the entire table. 
-             * Beggining is table start and thead. 
-             * Main data all the rows with the information 
-             * end close tbody and table tags.
-             */
+         * This is the entire table. 
+         * Beggining is table start and thead. 
+         * Main data all the rows with the information 
+         * end close tbody and table tags.
+         * @param array $tableData data obtained from the query
+         * @return string $beggining+$mainData+$end containing the entire table in html
+        */
+    function createTable(array $tableData){
             $mainData = "";
             $beggining = '<table class="table table-dark table-striped table-hover">
             <caption id="tableCaption"></caption>            
