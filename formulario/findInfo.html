@@ -134,6 +134,9 @@
                     }
             });
         }
+        /**
+         *  Remove an user from the table and update it given an id.
+         */
         function removeUser(){
             $('#messages').empty();
             let selfID = $(this).attr('value');
@@ -166,35 +169,43 @@
                 return;
             }    
         }
+        /**
+         * Verify the user data
+         */
+        function verifyUser(){
+            let selfID = $(this).attr('value');
+            //send the data as a JSON string
+            let ajaxRequest = $.ajax({
+                url: "api.php?action=verify",
+                context: this,
+                data: {id:selfID},
+                type: "POST"
+            });
+            ajaxRequest.done(function(data){
+                let jsonData = JSON.parse(data);
+                if(comprobarApi(jsonData)){
+                    //Finds the tr and then apply success/danger if the fields are right or wrong.
+                    let rowObject = $(this).closest("tr");
+                          
+                    jsonData.good.forEach(element => (rowObject.find('.'+element).removeClass('bg-danger'))); 
+                    jsonData.good.forEach(element => (rowObject.find('.'+element).addClass('bg-success')));
+
+                    jsonData.error.forEach(element => (rowObject.find('.'+element).removeClass('bg-success')));
+                    jsonData.error.forEach(element => (rowObject.find('.'+element).addClass('bg-danger')));
+                }
+            });
+        }
         $(document).ready(function(){	
             checkDate();
                 $(document).on('click',"#delete",function(){
+                    //Call is to call an function using this as a value
                    removeUser.call(this);      
                 });
             $(document).on('click','#searchButton',function(){
                 findInfo();
 			});
             $(document).on('click','#verify',function(){
-                let selfID = $(this).attr('value');
-                //send the data as a JSON string
-                let ajaxRequest = $.ajax({
-                    url: "api.php?action=verify",
-                    context: this,
-                    data: {id:selfID},
-                    type: "POST"
-                });
-                ajaxRequest.done(function(data){
-                    console.log(data);
-                    let jsonData = JSON.parse(data);
-                    if(comprobarApi(jsonData)){
-                        //teoric foreach element of tr/td to be turned green and red.
-                        //An idea is obtain closest tr and then do a foreach.
-                        // Right now only turn line to green
-                          let rowObject = $(this).closest("tr");
-                          console.log(rowObject);
-                           jsonData.good.forEach(element => ($(this).closest("tr").addClass('bg-success')));
-                    }
-                });
+                verifyUser.call(this);
             });
 		});
     </script>
