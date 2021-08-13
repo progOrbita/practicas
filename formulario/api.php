@@ -53,10 +53,14 @@ if(!defined('_PS_VERSION_')){
                 foreach ($value as $keyVal => $string) {
                     switch($keyVal){
                         case "name":
-                        case "age":
-                        case "date":
-                            $mainData .= '<td><input class="form-control '.$keyVal.'" value="'.$string.'"></input></td>'; 
+                            $mainData .= '<td><input type="text" class="form-control '.$keyVal.'" value="'.$string.'"></input></td>'; 
                         break;
+                        case "age":
+                            $mainData .= '<td><input type="number" class="form-control '.$keyVal.'" value="'.$string.'"></input></td>';
+                            break; 
+                        case "date":
+                            $mainData .= '<td><input type="date" class="form-control '.$keyVal.'" value="'.$string.'"></input></td>'; 
+                            break;
                         case "ID":
                         case "creation_date":
                         case "mod_date":
