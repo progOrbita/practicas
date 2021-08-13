@@ -19,25 +19,23 @@ class Resources{
                     array_push($arr['good'],$keyVal);
                     }
                 }
+                return $arr;
             }
-            return $arr;
-        }
     /**
      * Insert the array into the database
      * @param array $array_data array with the elements that are going to be added to the database
      * @return $query if the validation is successfully or $array_save which gives two arrays with the errors and right inputs
      */
-    function save(array $array_data){
-    $array_save = $this->validate($array_data);
-    // Only attempt to execute the query when there's no errors.
-		if(count($array_save['error']) === 0){
-            $query = Db::getInstance()->execute('INSERT INTO '.$this->table.'(name,age,date,creation_date,mod_date) VALUES ("'.$array_data['formText'].'",'.$array_data['formNumber'].',"'.$array_data['formDate'].'",NOW(),NOW())');
+    function save(array $array_save){
+        $array_error = $this->validate($array_save);
+        if(count($array_error['error']) === 0){
+            $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET name="'.$array_save['name'].'", age='.$array_save['age'].', date="'.$array_save['date'].'",creation_date=NOW(),mod_date=NOW() WHERE ID = '.$array_save['id']);
             return $query;
         }
         else{
             return $array_save;
         }
-    } 
+    }
     /**
      * Check and remove a name from the table 
      * @param string $name name to be deleted from the table
