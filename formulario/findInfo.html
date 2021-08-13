@@ -212,29 +212,33 @@
          */
         function saveUser(){
             $('#messages').empty();
-                let selfID = $(this).attr('value');
+            let id = $(this).closest("tr").find('.ID').val();
+            let name = $(this).closest("tr").find('.name').val();
+            let age = $(this).closest("tr").find('.age').val();
+            let date = $(this).closest("tr").find('.date').val();
             //send the data as a JSON string
             let ajaxRequest = $.ajax({
                 url: "api.php?action=save",
                 context: this,
-                data: {id:selfID},
+                data: {id:id, name:name, age:age, date:date},
                 type: "POST"
             });
             ajaxRequest.done(function(data){
                 let jsonData = JSON.parse(data);
                 if(comprobarApi(jsonData)){	
-					//if there's errors in the formulary		
+					//if there's errors in the formulary
+                    let rowObject = $(this).closest('tr');
 					if(typeof(jsonData) === "object"){
 						jsonData.good.forEach(element => (rowObject.find('.'+element).removeClass('bg-danger'))); 
                         jsonData.good.forEach(element => (rowObject.find('.'+element).addClass('bg-success')));
 
                         jsonData.error.forEach(element => (rowObject.find('.'+element).removeClass('bg-success')));
                         jsonData.error.forEach(element => (rowObject.find('.'+element).addClass('bg-danger')));
-						$('#messages').append("<p>Wrong data, please check it again");
+						$('#messages').append("<p>Wrong data, please check it again</p>");
 					}					
 					//if the query is right
 					else if(jsonData === true){
-						$('#messages').append("<p>Data is correct, inserted succesfully");
+						$('#messages').append("<p>Data is correct, inserted succesfully</p>");
 					}
 					//if there's an error in the query
 					else{
