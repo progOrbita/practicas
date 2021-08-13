@@ -7,19 +7,23 @@ class Resources{
  * @param array $array_data array to be checked. Insert in error if values are wrong otherwise in good if values are fine
  * @return array $arr array with the verified elements divided in error and good
  */
-    function validate(array $array_data): array{       
+    function validate (int $id){
         $arr = ['error' => [], 'good' => []];
-        foreach ($array_data as $key => $value) {
-            $cadenaVacia = trim($value);
-            if(empty($cadenaVacia)){
-                array_push($arr['error'], $key);
+        $result = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'formulary WHERE ID = '.$id);
+        foreach ($result as $key => $eachArr) {
+            //Each result (only once here), key and string
+            foreach ($eachArr as $keyVal => $string) {
+                $cadenaVacia = trim($string);
+                if(empty($cadenaVacia)){
+                    array_push($arr['error'], $keyVal);
+                }
+                else{
+                    array_push($arr['good'],$keyVal);
+                    }
+                }
             }
-            else{
-                array_push($arr['good'],$key);
-            }
+            return $arr;
         }
-        return $arr;
-    }
     /**
      * Insert the array into the database
      * @param array $array_data array with the elements that are going to be added to the database
