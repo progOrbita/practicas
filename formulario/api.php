@@ -71,10 +71,8 @@ if(!defined('_PS_VERSION_')){
         //to validate the formulary
         case "verify":
             //temp, until table turned into inputs
-            //$array_datos = ["formText" => Tools::getValue('formText',""),"formNumber" => Tools::getValue('formNumber',0),"formDate" => Tools::getValue('formDate',0)];             
-            //$result = $api_functions->validate($array_datos);
-            $id = Tools::getValue('id');
-            $result = $api_functions->validate($id);
+            $array_verify = ["name" => Tools::getValue('name',""),"age" => Tools::getValue('age',0),"date" => Tools::getValue('date',0)];
+            $result = $api_functions->validate($array_verify);
             break;
         //store the formulary data sent in the table. Checking before that the data obtained is fine
         //Same as above, until table turn into inputs does nothing currently.

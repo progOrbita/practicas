@@ -162,6 +162,7 @@
                         }
                         //if there's an error somewhere in the delete query
                         else{
+                            $(this).closest('tr').addClass('bg-danger');
                             $('#messages').append('<p>Error somewhere in the query</p>');
                             $('#messages').addClass('text-danger');
                         }
@@ -179,12 +180,14 @@
          */
         function verifyUser(){
             $('#messages').empty();
-            let selfID = $(this).attr('value');
-            //Only id is needed
+            let name = $(this).closest("tr").find('.name').val();
+            let age = $(this).closest("tr").find('.age').val();
+            let date = $(this).closest("tr").find('.date').val();
+            //Only name/age/date is needed for verification
             let ajaxRequest = $.ajax({
                 url: "api.php?action=verify",
                 context: this,
-                data: {id:selfID},
+                data: {name:name, age:age, date:date},
                 type: "POST"
             });
             ajaxRequest.done(function(data){
@@ -198,6 +201,9 @@
 
                     jsonData.error.forEach(element => (rowObject.find('.'+element).removeClass('bg-success')));
                     jsonData.error.forEach(element => (rowObject.find('.'+element).addClass('bg-danger')));
+                }
+                if(jsonData.error.length !== 0){
+                    $('#messages').append("<p>Wrong data, please check it again</p>");
                 }
             });
         }

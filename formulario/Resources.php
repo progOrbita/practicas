@@ -7,13 +7,11 @@ class Resources{
  * @param array $array_data array to be checked. Insert in error if values are wrong otherwise in good if values are fine
  * @return array $arr array with the verified elements divided in error and good
  */
-    function validate (int $id){
+    //Doesn't work properly because inputs aren't sent right now. (Just checks from databse if fields aren't empty which is always true)
+    function validate (array $array_verify){
         $arr = ['error' => [], 'good' => []];
-        $result = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'formulary WHERE ID = '.$id);
-        foreach ($result as $key => $eachArr) {
-            //Each result (only once here), key and string
-            foreach ($eachArr as $keyVal => $string) {
-                $cadenaVacia = trim($string);
+            foreach ($array_verify as $keyVal => $value) {
+                $cadenaVacia = trim($value);
                 if(empty($cadenaVacia)){
                     array_push($arr['error'], $keyVal);
                 }
