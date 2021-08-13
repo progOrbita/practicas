@@ -30,7 +30,8 @@ if(!defined('_PS_VERSION_')){
         */
     function createTable(array $tableData){
             $mainData = "";
-            $beggining = '<table class="table table-dark table-striped table-hover">
+            $beggining = '
+                <table class="table table-dark table-striped table-hover table-bordered">
             <caption id="tableCaption"></caption>            
             <thead>
                 <tr class="bg-info">
@@ -50,15 +51,26 @@ if(!defined('_PS_VERSION_')){
                 $mainData .= '<tr>';
                 //array have keyVal (ID, name...) and the string which is keyVal value (12,user).
                 foreach ($value as $keyVal => $string) {
-                    if($keyVal=="removed" && $string==0){
-                        $mainData .='<td><i class="bi bi-x-octagon-fill" type="button" name="delete" id="delete" value="'.$value["ID"].'"></i>
-                        <i class="bi bi-check-square" type="button" name="verify" id="verify" value="'.$value["ID"].'"></i>
-                        <i class="bi bi-key-fill type="button" name="save" id="save" value="'.$value["ID"].'"></i></td>'; 
+                    switch($keyVal){
+                        case "name":
+                        case "age":
+                        case "date":
+                            $mainData .= '<td><input class="form-control '.$keyVal.'" value="'.$string.'"></input></td>'; 
+                        break;
+                        case "ID":
+                        case "creation_date":
+                        case "mod_date":
+                        case "del_date":
+                            $mainData .= '<td class="'.$keyVal.'" ><input class="form-control text-info" value="'.$string.'" disabled></input></td>';  
+                        break;
+                        case "removed":
+                            if($string==0){
+                                $mainData .='<td><i class="bi bi-x-octagon-fill" type="button" name="delete" id="delete" value="'.$value["ID"].'"></i>
+                                <i class="bi bi-check-square text-success" type="button" name="verify" id="verify" value="'.$value["ID"].'"></i>
+                                <i class="bi bi-key-fill type="button" name="save" id="save" value="'.$value["ID"].'"></i></td>';
+                            }
+                        break;
                     }
-                    if($keyVal=="removed"){
-                        continue;
-                    }
-                    $mainData .= '<td class="'.$keyVal.'" >'.$string.'</td>';
                 }
                 $mainData .= '</tr>';
             }
