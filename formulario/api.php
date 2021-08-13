@@ -61,7 +61,7 @@ if(!defined('_PS_VERSION_')){
                         case "creation_date":
                         case "mod_date":
                         case "del_date":
-                            $mainData .= '<td class="'.$keyVal.'" ><input class="form-control text-info" value="'.$string.'" disabled></input></td>';  
+                            $mainData .= '<td><input class="form-control text-info '.$keyVal.'" value="'.$string.'" disabled></input></td>';  
                         break;
                         case "removed":
                             if($string==0){
@@ -89,8 +89,8 @@ if(!defined('_PS_VERSION_')){
         //store the formulary data sent in the table. Checking before that the data obtained is fine
         //Same as above, until table turn into inputs does nothing currently.
         case "save":	
-		    $id = Tools::getValue('id');
-		    $result =  $api_functions->save($id);
+		    $array_save = ["id"=> Tools::getValue('id'), "name" => Tools::getValue('name',""),"age" => Tools::getValue('age',0),"date" => Tools::getValue('date',0)];
+		    $result =  $api_functions->save($array_save);
             break;
         //remove the row given a name.
         case "delete":	
