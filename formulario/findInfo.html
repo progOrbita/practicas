@@ -113,25 +113,25 @@
                 $('#tableCaption').empty();
                 //Insert the table data
                 let jsonData = JSON.parse(data);
-                $('#tableContent').append(jsonData);
-                //If query have an error
-                if(typeof(jsonData)=="boolean"){
-                    $('#errors').append('Unexpected error retrieving the data');
-                    return;
-                }
-                if(jsonData.length !== 0){
-                    //if checked return 1
-                    if($('#sliderForm:checked').length == 1){
-                       $('#tableCaption').append('Users registered');
+                    $('#tableContent').append(jsonData);
+                    //If query have an error
+                    if(typeof(jsonData)=="boolean"){
+                        $('#errors').append('Unexpected error retrieving the data');
+                        return;
                     }
+                    if(jsonData.length !== 0){
+                        //if checked return 1
+                        if($('#sliderForm:checked').length == 1){
+                        $('#tableCaption').append('Users registered');
+                        }
+                        else{
+                            $('#tableCaption').append('Users removed');
+                        }
+                    }
+                    //if the query is empty
                     else{
-                        $('#tableCaption').append('Users removed');
+                        $('#tableCaption').append('No users found');
                     }
-                }
-                //if the query is empty
-                else{
-                    $('#tableCaption').append('No users found');
-                }
             });
         }
         function removeUser(){
@@ -174,6 +174,28 @@
             $(document).on('click','#searchButton',function(){
                 findInfo();
 			});
+            $(document).on('click','#verify',function(){
+                let selfID = $(this).attr('value');
+                //send the data as a JSON string
+                let ajaxRequest = $.ajax({
+                    url: "api.php?action=verify",
+                    context: this,
+                    data: {id:selfID},
+                    type: "POST"
+                });
+                ajaxRequest.done(function(data){
+                    console.log(data);
+                    let jsonData = JSON.parse(data);
+                    if(comprobarApi(jsonData)){
+                        //teoric foreach element of tr/td to be turned green and red.
+                        //An idea is obtain closest tr and then do a foreach.
+                        // Right now only turn line to green
+                          let rowObject = $(this).closest("tr");
+                          console.log(rowObject);
+                           jsonData.good.forEach(element => ($(this).closest("tr").addClass('bg-success')));
+                    }
+                });
+            });
 		});
     </script>
 </html>
