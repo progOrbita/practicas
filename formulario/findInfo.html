@@ -94,6 +94,30 @@
 			}
 			return true;			
 		}
+        function nullSave(arrayJson){
+            if(arrayJson.error.length > 0){
+                $('#save').removeClass('text-success');
+                $('#save').addClass('text-danger');
+                $('#save').prop('disabled',true);
+            }
+            else{
+                $('#save').removeClass('text-danger');
+                $('#save').addClass('text-success'); 
+                $('#save').prop('disabled',false);
+            }
+        }
+        /**
+		 * Change the text of any input or text from green to red or vice-versa
+		 * @param value input or element to change the background color
+		 */
+        function changeBgToSuccess(value){
+			$(value).removeClass("bg-danger");
+			$(value).addClass("bg-success");
+		}
+		function changeBgToError(value){
+			$(value).removeClass("bg-success");
+			$(value).addClass("bg-danger");
+		}
         /**
          * Given the inputs shows the information required 
          */
@@ -196,21 +220,9 @@
                     //Finds the tr and then apply success/danger if the fields are right or wrong.
                     let rowObject = $(this).closest("tr");
                     //Nullify save button if there's an error
-                    if(jsonData.error.length > 0){
-                        $('#save').removeClass('text-success');
-                        $('#save').addClass('text-danger');
-                        $('#save').prop('disabled',true);
-                    }
-                    else{
-                        $('#save').removeClass('text-danger');
-                        $('#save').addClass('text-success'); 
-                        $('#save').prop('disabled',false);
-                    }
-                    jsonData.good.forEach(element => (rowObject.find('.'+element).removeClass('bg-danger'))); 
-                    jsonData.good.forEach(element => (rowObject.find('.'+element).addClass('bg-success')));
-
-                    jsonData.error.forEach(element => (rowObject.find('.'+element).removeClass('bg-success')));
-                    jsonData.error.forEach(element => (rowObject.find('.'+element).addClass('bg-danger')));  
+                    nullSave(jsonData);
+                    jsonData.good.forEach(element => changeBgToSuccess(rowObject.find('.'+element)));
+                    jsonData.error.forEach(element => changeBgToError(rowObject.find('.'+element)));
                 }
                 if(jsonData.error.length !== 0){
                     $('#messages').append("<p>Wrong data, please check it again</p>");
@@ -239,21 +251,9 @@
 					//if there's errors in the formulary
                     let rowObject = $(this).closest('tr');
 					if(typeof(jsonData) === "object"){
-                        if(jsonData.error.length > 0){
-                        $('#save').removeClass('text-success');
-                        $('#save').addClass('text-danger');
-                        $('#save').prop('disabled',true);
-                        }
-                        else{
-                            $('#save').removeClass('text-danger');
-                            $('#save').addClass('text-success'); 
-                            $('#save').prop('disabled',false);
-                        }
-						jsonData.good.forEach(element => (rowObject.find('.'+element).removeClass('bg-danger'))); 
-                        jsonData.good.forEach(element => (rowObject.find('.'+element).addClass('bg-success')));
-
-                        jsonData.error.forEach(element => (rowObject.find('.'+element).removeClass('bg-success')));
-                        jsonData.error.forEach(element => (rowObject.find('.'+element).addClass('bg-danger')));
+                        nullSave(jsonData);
+                        jsonData.good.forEach(element => changeBgToSuccess(rowObject.find('.'+element)));
+                        jsonData.error.forEach(element => changeBgToError(rowObject.find('.'+element)));
 						$('#messages').append("<p>Wrong data, please check it again</p>");
 					}					
 					//if the query is right
