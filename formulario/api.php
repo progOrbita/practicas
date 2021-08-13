@@ -50,12 +50,13 @@ if(!defined('_PS_VERSION_')){
                 foreach ($value as $keyVal => $string) {
                     if($keyVal=="removed" && $string==0){
                         $mainData .='<td><i class="bi bi-x-octagon-fill" type="button" name="delete" id="delete" value="'.$value["ID"].'"></i>
-                        <i class="bi bi-check-square" type="button" name="verify" id="verify" value="'.$value["ID"].'"></i></td>'; 
+                        <i class="bi bi-check-square" type="button" name="verify" id="verify" value="'.$value["ID"].'"></i>
+                        <i class="bi bi-key-fill type="button" name="save" id="save" value="'.$value["ID"].'"></i></td>'; 
                     }
                     if($keyVal=="removed"){
                         continue;
                     }
-                    $mainData .= '<td>'.$string.'</td>';
+                    $mainData .= '<td class="'.$keyVal.'" >'.$string.'</td>';
                 }
                 $mainData .= '</tr>';
             }
