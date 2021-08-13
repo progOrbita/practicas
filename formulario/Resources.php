@@ -32,7 +32,7 @@ class Resources{
             return $query;
         }
         else{
-            return $array_save;
+            return $array_error;
         }
     }
     /**
