@@ -195,12 +195,22 @@
                 if(comprobarApi(jsonData)){
                     //Finds the tr and then apply success/danger if the fields are right or wrong.
                     let rowObject = $(this).closest("tr");
-                          
+                    //Nullify save button if there's an error
+                    if(jsonData.error.length > 0){
+                        $('#save').removeClass('text-success');
+                        $('#save').addClass('text-danger');
+                        $('#save').prop('disabled',true);
+                    }
+                    else{
+                        $('#save').removeClass('text-danger');
+                        $('#save').addClass('text-success'); 
+                        $('#save').prop('disabled',false);
+                    }
                     jsonData.good.forEach(element => (rowObject.find('.'+element).removeClass('bg-danger'))); 
                     jsonData.good.forEach(element => (rowObject.find('.'+element).addClass('bg-success')));
 
                     jsonData.error.forEach(element => (rowObject.find('.'+element).removeClass('bg-success')));
-                    jsonData.error.forEach(element => (rowObject.find('.'+element).addClass('bg-danger')));
+                    jsonData.error.forEach(element => (rowObject.find('.'+element).addClass('bg-danger')));  
                 }
                 if(jsonData.error.length !== 0){
                     $('#messages').append("<p>Wrong data, please check it again</p>");
@@ -229,6 +239,16 @@
 					//if there's errors in the formulary
                     let rowObject = $(this).closest('tr');
 					if(typeof(jsonData) === "object"){
+                        if(jsonData.error.length > 0){
+                        $('#save').removeClass('text-success');
+                        $('#save').addClass('text-danger');
+                        $('#save').prop('disabled',true);
+                        }
+                        else{
+                            $('#save').removeClass('text-danger');
+                            $('#save').addClass('text-success'); 
+                            $('#save').prop('disabled',false);
+                        }
 						jsonData.good.forEach(element => (rowObject.find('.'+element).removeClass('bg-danger'))); 
                         jsonData.good.forEach(element => (rowObject.find('.'+element).addClass('bg-success')));
 
