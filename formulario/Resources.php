@@ -7,7 +7,6 @@ class Resources{
  * @param array $array_data array to be checked. Insert in error if values are wrong otherwise in good if values are fine
  * @return array $arr array with the verified elements divided in error and good
  */
-    //Doesn't work properly because inputs aren't sent right now. (Just checks from databse if fields aren't empty which is always true)
     function validate (array $array_verify){
         $arr = ['error' => [], 'good' => []];
             foreach ($array_verify as $keyVal => $value) {
@@ -38,12 +37,12 @@ class Resources{
     }
     /**
      * Check and remove a name from the table 
-     * @param string $name name to be deleted from the table
+     * @param int $id name to be deleted from the table
      * @return $query result of the query, or the array with the query if doesn't exist
      */
     function delete(int $id){
         //First check if name it's on the table, if isn't found doesn't try to execute the delete query.
-            $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
+            $query = Db::getInstance()->execute('UPDATE'.$this->table.' SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
             return $query;
     } 
     /**
