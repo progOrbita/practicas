@@ -50,6 +50,11 @@ class Resources{
             $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
             return $query;
     } 
+    /**
+     * Find users either registered or removed from the database
+     * @param $array_data the inputs to filter the query if any
+     * Return $query which either shows results or return false if there's no data for the filters selected
+     */
     function find(array $array_data){
         $queryString = 'SELECT * FROM '.$this->table.' WHERE ';
         $whereArr = [];

@@ -84,8 +84,7 @@
 			});	
         }
         /**
-         * Given an element from the query append the data onto the table
-         * @param element element from the table to be added in the table 
+         * Check in the action it's in the api. If not return an error message.
          */
         function comprobarApi(value){
 			if(typeof(value)=="string"){
@@ -95,6 +94,9 @@
 			}
 			return true;			
 		}
+        /**
+         * Given the inputs shows the information required 
+         */
         function findInfo(){
             $('#messages').empty();
 			let getData = $('#formularyContent').find("input,select");
@@ -120,7 +122,7 @@
                         return;
                     }
                     if(jsonData.length !== 0){
-                        //if checked return 1
+                        //if checked have length the button is on
                         if($('#sliderForm:checked').length == 1){
                         $('#tableCaption').append('Users registered');
                         }
@@ -139,8 +141,10 @@
          */
         function removeUser(){
             $('#messages').empty();
+            //Obtain the id from the row where the button was selected
             let selfID = $(this).attr('value');
             let confirmation = confirm("¿Are you sure you want to delete the user with ID "+selfID);
+            //If accept the alert
             if(confirmation === true){
                 let ajaxRequest = $.ajax({
                     url: "api.php?action=delete",
@@ -164,17 +168,18 @@
                     }
                 });
             }
+            //When the alert is canceled
             else{
                 $('#messages').append('<p>Nothing have been removed</p>');
                 return;
             }    
         }
         /**
-         * Verify the user data
+         * Verify the user data given an id
          */
         function verifyUser(){
             let selfID = $(this).attr('value');
-            //send the data as a JSON string
+            //Only id is needed
             let ajaxRequest = $.ajax({
                 url: "api.php?action=verify",
                 context: this,
@@ -197,10 +202,10 @@
         }
         $(document).ready(function(){	
             checkDate();
-                $(document).on('click',"#delete",function(){
-                    //Call is to call an function using this as a value
-                   removeUser.call(this);      
-                });
+            $(document).on('click',"#delete",function(){
+                //Call is to call an function using this as a value that can be used in the function
+                removeUser.call(this);      
+            });
             $(document).on('click','#searchButton',function(){
                 findInfo();
 			});

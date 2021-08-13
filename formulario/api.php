@@ -76,8 +76,8 @@ if(!defined('_PS_VERSION_')){
             break;
         //store the formulary data sent in the table. Checking before that the data obtained is fine
         case "save":	
-		    $array_datos = ["formText" => Tools::getValue('formText',""),"formNumber" => Tools::getValue('formNumber',0),"formDate" => Tools::getValue('formDate',0)];
-		    $result =  $api_functions->save($array_datos);
+		    $id = Tools::getValue('id');
+		    $result =  $api_functions->save($id);
             break;
         //remove the row given a name.
         case "delete":	
