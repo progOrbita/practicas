@@ -77,6 +77,7 @@ if(!defined('_PS_VERSION_')){
             $result = $api_functions->validate($id);
             break;
         //store the formulary data sent in the table. Checking before that the data obtained is fine
+        //Same as above, until table turn into inputs does nothing currently.
         case "save":	
 		    $id = Tools::getValue('id');
 		    $result =  $api_functions->save($id);

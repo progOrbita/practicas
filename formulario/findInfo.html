@@ -178,6 +178,7 @@
          * Verify the user data given an id
          */
         function verifyUser(){
+            $('#messages').empty();
             let selfID = $(this).attr('value');
             //Only id is needed
             let ajaxRequest = $.ajax({
@@ -200,6 +201,43 @@
                 }
             });
         }
+        /**
+         * Save an user in the table, checks before if data is incorrect
+         */
+        function saveUser(){
+            $('#messages').empty();
+                let selfID = $(this).attr('value');
+            //send the data as a JSON string
+            let ajaxRequest = $.ajax({
+                url: "api.php?action=save",
+                context: this,
+                data: {id:selfID},
+                type: "POST"
+            });
+            ajaxRequest.done(function(data){
+                let jsonData = JSON.parse(data);
+                if(comprobarApi(jsonData)){	
+					//if there's errors in the formulary		
+					if(typeof(jsonData) === "object"){
+						jsonData.good.forEach(element => (rowObject.find('.'+element).removeClass('bg-danger'))); 
+                        jsonData.good.forEach(element => (rowObject.find('.'+element).addClass('bg-success')));
+
+                        jsonData.error.forEach(element => (rowObject.find('.'+element).removeClass('bg-success')));
+                        jsonData.error.forEach(element => (rowObject.find('.'+element).addClass('bg-danger')));
+						$('#messages').append("<p>Wrong data, please check it again");
+					}					
+					//if the query is right
+					else if(jsonData === true){
+						$('#messages').append("<p>Data is correct, inserted succesfully");
+					}
+					//if there's an error in the query
+					else{
+						$('#messages').append("<p>Error trying to insert the data</p>");
+						$("#messages").addClass('text-danger');
+					}
+				}
+            });
+        }
         $(document).ready(function(){	
             checkDate();
             $(document).on('click',"#delete",function(){
@@ -211,6 +249,9 @@
 			});
             $(document).on('click','#verify',function(){
                 verifyUser.call(this);
+            });
+            $(document).on('click','#save',function(){
+                saveUser.call(this);
             });
 		});
     </script>
