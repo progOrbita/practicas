@@ -115,7 +115,10 @@
 			}
 			return true;			
 		}
-
+        /**
+         * Add page numbers under the table in a div
+         * @param number total of registers. 
+         */
         function addPagination(number){
             $('#pages').empty();
             let pages = Math.ceil(number/5);
@@ -167,7 +170,7 @@
 			$(value).addClass("bg-danger");
 		}
         /**
-         * Given the inputs shows the information required 
+         * Given the inputs shows the information required within a page
          */
         function findInfo(page){
 			let getData = $('#formularyContent').find("input,select");
@@ -265,7 +268,7 @@
             }
         }
         /**
-         * Verify the user data given an id
+         * Verify the user data given the name, age and date of the row.
          */
         function verifyUser(){
             let name = $(this).closest("tr").find('.name').val();
