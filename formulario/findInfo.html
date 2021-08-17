@@ -94,18 +94,6 @@
 			}
 			return true;			
 		}
-        function nullSave(arrayJson){
-            if(arrayJson.error.length > 0){
-                $('#save').removeClass('text-success');
-                $('#save').addClass('text-danger');
-                $('#save').prop('disabled',true);
-            }
-            else{
-                $('#save').removeClass('text-danger');
-                $('#save').addClass('text-success'); 
-                $('#save').prop('disabled',false);
-            }
-        }
         /**
 		 * Change the text of any input or text from green to red or vice-versa
 		 * @param value input or element to change the background color
@@ -219,8 +207,20 @@
                 if(comprobarApi(jsonData)){
                     //Finds the tr and then apply success/danger if the fields are right or wrong.
                     let rowObject = $(this).closest("tr");
+
+                    let colSave = $(this).closest('td').find('#save'); //Nearest td and then, save button in that td/row
                     //Nullify save button if there's an error
-                    nullSave(jsonData);
+                    if(jsonData.error.length > 0){
+                        $(colSave).removeClass('text-success');
+                        $(colSave).addClass('text-danger');
+                        $(colSave).prop('disabled',true);
+                    }
+                    else{
+                        $(colSave).removeClass('text-danger');
+                        $(colSave).addClass('text-success'); 
+                        $(colSave).prop('disabled',false);
+                    }
+
                     jsonData.good.forEach(element => changeBgToSuccess(rowObject.find('.'+element)));
                     jsonData.error.forEach(element => changeBgToError(rowObject.find('.'+element)));
                 }
@@ -251,7 +251,20 @@
 					//if there's errors in the formulary
                     let rowObject = $(this).closest('tr');
 					if(typeof(jsonData) === "object"){
-                        nullSave(jsonData);
+                        
+                        let colSave = $(this).closest('td').find('#save'); //Nearest td and then, save button in that td/row
+                        //Nullify save button if there's an error
+                        if(jsonData.error.length > 0){
+                            $(colSave).removeClass('text-success');
+                            $(colSave).addClass('text-danger');
+                            $(colSave).prop('disabled',true);
+                        }
+                        else{
+                            $(colSave).removeClass('text-danger');
+                            $(colSave).addClass('text-success'); 
+                            $(colSave).prop('disabled',false);
+                        }
+                        
                         jsonData.good.forEach(element => changeBgToSuccess(rowObject.find('.'+element)));
                         jsonData.error.forEach(element => changeBgToError(rowObject.find('.'+element)));
 						$('#messages').append("<p>Wrong data, please check it again</p>");

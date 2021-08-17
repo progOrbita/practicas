@@ -42,7 +42,7 @@ class Resources{
      */
     function delete(int $id){
         //First check if name it's on the table, if isn't found doesn't try to execute the delete query.
-            $query = Db::getInstance()->execute('UPDATE'.$this->table.' SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
+            $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
             return $query;
     } 
     /**
