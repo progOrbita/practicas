@@ -285,11 +285,11 @@
                         nullSave(jsonData, colSave);
                         jsonData.good.forEach(element => changeBgToSuccess(rowObject.find('.'+element)));
                         jsonData.error.forEach(element => changeBgToError(rowObject.find('.'+element)));
-						$('#messages').append("<p>Wrong data, please check it again</p>");
+						$('#messages').append("<p>There's an error, please check it again</p>");
 					}					
 					//if the query is right
 					else if(jsonData === true){
-						$('#messages').append("<p>Data is correct, inserted succesfully</p>");
+						$('#messages').append("<p>Data inserted succesfully</p>");
 					}
 					//if there's an error in the query
 					else{
