@@ -40,10 +40,21 @@ if(!defined('_PS_VERSION_')){
                    <th>Age</th>
                    <th>Date</th>
                    <th>Creation date</th>
-                   <th>Modification date</th>
-                   <th>Deletion date</th> 
-                   <th>Actions</th>
-                </tr>
+                   <th>Modification date</th>';
+                   //For removed users, key is to insert th only once
+                   foreach ($tableData as $key => $value) {
+                        foreach ($value as $keyVal => $string) {
+                            if($key == 0 && $keyVal=="removed" && $string==1){
+                                $beggining .= '<th>Deletion date</th>
+                                                <th>Actions</th>';
+                            }
+                            //for non-removed users
+                            if($key == 0 && $keyVal=="removed" && $string==0){
+                                $beggining .= '<th class="col-2">Actions</th>';
+                            }
+                        }
+                    } 
+    $beggining .=  '</tr>
                 </thead>
             <tbody>';
         //Key is the result number. Value is array containing the data
@@ -64,8 +75,12 @@ if(!defined('_PS_VERSION_')){
                         case "ID":
                         case "creation_date":
                         case "mod_date":
+                            $mainData .= '<td><input class="form-control text-info '.$keyVal.'" value="'.$string.'" disabled></input></td>'; 
+                            break;
                         case "del_date":
-                            $mainData .= '<td><input class="form-control text-info '.$keyVal.'" value="'.$string.'" disabled></input></td>';  
+                                if($string != ""){
+                                $mainData .= '<td><input class="form-control text-info '.$keyVal.'" value="'.$string.'" disabled></input></td>'; 
+                            }
                         break;
                         case "removed":
                             if($string==0){
