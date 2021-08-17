@@ -11,9 +11,16 @@
                 margin-top: 25px;
             }
             #tableContent{
-                margin-top: 25px;
-                overflow: auto;
+                margin-top: 25px;                
                 max-height: 800px;
+                overflow-y: auto;
+            }
+            #tableContent thead tr{
+                position: sticky;
+                top: 0;
+            }
+            table{
+                border-collapse: collapse;
             }
             #messages, #warning{
                 margin-left: 20px;

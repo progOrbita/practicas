@@ -31,7 +31,7 @@ if(!defined('_PS_VERSION_')){
     function createTable(array $tableData){
             $mainData = "";
             $beggining = '
-                <table class="table table-dark table-striped table-hover table-bordered">
+                <table class="table table-dark table-striped table-hover table-bordered table-fixed">
             <caption id="tableCaption"></caption>            
             <thead>
                 <tr class="bg-info">
