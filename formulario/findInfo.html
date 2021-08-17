@@ -78,6 +78,9 @@
         <div class="container table-responsive" id="tableContent">
            
         </div>
+        <div id="pages">
+
+        </div>
         <!-- Show messages-->
         <div id="messages">
            
@@ -90,6 +93,8 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>       
     <script type="text/javascript">
+    let usersRegistered = 0;
+    let usersRemoved = 0;
         /**
          * Function that checks and update the date limits whenever it changes from the search
          */
@@ -114,6 +119,24 @@
 			}
 			return true;			
 		}
+
+        function addPagination(number){
+            $('#pages').empty();
+            $('#pages').append(
+                `
+                <ul>
+                    <li><input type="button" id="pagination" value="1"></input></li>
+                    <li><input type="button" id="pagination" value="2"></input></li>
+                    <li><input type="button" id="pagination" value="3"></input></li>
+                    <li><input type="button" id="pagination" value="4"></input></li>
+                    <li><input type="button" id="pagination" value="5"></input></li>
+                    <li><input type="button" id="pagination" value="6"></input></li>
+                    <li><input type="button" id="pagination" value="7"></input></li>
+                    <li><input type="button" id="pagination" value="8"></input></li>
+                </ul>
+                `
+            )
+        }
         /**
          * Null the save button if there's an error in the data sent.
          * @param arrayData array containing the data
