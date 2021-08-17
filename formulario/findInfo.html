@@ -127,7 +127,14 @@
                 $(column).prop('disabled',false);
             }
         }
+        /**
+         * Refresh messages and backgrounds
+         */
+        function refresh(){
             $('#messages').empty();
+            $('input').removeClass('bg-success');
+            $('input').removeClass('bg-danger');
+        }
         /**
 		 * Change the text of any input or text from green to red or vice-versa
 		 * @param value input or element to change the background color
@@ -144,7 +151,6 @@
          * Given the inputs shows the information required 
          */
         function findInfo(){
-            $('#messages').empty();
 			let getData = $('#formularyContent').find("input,select");
             //send the data as a JSON string
 			let dataSerial = getData.serializeArray();
@@ -157,14 +163,14 @@
 			});
             ajaxRequest.done(function(data){
                 $('#tableContent').empty();
-                $('#errors').empty();
+                $('#messages').empty();
                 $('#tableCaption').empty();
                 //Insert the table data
                 let jsonData = JSON.parse(data);
                     $('#tableContent').append(jsonData);
                     //If query have an error
                     if(typeof(jsonData)=="boolean"){
-                        $('#errors').append('Unexpected error retrieving the data');
+                        $('#messages').append('Unexpected error retrieving the data');
                         return;
                     }
                     if(jsonData.length !== 0){
@@ -186,7 +192,6 @@
          *  Remove an user from the table and update it given an id.
          */
         function removeUser(){
-            $('#messages').empty();
             //Obtain the id from the row where the button was selected
             let selfID = $(this).attr('value');
             let confirmation = confirm("¿Are you sure you want to delete the user with ID "+selfID);
@@ -225,7 +230,6 @@
          * Verify the user data given an id
          */
         function verifyUser(){
-            $('#messages').empty();
             let name = $(this).closest("tr").find('.name').val();
             let age = $(this).closest("tr").find('.age').val();
             let date = $(this).closest("tr").find('.date').val();
@@ -250,13 +254,15 @@
                 if(jsonData.error.length !== 0){
                     $('#messages').append("<p>Wrong data, please check it again</p>");
                 }
+                else{
+                    $('#messages').append("<p>Data is fine, you can save it");
+                }
             });
         }
         /**
          * Save an user in the table, checks before if data is incorrect
          */
         function saveUser(){
-            $('#messages').empty();
             let id = $(this).closest("tr").find('.ID').val();
             let name = $(this).closest("tr").find('.name').val();
             let age = $(this).closest("tr").find('.age').val();
@@ -297,15 +303,19 @@
             checkDate();
             $(document).on('click',"#delete",function(){
                 //Call is to call an function using this as a value that can be used in the function
+                refresh();
                 removeUser.call(this);      
             });
             $(document).on('click','#searchButton',function(){
+                refresh();
                 findInfo();
 			});
             $(document).on('click','#verify',function(){
+                refresh();
                 verifyUser.call(this);
             });
             $(document).on('click','#save',function(){
+                refresh();
                 saveUser.call(this);
             });
 		});
