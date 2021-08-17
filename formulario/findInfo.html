@@ -442,6 +442,59 @@
             $(document).on('click','#addNew',function(){
                 addUser.call(this);
             });
+            $(document).on('click','#pagination',function(){   
+                //Obtain the number of the input/number            
+                let number = $(this).val();
+                let getData = $('#formularyContent').find("input,select");
+                //send the data as a JSON string
+                let dataSerial = getData.serializeArray();
+                let jsonString = JSON.stringify(dataSerial);
+                let ajaxRequest = $.ajax({
+                url: "api.php?action=find&pageNumber="+number,
+                context: document.body,
+                data: jsonString,
+                type: "POST"
+			});
+                ajaxRequest.done(function(data){
+                $('#tableContent').empty();
+                $('#messages').empty();
+                $('#tableCaption').empty();
+                //Insert the table data
+                let jsonData = JSON.parse(data);
+                    $('#tableContent').append(jsonData);
+                    //If query have an error
+                    if(typeof(jsonData)=="boolean"){
+                        $('#messages').append('Unexpected error retrieving the data');
+                        return;
+                    }
+                    if(jsonData.length !== 0){
+                        //if checked have length the button is on
+                        if($('#sliderForm:checked').length == 1){
+                        $('#tableCaption').append('Users registered');
+                        }
+                        else{
+                            $('#tableCaption').append('Users removed');
+                        }
+                        //To include an pagination, obtain numbers of users.
+                        let paginationRequest = $.ajax({
+                            url: "api.php?action=countUsers",
+                            context: document.body,
+                            type: "POST"
+			            });
+                        paginationRequest.done(function(data){
+                            let jsonPagination = JSON.parse(data);
+                            // 0 -> registered count
+                            // 1 -> removed count
+                            usersRegistered = jsonPagination[0];
+                            usersRemoved = jsonPagination[1];
+                            addPagination();
+                        });
+                    }
+                    //if the query is empty
+                    else{
+                        $('#tableCaption').append('No users found');
+                    }
+            });
             });
 		});
     </script>
