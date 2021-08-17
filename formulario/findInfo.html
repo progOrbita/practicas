@@ -15,6 +15,9 @@
                 overflow: auto;
                 max-height: 800px;
             }
+            #messages, #warning{
+                margin-left: 20px;
+            }
         </style>
     </head>
     <body>
@@ -65,6 +68,10 @@
         <!-- Show messages-->
         <div id="messages">
            
+        </div>
+        <!-- Advice about saving not going to work-->
+        <div class="text-danger" id="warning">
+
         </div>
     </body>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -214,11 +221,13 @@
                         $(colSave).removeClass('text-success');
                         $(colSave).addClass('text-danger');
                         $(colSave).prop('disabled',true);
+                        $('#warning').append('<p>Save button deactivated</p>');
                     }
                     else{
                         $(colSave).removeClass('text-danger');
                         $(colSave).addClass('text-success'); 
                         $(colSave).prop('disabled',false);
+                        $('#warning').empty();
                     }
 
                     jsonData.good.forEach(element => changeBgToSuccess(rowObject.find('.'+element)));
@@ -258,13 +267,15 @@
                             $(colSave).removeClass('text-success');
                             $(colSave).addClass('text-danger');
                             $(colSave).prop('disabled',true);
+                            $('#warning').append('<p>Save button deactivated</p>');
                         }
                         else{
                             $(colSave).removeClass('text-danger');
                             $(colSave).addClass('text-success'); 
                             $(colSave).prop('disabled',false);
+                            $('#warning').empty();
                         }
-                        
+
                         jsonData.good.forEach(element => changeBgToSuccess(rowObject.find('.'+element)));
                         jsonData.error.forEach(element => changeBgToError(rowObject.find('.'+element)));
 						$('#messages').append("<p>Wrong data, please check it again</p>");
