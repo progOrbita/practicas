@@ -60,11 +60,20 @@ class Resources{
             return $query;
     } 
     /**
-     * Find users either registered or removed from the database
-     * @param $array_data the inputs to filter the query if any
+     * Find users either registered or removed from the database within a limit
+     * @param array $array_data the inputs to filter the query if any
+     * @param int $pagination number of page to show
      * Return $query which either shows results or return false if there's no data for the filters selected
      */
-    function find(array $array_data){
+    function find(array $array_data, int $pagination){
+        //number of result per page
+        $num_results = 5;
+        /**
+         * What results are returned 
+         * page 1 = 0, page 2 (2-1*5) = 5 (3-1*5) = 10. 
+         * Limit first number is start, second how many of them are returned
+         */
+        $calc_page = ($pagination-1) * $num_results;
         $queryString = 'SELECT * FROM '.$this->table.' WHERE ';
         $whereArr = [];
         $dateQuery = $array_data['dateType'];
@@ -87,7 +96,9 @@ class Resources{
             }
             $whereStr = implode(' AND ',$whereArr);
         }
-        $queryRequest = $queryString.$whereStr;        
+        //For pagination
+        $limit = ' LIMIT '.$calc_page.','.$num_results;
+        $queryRequest = $queryString.$whereStr.$limit;        
         $query = Db::getInstance()->executeS($queryRequest);
         return $query;
     }
