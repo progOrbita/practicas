@@ -89,8 +89,6 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>       
     <script type="text/javascript">
-    let usersRegistered = 0;
-    let usersRemoved = 0;
         /**
          * Function that checks and update the date limits whenever it changes from the search
          */
@@ -213,20 +211,12 @@
                             let jsonPagination = JSON.parse(data);
                             // 0 -> registered count
                             // 1 -> removed count
-                            usersRegistered = jsonPagination[0];
-                            usersRemoved = jsonPagination[1];
-                            if($('#sliderForm:checked').length == 1){
-                            addPagination(usersRegistered);
-                        }
-                        else{
-                            addPagination(usersRemoved);
-                        }
-                        });
+                        addPagination(jsonPagination[0]);
                     }
-                    //if the query is empty
                     else{
-                        $('#tableCaption').append('No users found');
+                        addPagination(jsonPagination[1]);
                     }
+                }
             });
         }
         /**
