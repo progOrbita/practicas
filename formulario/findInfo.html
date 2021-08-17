@@ -185,7 +185,7 @@
 			let dataSerial = getData.serializeArray();
             let jsonString = JSON.stringify(dataSerial);
 			let ajaxRequest = $.ajax({
-                url: "api.php?action=find",
+                url: "api.php?action=find&pageNumber=1",
                 context: document.body,
                 data: jsonString,
                 type: "POST"
@@ -395,7 +395,6 @@
                 ajaxRequest.done(function(data){
                     let jsonData = JSON.parse(data);
                     let rowObject = $(this).closest('tr');
-                    console.log(jsonData);
                     //if the ?action exist
                     if(comprobarApi(jsonData)){
                         //all data is fine
@@ -442,6 +441,7 @@
             });
             $(document).on('click','#addNew',function(){
                 addUser.call(this);
+            });
             });
 		});
     </script>
