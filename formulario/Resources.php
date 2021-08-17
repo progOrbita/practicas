@@ -102,10 +102,27 @@ class Resources{
         $query = Db::getInstance()->executeS($queryRequest);
         return $query;
     }
+    /**
+     * Count the registered and removed users from the table
+     * @return array $counters two ints with the register/removed 
+     */
     function countRegisters(){
-        $queryCount = "SELECT COUNT(*) FROM ".$this->table." WHERE removed=0";
-        $query = Db::getInstance()->executeS($queryCount);
-        return $query;
+        $queryRegister = "SELECT COUNT(*) FROM ".$this->table." WHERE removed=0";
+        $countReg = Db::getInstance()->executeS($queryRegister);
+        $queryRemoved = "SELECT COUNT(*) FROM ".$this->table." WHERE removed=1";
+        $countRem = Db::getInstance()->executeS($queryRemoved);
+        $counters = [];
+        foreach ($countReg as $key => $value){
+            foreach ($value as $keyVal => $string){
+                $counters[] = $string;
+            }
+        }
+        foreach ($countRem as $key => $value){
+            foreach ($value as $keyVal => $string){
+                $counters[] = $string;
+            }
+        }
+        return $counters;
     }
     /**
      * Restore an user removed
