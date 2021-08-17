@@ -35,7 +35,11 @@ class Resources{
             return $array_error;
         }
     }
-
+    /**
+     * Add a new user into the database
+     * @param array $array_data array containing the data of the user
+     * @return mixed $query (bool) if data don't contains errors. $array_error (array) with the errors and good values otherwise.
+     */
     function add(array $array_data){
         $array_error = $this->validate($array_data);
         if(count($array_error['error']) === 0){

@@ -90,6 +90,7 @@ if(!defined('_PS_VERSION_')){
                                 '<td><i class="bi bi-x-octagon-fill" type="button" data-toggle="tooltip" title="delete" name="delete" id="delete" value="'.$value["ID"].'"></i>
                                     <i class="bi bi-check-square text-success" type="button" data-toggle="tooltip" title="verify" name="verify" id="verify" value="'.$value["ID"].'"></i>
                                     <i class="bi bi-key-fill text-success" type="button" data-toggle="tooltip" title="save" name="save" id="save" value="'.$value["ID"].'"></i></td>';
+                            //Last row from registered (removed == 0) users. To include a empty row with a specific button
                             if($i == $len - 1){
                                $mainData .= '</tr>
                                   <tr>
@@ -119,7 +120,6 @@ if(!defined('_PS_VERSION_')){
     switch($accion){
         //to validate the formulary
         case "verify":
-            //temp, until table turned into inputs
             $array_verify = ["name" => Tools::getValue('name',""),"age" => Tools::getValue('age',0),"date" => Tools::getValue('date',0)];
             $result = $api_functions->validate($array_verify);
             break;
@@ -134,6 +134,7 @@ if(!defined('_PS_VERSION_')){
 		    $id = Tools::getValue('id',"");
 		    $result = $api_functions->delete($id);
             break;
+            //Find all the users from the filters given
         case "find":
             $post = file_get_contents('php://input');
             //decode jsonstring into an array of json objects
@@ -149,10 +150,12 @@ if(!defined('_PS_VERSION_')){
             $resultQuery = $api_functions->find($data_array);
             $result = createTable($resultQuery);
             break;
+        // User return to registered status
         case "undo":
             $id = Tools::getValue('id',"");
 		    $result = $api_functions->undo($id);
             break;
+        //Add a new user to the table
         case "add":
             $array_add = ["name" => Tools::getValue('name',""),"age" => Tools::getValue('age',0),"date" => Tools::getValue('date',0)];
             $result = $api_functions->add($array_add);
