@@ -15,7 +15,7 @@
             } 
             #tableContent{
                 margin-top: 25px;                
-                max-height: 800px;
+                min-height: 500px;
                 overflow-y: auto;
             }
             #tableContent thead tr{
@@ -25,12 +25,8 @@
             ul{
                 list-style-type: none;
                 display: inline-flex;
-            }
-            li>input{
-                padding: 10px;
-                border: 1px solid black;
-            }
-                      
+                margin-left: 20%;
+            }                     
         </style>
     </head>
     <body>
@@ -126,7 +122,7 @@
             let pageNumbers = "";
             pageNumbers += "<ul>";
                 for (let index = 1; index <= pages; index++) {
-                    pageNumbers += '<li><input type="button" id="pagination" value="'+index+'"></input></li>';
+                    pageNumbers += '<li><input class="btn btn-secondary" type="button" id="pagination" value="'+index+'"></input></li>';
                 }
                 pageNumbers += '</ul>';
             $('#pages').append(pageNumbers);
