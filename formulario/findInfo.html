@@ -114,6 +114,7 @@
          * @param column column to look up the save to turn red
          */
         function nullSave(arrayData, column){
+            $('#warning').empty();
             if(arrayData.error.length > 0){
                 $(column).removeClass('text-success');
                 $(column).addClass('text-danger');
@@ -124,9 +125,9 @@
                 $(column).removeClass('text-danger');
                 $(column).addClass('text-success'); 
                 $(column).prop('disabled',false);
-                $('#warning').empty();
             }
         }
+            $('#messages').empty();
         /**
 		 * Change the text of any input or text from green to red or vice-versa
 		 * @param value input or element to change the background color
