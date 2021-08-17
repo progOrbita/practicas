@@ -24,7 +24,7 @@
             }
             #messages, #warning{
                 margin-left: 20px;
-            }
+            }           
         </style>
     </head>
     <body>
@@ -319,7 +319,7 @@
                         //if query is successfull
                         if(jsonData === true){
                             $(this).closest("tr").remove();
-                            $('#messages').append('<p>Name restored</p>');
+                            $('#messages').append('<p>User restored</p>');
                         }
                         //if there's an error somewhere in the delete query
                         else{
@@ -341,7 +341,7 @@
             $(document).on('click',"#delete",function(){
                 //Call is to call an function using this as a value that can be used in the function
                 refresh();
-                removeUser.call(this);      
+                removeUser.call(this);
             });
             $(document).on('click','#searchButton',function(){
                 refresh();
@@ -357,7 +357,8 @@
             });
             $(document).on('click','#undo',function(){
                 refresh();
-                restoreUser.call(this);                           
+                restoreUser.call(this);
+            });
             });
 		});
     </script>
