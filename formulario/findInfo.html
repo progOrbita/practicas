@@ -224,7 +224,7 @@
             else{
                 $('#messages').append('<p>Nothing have been removed</p>');
                 return;
-            }    
+            }
         }
         /**
          * Verify the user data given an id
@@ -262,7 +262,7 @@
         /**
          * Save an user in the table, checks before if data is incorrect
          */
-        function saveUser(){
+        function saveUser(){          
             let id = $(this).closest("tr").find('.ID').val();
             let name = $(this).closest("tr").find('.name').val();
             let age = $(this).closest("tr").find('.age').val();
@@ -299,7 +299,6 @@
 				}
             });
         }
-        $(document).ready(function(){	
         /**
          * Function that restore an user.
          */
@@ -337,6 +336,7 @@
                 return;
             }
         }
+        $(document).ready(function(){
             checkDate();
             $(document).on('click',"#delete",function(){
                 //Call is to call an function using this as a value that can be used in the function
