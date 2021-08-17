@@ -30,6 +30,8 @@ if(!defined('_PS_VERSION_')){
         */
     function createTable(array $tableData){
             $mainData = "";
+            $i = 0;
+            $len = count($tableData);
             $beggining = '
                 <table class="table table-dark table-striped table-hover table-bordered table-fixed">
             <caption id="tableCaption"></caption>            
@@ -84,9 +86,22 @@ if(!defined('_PS_VERSION_')){
                         break;
                         case "removed":
                             if($string==0){
-                                $mainData .='<td><i class="bi bi-x-octagon-fill" type="button" data-toggle="tooltip" title="delete" name="delete" id="delete" value="'.$value["ID"].'"></i>
-                                <i class="bi bi-check-square text-success" type="button" data-toggle="tooltip" title="verify" name="verify" id="verify" value="'.$value["ID"].'"></i>
-                                <i class="bi bi-key-fill text-success" type="button" data-toggle="tooltip" title="save" name="save" id="save" value="'.$value["ID"].'"></i></td>';
+                                $mainData .=
+                                '<td><i class="bi bi-x-octagon-fill" type="button" data-toggle="tooltip" title="delete" name="delete" id="delete" value="'.$value["ID"].'"></i>
+                                    <i class="bi bi-check-square text-success" type="button" data-toggle="tooltip" title="verify" name="verify" id="verify" value="'.$value["ID"].'"></i>
+                                    <i class="bi bi-key-fill text-success" type="button" data-toggle="tooltip" title="save" name="save" id="save" value="'.$value["ID"].'"></i></td>';
+                            if($i == $len - 1){
+                               $mainData .= '</tr>
+                                  <tr>
+                                    <td><input class="form-control text-info" value="" disabled></input></td>
+                                    <td><input type="text" class="form-control .name" name="insName" id="insertName"></input></td>
+                                    <td><input type="number" class="form-control .age" name="insAge" id="insertAge"></input></td>
+                                    <td><input type="date" class="form-control .date" name="insDate" id="insertDate"></input></td>
+                                    <td><input class="form-control text-info" value="" disabled></input></td>
+                                    <td><input class="form-control text-info" value="" disabled></input></td>
+                                    <td><i class="bi bi-pencil-square" type="button" data-toggle="tooltip" title="add" name="addNew" id="addNew"></i></td>';
+                                }
+                                $i++;
                             }
                             if($string==1){
                                 $mainData .='<td><i class="bi bi-eject" type="button" data-toggle="tooltip" title="undo" name="undo" id="undo" value="'.$value["ID"].'"></i>';
