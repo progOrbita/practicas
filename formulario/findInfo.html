@@ -122,20 +122,14 @@
 
         function addPagination(number){
             $('#pages').empty();
-            $('#pages').append(
-                `
-                <ul>
-                    <li><input type="button" id="pagination" value="1"></input></li>
-                    <li><input type="button" id="pagination" value="2"></input></li>
-                    <li><input type="button" id="pagination" value="3"></input></li>
-                    <li><input type="button" id="pagination" value="4"></input></li>
-                    <li><input type="button" id="pagination" value="5"></input></li>
-                    <li><input type="button" id="pagination" value="6"></input></li>
-                    <li><input type="button" id="pagination" value="7"></input></li>
-                    <li><input type="button" id="pagination" value="8"></input></li>
-                </ul>
-                `
-            )
+            let pages = Math.ceil(number/5);
+            let pageNumbers = "";
+            pageNumbers += "<ul>";
+                for (let index = 1; index <= pages; index++) {
+                    pageNumbers += '<li><input type="button" id="pagination" value="'+index+'"></input></li>';
+                }
+                pageNumbers += '</ul>';
+            $('#pages').append(pageNumbers);
         }
         /**
          * Null the save button if there's an error in the data sent.
@@ -222,7 +216,12 @@
                             // 1 -> removed count
                             usersRegistered = jsonPagination[0];
                             usersRemoved = jsonPagination[1];
-                            addPagination();
+                            if($('#sliderForm:checked').length == 1){
+                            addPagination(usersRegistered);
+                        }
+                        else{
+                            addPagination(usersRemoved);
+                        }
                         });
                     }
                     //if the query is empty
@@ -487,7 +486,13 @@
                             // 1 -> removed count
                             usersRegistered = jsonPagination[0];
                             usersRemoved = jsonPagination[1];
-                            addPagination();
+                            //if checked have length the button is on
+                        if($('#sliderForm:checked').length == 1){
+                            addPagination(usersRegistered);
+                        }
+                        else{
+                            addPagination(usersRemoved);
+                        }
                         });
                     }
                     //if the query is empty
