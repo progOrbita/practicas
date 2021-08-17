@@ -90,7 +90,7 @@ if(!defined('_PS_VERSION_')){
                                 '<td><i class="bi bi-x-octagon-fill" type="button" data-toggle="tooltip" title="delete" name="delete" id="delete" value="'.$value["ID"].'"></i>
                                     <i class="bi bi-check-square text-success" type="button" data-toggle="tooltip" title="verify" name="verify" id="verify" value="'.$value["ID"].'"></i>
                                     <i class="bi bi-key-fill text-success" type="button" data-toggle="tooltip" title="save" name="save" id="save" value="'.$value["ID"].'"></i></td>';
-                            //Last row from registered (removed == 0) users. To include a empty row with a specific button
+                            //Last row from registered users (removed == 0). To include a empty row with a specific button
                             if($i == $len - 1){
                                $mainData .= '</tr>
                                   <tr>
@@ -125,12 +125,12 @@ if(!defined('_PS_VERSION_')){
             break;
         //store the formulary data sent in the table. Checking before that the data obtained is fine
         //Same as above, until table turn into inputs does nothing currently.
-        case "save":	
+        case "save":
 		    $array_save = ["id"=> Tools::getValue('id'), "name" => Tools::getValue('name',""),"age" => Tools::getValue('age',0),"date" => Tools::getValue('date',0)];
 		    $result =  $api_functions->save($array_save);
             break;
         //remove the row given a name.
-        case "delete":	
+        case "delete":
 		    $id = Tools::getValue('id',"");
 		    $result = $api_functions->delete($id);
             break;
@@ -160,10 +160,11 @@ if(!defined('_PS_VERSION_')){
             $array_add = ["name" => Tools::getValue('name',""),"age" => Tools::getValue('age',0),"date" => Tools::getValue('date',0)];
             $result = $api_functions->add($array_add);
             break;
-        //if there's an error with the action sent or isnt written
+        //Count users, after find call
         case "countUsers":
             $result = $api_functions->countRegisters();
             break;
+        //if there's an error with the action sent or isnt written
         default:
             $result = "There was an unexpected error with the server connection";
         break;      
