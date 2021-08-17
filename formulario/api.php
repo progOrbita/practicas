@@ -84,9 +84,9 @@ if(!defined('_PS_VERSION_')){
                         break;
                         case "removed":
                             if($string==0){
-                                $mainData .='<td><i class="bi bi-x-octagon-fill" type="button" name="delete" id="delete" value="'.$value["ID"].'"></i>
-                                <i class="bi bi-check-square text-success" type="button" name="verify" id="verify" value="'.$value["ID"].'"></i>
-                                <i class="bi bi-key-fill text-success" type="button" name="save" id="save" value="'.$value["ID"].'"></i></td>';
+                                $mainData .='<td><i class="bi bi-x-octagon-fill" type="button" data-toggle="tooltip" title="delete" name="delete" id="delete" value="'.$value["ID"].'"></i>
+                                <i class="bi bi-check-square text-success" type="button" data-toggle="tooltip" title="verify" name="verify" id="verify" value="'.$value["ID"].'"></i>
+                                <i class="bi bi-key-fill text-success" type="button" data-toggle="tooltip" title="save" name="save" id="save" value="'.$value["ID"].'"></i></td>';
                             }
                         break;
                     }
