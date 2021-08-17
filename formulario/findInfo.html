@@ -300,6 +300,43 @@
             });
         }
         $(document).ready(function(){	
+        /**
+         * Function that restore an user.
+         */
+        function restoreUser(){
+            let selfID = $(this).attr('value');
+            let confirmation = confirm("¿Are you sure you want to restore the user with ID "+selfID);
+            //If accept the alert
+            if(confirmation === true){
+                let ajaxRequest = $.ajax({
+                    url: "api.php?action=undo",
+                    context: this,
+                    data: {id: selfID},
+                    type: "POST"
+                });
+                ajaxRequest.done(function(data){
+                    let jsonData = JSON.parse(data);
+                    if(comprobarApi(jsonData)){
+                        //if query is successfull
+                        if(jsonData === true){
+                            $(this).closest("tr").remove();
+                            $('#messages').append('<p>Name restored</p>');
+                        }
+                        //if there's an error somewhere in the delete query
+                        else{
+                            $(this).closest('tr').addClass('bg-danger');
+                            $('#messages').append('<p>Error somewhere in the query</p>');
+                            $('#messages').addClass('text-danger');
+                        }
+                    }
+                });
+            }
+            //When the alert is canceled
+            else{
+                $('#messages').append('<p>Nothing have been restored</p>');
+                return;
+            }
+        }
             checkDate();
             $(document).on('click',"#delete",function(){
                 //Call is to call an function using this as a value that can be used in the function
@@ -317,6 +354,10 @@
             $(document).on('click','#save',function(){
                 refresh();
                 saveUser.call(this);
+            });
+            $(document).on('click','#undo',function(){
+                refresh();
+                restoreUser.call(this);                           
             });
 		});
     </script>

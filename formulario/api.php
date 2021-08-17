@@ -88,6 +88,9 @@ if(!defined('_PS_VERSION_')){
                                 <i class="bi bi-check-square text-success" type="button" data-toggle="tooltip" title="verify" name="verify" id="verify" value="'.$value["ID"].'"></i>
                                 <i class="bi bi-key-fill text-success" type="button" data-toggle="tooltip" title="save" name="save" id="save" value="'.$value["ID"].'"></i></td>';
                             }
+                            if($string==1){
+                                $mainData .='<td><i class="bi bi-eject" type="button" data-toggle="tooltip" title="undo" name="undo" id="undo" value="'.$value["ID"].'"></i>';
+                            }
                         break;
                     }
                 }
@@ -130,6 +133,10 @@ if(!defined('_PS_VERSION_')){
             }
             $resultQuery = $api_functions->find($data_array);
             $result = createTable($resultQuery);
+            break;
+        case "undo":
+            $id = Tools::getValue('id',"");
+		    $result = $api_functions->undo($id);
             break;
         //if there's an error with the action sent or isnt written
         default:

@@ -77,5 +77,14 @@ class Resources{
         $query = Db::getInstance()->executeS($queryRequest);
         return $query;
     }
+    /**
+     * Restore an user removed
+     * @param int $id id of the user to be restored
+     * @return bool $query true if was done, false otherwise.
+     */
+    function undo(int $id){
+        $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET removed=0, mod_date=NOW(), del_date=NULL WHERE id="'.$id.'"');
+        return $query;
+    }
 }
 ?>
