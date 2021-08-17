@@ -161,6 +161,16 @@ if(!defined('_PS_VERSION_')){
             $result = $api_functions->add($array_add);
             break;
         //if there's an error with the action sent or isnt written
+        case "page":
+            $resultQuery = $api_functions->countRegisters();
+            $userCount = 0;
+            foreach ($resultQuery as $key => $value){
+                foreach ($value as $keyVal => $string){
+                    $userCount = $string;
+                }
+            }
+            $result = $userCount;
+            break;
         default:
             $result = "There was an unexpected error with the server connection";
         break;      

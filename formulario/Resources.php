@@ -91,6 +91,11 @@ class Resources{
         $query = Db::getInstance()->executeS($queryRequest);
         return $query;
     }
+    function countRegisters(){
+        $queryCount = "SELECT COUNT(*) FROM ".$this->table." WHERE removed=0";
+        $query = Db::getInstance()->executeS($queryCount);
+        return $query;
+    }
     /**
      * Restore an user removed
      * @param int $id id of the user to be restored
