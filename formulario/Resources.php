@@ -41,7 +41,6 @@ class Resources{
      * @return $query result of the query, or the array with the query if doesn't exist
      */
     function delete(int $id){
-        //First check if name it's on the table, if isn't found doesn't try to execute the delete query.
             $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
             return $query;
     } 
