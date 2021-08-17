@@ -187,35 +187,42 @@
                 $('#tableCaption').empty();
                 //Insert the table data
                 let jsonData = JSON.parse(data);
-                    $('#tableContent').append(jsonData);
-                    //If query have an error
-                    if(typeof(jsonData)=="boolean"){
-                        $('#messages').append('Unexpected error retrieving the data');
-                        return;
+                $('#tableContent').append(jsonData);
+                //If query have an error
+                if(typeof(jsonData)=="boolean"){
+                    $('#messages').append('Unexpected error retrieving the data');
+                    return;
+                }
+                //If returned at least one result
+                if(jsonData.length !== 0){
+                    //if checked have length -> the button is on
+                    if($('#sliderForm:checked').length == 1){
+                    $('#tableCaption').append('Users registered');
                     }
-                    if(jsonData.length !== 0){
-                        //if checked have length the button is on
+                    else{
+                        $('#tableCaption').append('Users removed');
+                    }
+                    //To include a pagination, obtain numbers of users registered and removed
+                    let paginationRequest = $.ajax({
+                        url: "api.php?action=countUsers",
+                        context: document.body,
+                        type: "POST"
+			        });
+                    paginationRequest.done(function(data){
+                        let jsonPagination = JSON.parse(data); //Array with two numbers.
+                        // 0 -> number of users registered
+                        // 1 -> number of users removed
                         if($('#sliderForm:checked').length == 1){
-                        $('#tableCaption').append('Users registered');
-                        }
-                        else{
-                            $('#tableCaption').append('Users removed');
-                        }
-                        //To include an pagination, obtain numbers of users.
-                        let paginationRequest = $.ajax({
-                            url: "api.php?action=countUsers",
-                            context: document.body,
-                            type: "POST"
-			            });
-                        paginationRequest.done(function(data){
-                            let jsonPagination = JSON.parse(data);
-                            // 0 -> registered count
-                            // 1 -> removed count
                         addPagination(jsonPagination[0]);
                     }
                     else{
                         addPagination(jsonPagination[1]);
                     }
+                    });
+                }
+                //if the query is empty
+                else{
+                    $('#tableCaption').append('No users found');
                 }
             });
         }
@@ -372,8 +379,7 @@
             $('#messages').removeClass('text-danger');
                 let name = $(this).closest("tr").find('#insertName').val();
                 let age = $(this).closest("tr").find('#insertAge').val();
-                let date = $(this).closest("tr").find('#insertDate').val();
-                
+                let date = $(this).closest("tr").find('#insertDate').val();                
                 let ajaxRequest = $.ajax({
                     url: "api.php?action=add",
                     context: this,
