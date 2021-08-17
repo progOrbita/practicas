@@ -139,7 +139,7 @@ if(!defined('_PS_VERSION_')){
             $post = file_get_contents('php://input');
             //decode jsonstring into an array of json objects
             $jsonData = json_decode($post);
-             
+            $number = Tools::getValue('pageNumber');
             $data_array = ["name" => $jsonData[0]->value, "dateBeg" => $jsonData[1]->value, "dateEnd" => $jsonData[2]->value, "dateType" => $jsonData[3]->value, "removed" => $jsonData[4]->value];  
             if($data_array["removed"]=="on"){
                 $data_array["removed"]=0;
@@ -147,7 +147,7 @@ if(!defined('_PS_VERSION_')){
             else{
                 $data_array["removed"]=1;
             }
-            $resultQuery = $api_functions->find($data_array);
+            $resultQuery = $api_functions->find($data_array,$number);
             $result = createTable($resultQuery);
             break;
         // User return to registered status
@@ -161,15 +161,8 @@ if(!defined('_PS_VERSION_')){
             $result = $api_functions->add($array_add);
             break;
         //if there's an error with the action sent or isnt written
-        case "page":
-            $resultQuery = $api_functions->countRegisters();
-            $userCount = 0;
-            foreach ($resultQuery as $key => $value){
-                foreach ($value as $keyVal => $string){
-                    $userCount = $string;
-                }
-            }
-            $result = $userCount;
+        case "countUsers":
+            $result = $api_functions->countRegisters();
             break;
         default:
             $result = "There was an unexpected error with the server connection";
