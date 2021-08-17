@@ -210,6 +210,20 @@
                         else{
                             $('#tableCaption').append('Users removed');
                         }
+                        //To include an pagination, obtain numbers of users.
+                        let paginationRequest = $.ajax({
+                            url: "api.php?action=countUsers",
+                            context: document.body,
+                            type: "POST"
+			            });
+                        paginationRequest.done(function(data){
+                            let jsonPagination = JSON.parse(data);
+                            // 0 -> registered count
+                            // 1 -> removed count
+                            usersRegistered = jsonPagination[0];
+                            usersRemoved = jsonPagination[1];
+                            addPagination();
+                        });
                     }
                     //if the query is empty
                     else{
