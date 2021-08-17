@@ -336,6 +336,44 @@
                 return;
             }
         }
+        function addUser(){
+            refresh();
+            $('#messages').removeClass('text-danger');
+                let name = $(this).closest("tr").find('#insertName').val();
+                let age = $(this).closest("tr").find('#insertAge').val();
+                let date = $(this).closest("tr").find('#insertDate').val();
+                
+                let ajaxRequest = $.ajax({
+                    url: "api.php?action=add",
+                    context: this,
+                    data: {name:name, age:age, date:date},
+                    type: "POST"
+                });
+                ajaxRequest.done(function(data){
+                    let jsonData = JSON.parse(data);
+                    let rowObject = $(this).closest('tr');
+                    console.log(jsonData);
+                    //if the ?action exist
+                    if(comprobarApi(jsonData)){
+                        //all data is fine
+                        if(jsonData === true){
+						    $('#messages').append("<p>Data inserted succesfully</p>");
+                            findInfo();
+                            rowObject.removeClass('bg-danger');
+					    }
+                        if(jsonData === false){
+						    $('#messages').append("<p>Error somewhere in the query</p>");
+                            $('#messages').addClass('text-danger');
+                            rowObject.removeClass('bg-danger');
+					    }
+                        //error in the query
+                        if(typeof(jsonData) === "object"){
+                            $('#messages').append("<p>Wrong data, please check it again</p>");
+                            rowObject.addClass('bg-danger');
+                        }
+                    }
+                });
+        }
         $(document).ready(function(){
             checkDate();
             $(document).on('click',"#delete",function(){
@@ -359,6 +397,8 @@
                 refresh();
                 restoreUser.call(this);
             });
+            $(document).on('click','#addNew',function(){
+                addUser.call(this);
             });
 		});
     </script>

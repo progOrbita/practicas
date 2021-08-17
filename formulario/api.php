@@ -153,6 +153,10 @@ if(!defined('_PS_VERSION_')){
             $id = Tools::getValue('id',"");
 		    $result = $api_functions->undo($id);
             break;
+        case "add":
+            $array_add = ["name" => Tools::getValue('name',""),"age" => Tools::getValue('age',0),"date" => Tools::getValue('date',0)];
+            $result = $api_functions->add($array_add);
+            break;
         //if there's an error with the action sent or isnt written
         default:
             $result = "There was an unexpected error with the server connection";

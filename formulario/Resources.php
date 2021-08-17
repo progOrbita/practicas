@@ -35,6 +35,17 @@ class Resources{
             return $array_error;
         }
     }
+
+    function add(array $array_data){
+        $array_error = $this->validate($array_data);
+        if(count($array_error['error']) === 0){
+            $query = Db::getInstance()->execute('INSERT INTO '.$this->table.'(name,age,date,creation_date,mod_date) VALUES ("'.$array_data['name'].'",'.$array_data['age'].',"'.$array_data['date'].'",NOW(),NOW())');
+            return $query;
+        }
+        else{
+            return $array_error;
+        }
+    }
     /**
      * Check and remove a name from the table 
      * @param int $id name to be deleted from the table
