@@ -83,7 +83,7 @@ class Resources{
                 continue;
             }        
             if($column=="name"){
-                $whereArr[] = $column.' = "'.$value.'"';
+                $whereArr[] = $column.' LIKE "%'.$value.'%"';
             }
             if($column=="dateBeg"){
                 $whereArr[] = $dateQuery.' >= "'.$value.'"';
