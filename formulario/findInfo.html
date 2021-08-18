@@ -173,6 +173,10 @@
          * Given the inputs shows the information required within a page
          */
         function findInfo(page){
+            //default value
+            if(page === undefined){
+                page = 1;
+            }
 			let getData = $('#formularyContent').find("input,select");
             //send the data as a JSON string
 			let dataSerial = getData.serializeArray();
