@@ -87,9 +87,9 @@ if(!defined('_PS_VERSION_')){
                         case "removed":
                             if($string==0){
                                 $mainData .=
-                                '<td><i class="bi bi-x-octagon-fill" type="button" data-toggle="tooltip" title="delete" name="delete" id="delete" value="'.$value["ID"].'"></i>
-                                    <i class="bi bi-check-square text-success" type="button" data-toggle="tooltip" title="verify" name="verify" id="verify" value="'.$value["ID"].'"></i>
-                                    <i class="bi bi-key-fill text-success" type="button" data-toggle="tooltip" title="save" name="save" id="save" value="'.$value["ID"].'"></i></td>';
+                                '<td><i class="bi bi-x-octagon-fill" type="button" data-toggle="tooltip" title="Remove user" name="delete" id="delete" value="'.$value["ID"].'"></i>
+                                    <i class="bi bi-check-square text-success" type="button" data-toggle="tooltip" title="verify fields" name="verify" id="verify" value="'.$value["ID"].'"></i>
+                                    <i class="bi bi-key-fill text-success" type="button" data-toggle="tooltip" title="update user" name="save" id="save" value="'.$value["ID"].'"></i></td>';
                             //Last row from registered users (removed == 0). To include a empty row with a specific button
                             if($i == $len - 1){
                                $mainData .= '</tr>
@@ -100,7 +100,7 @@ if(!defined('_PS_VERSION_')){
                                     <td><input type="date" class="form-control .date" name="insDate" id="insertDate"></input></td>
                                     <td><input class="form-control text-info" value="" disabled></input></td>
                                     <td><input class="form-control text-info" value="" disabled></input></td>
-                                    <td><i class="bi bi-pencil-square" type="button" data-toggle="tooltip" title="add" name="addNew" id="addNew"></i></td>';
+                                    <td><i class="bi bi-pencil-square" type="button" data-toggle="tooltip" title="add new user" name="addNew" id="addNew"></i></td>';
                                 }
                                 $i++;
                             }
