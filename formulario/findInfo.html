@@ -30,8 +30,8 @@
             100% { top: -100px; }
             }
             #floatingBox{
-                background-color: rgb(189, 128, 128);
-                border: 3px solid rgb(59, 57, 57);
+                background-color: rgb(233, 223, 223);
+                border: 3px solid rgb(175, 168, 168);
                 border-radius: 8px;
                 padding: 25px;
                 position: absolute;
@@ -123,7 +123,7 @@
         function comprobarApi(value){
 			if(typeof(value)=="string"){
 				showMessages(value);
-				$('#messages').addClass('text-danger');
+				$('#floatingBox p').addClass('text-danger');
 				return false;
 			}
 			return true;			
@@ -167,8 +167,10 @@
         function refresh(){
             $('input').removeClass('bg-success');
             $('input').removeClass('bg-danger');
+            $('#floatingBox p').removeClass('text-danger');
             $('#floatingBox p').empty();
             $('#floatingBox').removeClass('floatingBoxAnim');
+            
         }
         /**
 		 * Change the text of any input or text from green to red or vice-versa
@@ -280,7 +282,7 @@
                         else{
                             $(this).closest('tr').addClass('bg-danger');
                             showMessages('Error somewhere in the query');
-                            $('#messages').addClass('text-danger');
+                            $('#floatingBox p').addClass('text-danger');
                         }
                     }
                 });
@@ -320,6 +322,7 @@
                 }
                 if(jsonData.error.length !== 0){
                     showMessages("Wrong data, please check it again. Save is deactivated");
+                    $('#floatingBox p').addClass('text-danger');
                 }
                 else{
                     showMessages("Data is fine, you can save it");
@@ -355,6 +358,7 @@
                         jsonData.good.forEach(element => changeBgToSuccess(rowObject.find('.'+element)));
                         jsonData.error.forEach(element => changeBgToError(rowObject.find('.'+element)));
 						showMessages("There's an error, please check it again, save is disabled");
+                        $('#floatingBox p').addClass('text-danger');
 					}					
 					//if the query is right
 					else if(jsonData === true){
@@ -394,7 +398,7 @@
                         else{
                             $(this).closest('tr').addClass('bg-danger');
                             showMessages('Error somewhere in the query');
-                            $('#messages').addClass('text-danger');
+                            $('#floatingBox p').addClass('text-danger');
                         }
                     }
                 });
@@ -432,7 +436,7 @@
 					    }
                         if(jsonData === false){
 						    showMessages("Error somewhere in the query");
-                            $('#messages').addClass('text-danger');
+                            $('#floatingBox p').addClass('text-danger');
                             rowObject.removeClass('bg-danger');
 					    }
                         //error in the query
