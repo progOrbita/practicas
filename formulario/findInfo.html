@@ -120,7 +120,8 @@
         function addPagination(number){
             $('#pages').empty();
             $('#warning').empty();
-            let pages = Math.ceil(number/5);
+            //second number is the number of results per page
+            let pages = Math.ceil(number/10);
             let pageNumbers = "";
             pageNumbers += "<ul>";
                 for (let index = 1; index <= pages; index++) {

@@ -67,7 +67,7 @@ class Resources{
      */
     function find(array $array_data, int $pagination){
         //number of result per page
-        $num_results = 5;
+        $num_results = 10;
         /**
          * What results are returned 
          * page 1 = 0, page 2 (2-1*5) = 5 (3-1*5) = 10. 
