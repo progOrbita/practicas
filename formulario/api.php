@@ -1,20 +1,8 @@
 <?php
     /**
-     * Api that validate/add and remove data from a formulary
-     * Steps to follow:
-     * 1. Load PS_Version
-     * 2. Load la clase resource
-     * 3. Usetools::getvalue('$POST/$GET','default)
-     * 4. switch for all the cases: validate, save and delete with a default in case of error
-     * all of them have the functionality from validate/save/delete.php files
+     * Api that create a table and find,verify,add and remove data from a table in a database
      * 
-     * Small additions: 
-     * a resultado var which always return a value so json_encode is used once
-     * creating a resources object/class once and not in each case
      */
-
-use Symfony\Component\Validator\Constraints\Length;
-
 if(!defined('_PS_VERSION_')){
 		require_once '../../config/config.inc.php';
 		require_once '../../init.php';
@@ -26,9 +14,10 @@ if(!defined('_PS_VERSION_')){
          * Main data all the rows with the information 
          * end close tbody and table tags.
          * @param array $tableData data obtained from the query
+         * @param int $removed 0 -> register tab, 1 -> removed tab.
          * @return string $beggining+$mainData+$end containing the entire table in html
         */
-    function createTable(array $tableData, bool $removed){
+    function createTable(array $tableData, int $removed){
             $mainData = "";
             $i = 0;
             $len = count($tableData);
