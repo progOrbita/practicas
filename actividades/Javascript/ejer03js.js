@@ -1,13 +1,10 @@
 /*
-Crear un documento HTML (ejer02js.html) en el que se incluya un documento Javascript (ejer02.js) 
-externo que realice el siguiente proceso:
-1º) Pedir dos valores numéricos enteros por teclado (a y b). Los leeremos utilizando la función 
-prompt.
-2º) Mostrar en una ventana de alerta (alert):
-a. La suma de los dos números
-b. El producto de los dos números
-c. La división de a entre b
-d. El resto de dividir a entre b
+Crear un documento HTML (ejer03.html) en el que se incluya un documento Javascript (ejer03.js) externo que realice el siguiente proceso:
+1º) Calcularemos el área de un círculo a partir de su radio que leeremos mediante un prompt
+2º) Leemos el radio
+3º) Calculamos el área del círculo (área = PI * radio2
+)
+4º) Mostramos el resultado mediante un alert.
 */
 document.onreadystatechange = () => {
     if (document.readyState === 'complete') {

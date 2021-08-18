@@ -1,13 +1,8 @@
 /*
-Crear un documento HTML (ejer02js.html) en el que se incluya un documento Javascript (ejer02.js) 
+Crear un documento HTML (ejer05js.html) en el que se incluya un documento Javascript (ejer05.js) 
 externo que realice el siguiente proceso:
-1º) Pedir dos valores numéricos enteros por teclado (a y b). Los leeremos utilizando la función 
-prompt.
-2º) Mostrar en una ventana de alerta (alert):
-a. La suma de los dos números
-b. El producto de los dos números
-c. La división de a entre b
-d. El resto de dividir a entre b
+1) Leerá un número entero comprendido entre 1 y 9.
+2) Mostrará en el documento web una tabla de multiplicar reducida del número especificado
 */
 document.onreadystatechange = () => {
     if (document.readyState === 'complete') {

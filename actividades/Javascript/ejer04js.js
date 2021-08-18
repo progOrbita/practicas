@@ -1,19 +1,23 @@
 /*
-Crear un documento HTML (ejer02js.html) en el que se incluya un documento Javascript (ejer02.js) 
+Crear un documento HTML (ejer04js.html) en el que se incluya un documento Javascript (ejer04.js) 
 externo que realice el siguiente proceso:
-1º) Pedir dos valores numéricos enteros por teclado (a y b). Los leeremos utilizando la función 
-prompt.
-2º) Mostrar en una ventana de alerta (alert):
-a. La suma de los dos números
-b. El producto de los dos números
-c. La división de a entre b
-d. El resto de dividir a entre b
+A partir de la unidades vendidas de un producto, su precio unitario y un porcentaje de descuento (0 .. 
+100) calcularemos el importe neto de la venta.
+1º) Leemos las unidades vendidas con un prompt.
+2º) Leemos el precio unitario.
+3º) Leemos el porcentaje de descuento. Será un valor entero comprendido entre 0 y 100
+4º) Calcularemos el importe neto
+5º) Mostramos el resultado en el documento
 */
 document.onreadystatechange = () => {
     if (document.readyState === 'complete') {
         let cantidad = window.prompt("Indica la cantidad:");
         let precio = window.prompt("Indica el precio/unidad:");
         let porcentaje = window.prompt("Indica el porcentaje de descuento");
+        if(porcentaje > 100){
+            window.alert('te has pasado, fuera de esta tienda');
+            return;
+        }
         let total;
 
         total = (cantidad*precio)-((cantidad*precio)*(porcentaje/100));
