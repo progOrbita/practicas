@@ -26,7 +26,7 @@ if(!defined('_PS_VERSION_')){
             <caption id="tableCaption"></caption>            
             <thead>
                 <tr class="bg-info">
-                   <th>#</th>
+                   <th>ID</th>
                    <th>Name</th>
                    <th>Age</th>
                    <th>Date</th>
