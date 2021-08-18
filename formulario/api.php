@@ -120,14 +120,19 @@ if(!defined('_PS_VERSION_')){
     switch($accion){
         //to validate the formulary
         case "verify":
-            $array_verify = ["name" => Tools::getValue('name',""),"age" => Tools::getValue('age',0),"date" => Tools::getValue('date',0)];
+            $post = file_get_contents('php://input');
+            //decode jsonstring into an array of json objects
+            $jsonData = json_decode($post);
+            $array_verify = ["name" => $jsonData[0],"age" => $jsonData[1],"date" => $jsonData[2]];
             $result = $api_functions->validate($array_verify);
             break;
         //store the formulary data sent in the table. Checking before that the data obtained is fine
-        //Same as above, until table turn into inputs does nothing currently.
         case "save":
-		    $array_save = ["id"=> Tools::getValue('id'), "name" => Tools::getValue('name',""),"age" => Tools::getValue('age',0),"date" => Tools::getValue('date',0)];
-		    $result =  $api_functions->save($array_save);
+            $post = file_get_contents('php://input');
+            //decode jsonstring into an array of json objects
+            $jsonData = json_decode($post);
+		    $array_save = ["id"=> $jsonData[0], "name" =>$jsonData[1],"age" =>$jsonData[2],"date" =>$jsonData[3]];
+            $result =  $api_functions->save($array_save);
             break;
         //remove the row given a name.
         case "delete":
@@ -157,7 +162,9 @@ if(!defined('_PS_VERSION_')){
             break;
         //Add a new user to the table
         case "add":
-            $array_add = ["name" => Tools::getValue('name',""),"age" => Tools::getValue('age',0),"date" => Tools::getValue('date',0)];
+            $post = file_get_contents('php://input');
+            $jsonData = json_decode($post);
+            $array_add = ["name" => $jsonData[0],"age" => $jsonData[1],"date" => $jsonData[2]];
             $result = $api_functions->add($array_add);
             break;
         //Count users, after find call

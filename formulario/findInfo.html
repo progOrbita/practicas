@@ -277,11 +277,13 @@
             let name = $(this).closest("tr").find('.name').val();
             let age = $(this).closest("tr").find('.age').val();
             let date = $(this).closest("tr").find('.date').val();
+            let arrayData = [name, age, date];
+            let jsonString = JSON.stringify(arrayData);
             //Only name/age/date is needed for verification
             let ajaxRequest = $.ajax({
                 url: "api.php?action=verify",
                 context: this,
-                data: {name:name, age:age, date:date},
+                data: jsonString,
                 type: "POST"
             });
             ajaxRequest.done(function(data){
@@ -311,11 +313,13 @@
             let name = $(this).closest("tr").find('.name').val();
             let age = $(this).closest("tr").find('.age').val();
             let date = $(this).closest("tr").find('.date').val();
+            let arrayData = [id, name, age, date];
+            let jsonString = JSON.stringify(arrayData);
             //send the data as a JSON string
             let ajaxRequest = $.ajax({
                 url: "api.php?action=save",
                 context: this,
-                data: {id:id, name:name, age:age, date:date},
+                data: jsonString,
                 type: "POST"
             });
             ajaxRequest.done(function(data){
@@ -385,11 +389,13 @@
             $('#messages').removeClass('text-danger');
                 let name = $(this).closest("tr").find('#insertName').val();
                 let age = $(this).closest("tr").find('#insertAge').val();
-                let date = $(this).closest("tr").find('#insertDate').val();                
+                let date = $(this).closest("tr").find('#insertDate').val();
+                let arrayInsert = [name, age, date];
+                let jsonString = JSON.stringify(arrayInsert);
                 let ajaxRequest = $.ajax({
                     url: "api.php?action=add",
                     context: this,
-                    data: {name:name, age:age, date:date},
+                    data: jsonString,
                     type: "POST"
                 });
                 ajaxRequest.done(function(data){
