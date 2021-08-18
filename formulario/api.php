@@ -28,7 +28,7 @@ if(!defined('_PS_VERSION_')){
          * @param array $tableData data obtained from the query
          * @return string $beggining+$mainData+$end containing the entire table in html
         */
-    function createTable(array $tableData){
+    function createTable(array $tableData, bool $removed){
             $mainData = "";
             $i = 0;
             $len = count($tableData);
@@ -43,6 +43,10 @@ if(!defined('_PS_VERSION_')){
                    <th>Date</th>
                    <th>Creation date</th>
                    <th>Modification date</th>';
+                   //if there's no users added in the table
+                   if($len == 0 && $removed == 0){
+                       $beggining .= '<th class="col-2">actions</th>';
+                   }
                    //For removed users, key is to insert th only once
                    foreach ($tableData as $key => $value) {
                         foreach ($value as $keyVal => $string) {
@@ -59,6 +63,18 @@ if(!defined('_PS_VERSION_')){
     $beggining .=  '</tr>
                 </thead>
             <tbody>';
+            //If there's no users added in the table
+            if($len == 0 && $removed == 0){
+    $mainData .='<tr>
+                <td><input class="form-control text-info" value="" disabled></input></td>
+                <td><input type="text" class="form-control .name" name="insName" id="insertName"></input></td>
+                <td><input type="number" class="form-control .age" name="insAge" id="insertAge"></input></td>
+                <td><input type="date" class="form-control .date" name="insDate" id="insertDate"></input></td>
+                <td><input class="form-control text-info" value="" disabled></input></td>
+                <td><input class="form-control text-info" value="" disabled></input></td>
+                <td><i class="bi bi-pencil-square" type="button" data-toggle="tooltip" title="add new user" name="addNew" id="addNew"></i></td>
+                </tr>';          
+            }
         //Key is the result number. Value is array containing the data
             foreach ($tableData as $key => $value) {
                 $mainData .= '<tr>';
@@ -90,7 +106,7 @@ if(!defined('_PS_VERSION_')){
                                 '<td><i class="bi bi-x-octagon-fill" type="button" data-toggle="tooltip" title="Remove user" name="delete" id="delete" value="'.$value["ID"].'"></i>
                                     <i class="bi bi-check-square text-success" type="button" data-toggle="tooltip" title="verify fields" name="verify" id="verify" value="'.$value["ID"].'"></i>
                                     <i class="bi bi-key-fill text-success" type="button" data-toggle="tooltip" title="update user" name="save" id="save" value="'.$value["ID"].'"></i></td>';
-                            //Last row from registered users (removed == 0). To include a empty row with a specific button
+                            //Last row from registered users (removed == 0). To include an empty row with a specific button
                             if($i == $len - 1){
                                $mainData .= '</tr>
                                   <tr>
@@ -146,6 +162,8 @@ if(!defined('_PS_VERSION_')){
             $jsonData = json_decode($post);
             $number = Tools::getValue('pageNumber');
             $data_array = ["name" => $jsonData[0]->value, "dateBeg" => $jsonData[1]->value, "dateEnd" => $jsonData[2]->value, "dateType" => $jsonData[3]->value, "removed" => $jsonData[4]->value];  
+            // 0 -> finds non-removed users
+            // 1 -> finds removed users
             if($data_array["removed"]=="on"){
                 $data_array["removed"]=0;
             }
@@ -153,7 +171,8 @@ if(!defined('_PS_VERSION_')){
                 $data_array["removed"]=1;
             }
             $resultQuery = $api_functions->find($data_array,$number);
-            $result = createTable($resultQuery);
+            $remove = $data_array["removed"];
+            $result = createTable($resultQuery, $remove);
             break;
         // User return to registered status
         case "undo":
