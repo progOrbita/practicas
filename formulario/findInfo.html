@@ -7,8 +7,27 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
         <title>Information</title>
         <style>
-            body{
-                margin-top: 25px;
+            @keyframes boxAnimation {
+            0% { top: -100px; }
+            50% { top: 100px; }
+            100% { top: -100px; }
+            }
+            #floatingBox{
+                background-color: rgb(233, 223, 223);
+                border: 3px solid rgb(175, 168, 168);
+                border-radius: 8px;
+                margin-left: 45%;
+                padding: 25px;
+                position: absolute;                
+                top: -100px;
+                z-index: 2;
+            }
+            #floatingBox p{
+                margin: 0px;
+            }
+            .floatingBoxAnim{
+                animation-name: boxAnimation;
+                animation-duration: 4s;
             }
             #tableContent{
                 margin-top: 25px;                
@@ -19,33 +38,14 @@
                 position: sticky;
                 top: 0;
             }
+            body{
+                margin-top: 25px;
+            }
             ul{
-                list-style-type: none;
                 display: inline-flex;
+                list-style-type: none;      
                 margin-left: 20%;
-            }
-            @keyframes boxAnimation {
-            0% { top: -100px; }
-            50% { top: 100px; }
-            100% { top: -100px; }
-            }
-            #floatingBox{
-                background-color: rgb(233, 223, 223);
-                border: 3px solid rgb(175, 168, 168);
-                border-radius: 8px;
-                padding: 25px;
-                position: absolute;
-                margin-left: 45%;
-                top: -100px;
-                z-index: 2;
-            }
-            .floatingBoxAnim{
-                animation-name: boxAnimation;
-                animation-duration: 4s;
-            }
-            #floatingBox p{
-                margin: 0px;
-            }
+            }             
         </style>
     </head>
     <body>
@@ -90,6 +90,7 @@
                 </div>
             </form>
         </div>
+        <!--Show informative messages-->
         <div id="floatingBox">
             <p></p>
         </div>
@@ -105,13 +106,13 @@
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>       
     <script type="text/javascript">
         /**
-         * Function that checks and update the date limits whenever it changes from the search
+         * Function that checks and update the date limits whenever it changes from the filter formulary
          */
         function checkDate(){
             $(document).on('change','#endDate',function(){
                 let dateEnd = $('#endDate').val();
                 $('#startDate').attr("max",dateEnd);
-			});	
+			});
             $(document).on('change','#startDate',function(){
                 let dateBeg = $('#startDate').val();
                 $('#endDate').attr("min",dateBeg);
@@ -130,7 +131,7 @@
 		}
         /**
          * Add page numbers under the table in a div
-         * @param number total of registers. 
+         * @param number total of registers.
          */
         function addPagination(number){
             $('#pages').empty();
@@ -145,7 +146,7 @@
             $('#pages').append(pageNumbers);
         }
         /**
-         * Null the save button if there's an error in the data sent.
+         * Disable the save button if there's an error in the data sent.
          * @param arrayData array containing the data
          * @param column column to look up the save to turn red
          */
@@ -157,7 +158,7 @@
             }
             else{
                 $(column).removeClass('text-danger');
-                $(column).addClass('text-success'); 
+                $(column).addClass('text-success');
                 $(column).prop('disabled',false);
             }
         }
@@ -170,7 +171,6 @@
             $('#floatingBox p').removeClass('text-danger');
             $('#floatingBox p').empty();
             $('#floatingBox').removeClass('floatingBoxAnim');
-            
         }
         /**
 		 * Change the text of any input or text from green to red or vice-versa
@@ -213,7 +213,7 @@
                 $('#tableContent').empty();
                 $('#messages').empty();
                 $('#tableCaption').empty();
-                
+ 
                 //Insert the table data
                 let jsonData = JSON.parse(data);
                 $('#tableContent').append(jsonData);
@@ -256,7 +256,7 @@
             });
         }
         /**
-         *  Remove an user from the table and update it given an id.
+         *  Remove an user from the table and update it by the id.
          */
         function removeUser(){
             //Obtain the id from the row where the button was selected
@@ -349,7 +349,7 @@
             ajaxRequest.done(function(data){
                 let jsonData = JSON.parse(data);
                 if(comprobarApi(jsonData)){	
-					//if there's errors in the formulary                    
+					//if there's errors in the formulary
 					if(typeof(jsonData) === "object"){
                         let rowObject = $(this).closest('tr');
                         let colSave = $(this).closest('td').find('#save'); //Nearest td and then, save button in that td/row
@@ -359,7 +359,7 @@
                         jsonData.error.forEach(element => changeBgToError(rowObject.find('.'+element)));
 						showMessages("There's an error, please check it again, save is disabled");
                         $('#floatingBox p').addClass('text-danger');
-					}					
+					}
 					//if the query is right
 					else if(jsonData === true){
 						showMessages("Data inserted succesfully");
@@ -409,6 +409,9 @@
                 return;
             }
         }
+        /**
+         * Function that add a user into the table
+         */
         function addUser(){
             refresh();
             $('#messages').removeClass('text-danger');
@@ -434,12 +437,13 @@
                             findInfo();
                             rowObject.removeClass('bg-danger');
 					    }
+                        //Error in the query
                         if(jsonData === false){
 						    showMessages("Error somewhere in the query");
                             $('#floatingBox p').addClass('text-danger');
                             rowObject.removeClass('bg-danger');
 					    }
-                        //error in the query
+                        //Error in the fields
                         if(typeof(jsonData) === "object"){
                             showMessages("Wrong data, please check it again");
                             rowObject.addClass('bg-danger');
@@ -456,7 +460,7 @@
             });
             $(document).on('click','#searchButton',function(){
                 refresh();
-                findInfo(1);
+                findInfo();
 			});
             $(document).on('click','#verify',function(){
                 refresh();
@@ -475,9 +479,9 @@
                 addUser.call(this);
             });
             $(document).on('click','#pagination',function(){   
-                //Obtain the number of the input/number            
+                //Obtain the number of the input/number
                 let number = $(this).val();
-                findInfo(number);               
+                findInfo(number);
             });
 		});
     </script>
