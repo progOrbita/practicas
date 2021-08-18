@@ -2,7 +2,7 @@
     echo '<!DOCTYPE html>
     <html>
     <head>
-        <title>Signo del zodiaco</title>
+        <title>Factorial</title>
         <meta charset="UTF-8"/>
     <style type="text/css">
         body{
