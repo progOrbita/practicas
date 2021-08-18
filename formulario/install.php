@@ -19,7 +19,7 @@
         )";
     $check = Db::getInstance()->execute($query);
     if($check){
-    echo "table generated<br/>";
+    echo "table: "._DB_PREFIX_."formulary generated if didn't exist<br/>";
     }
     else{
         echo "there is an error in the query<br/>";
