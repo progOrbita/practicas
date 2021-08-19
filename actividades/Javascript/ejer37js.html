@@ -34,7 +34,7 @@ una potencia.
            let numero = parseInt(window.prompt('indica un numero'));
            let tabla = `<table><thead><th>Base</th><th>Potencia</th></thead>`;
                 for (let index = 1; index <= 10; index++) {
-                    tabla += '<tr><td>'+numero+'</td><td>'+Math.pow(numero,index)+'</td></tr>';   
+                    tabla += '<tr><td>'+numero+' ^'+index+'</td><td>'+Math.pow(numero,index)+'</td></tr>';   
                 }     
                 tabla += '</table>';
             document.getElementById('main').innerHTML = tabla;
