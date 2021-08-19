@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Ejercicio 36</title>
+    <style>
+        thead{
+            background-color: gray;
+            width: 100px;
+            height: 60px;
+        }
+        table, th, td{
+            border: 1px solid black;
+        }
+    </style>
+    <script>
+/*
+Crear un documento HTML (ejer35js.html) que realice el siguiente proceso:
+• Que genere un número aleatorio entre 1 y 100.
+• A continuación se le pedirá al usuario que averigüe el número.
+• Si el valor que introduce es mayor o menor que el número oculto, se le indicará con el respectivo mensaje
+• Se deben contabilizar los intentos hasta acertar el númer
+*/
+    </script>
+</head>
+<body>
+    <div id="main">
+      
+    </div>
+    <a href="index.html">Volver</a>
+</body>
+<script>
+    document.onreadystatechange = () => {
+        if (document.readyState === 'complete') {
+           let numero = window.prompt('indica el radio');
+           let circuferencia = Math.PI*Math.pow(numero,2);
+           let area = 2*numero*Math.PI;
+           let volumen = 4/3*Math.PI*Math.pow(numero,3);
+           let superficie = 4*Math.PI*Math.pow(numero,2);
+           let fixCirculo = circuferencia.toFixed(2);
+           let fixArea = area.toFixed(2);
+           let fixVol = volumen.toFixed(2);
+           let fixSuper = superficie.toFixed(2);
+
+           document.getElementById('main').innerHTML = 
+           `<table>
+                <thead>
+                    <th>Radio</th>
+                    <th>Longitud Circuferencia</th>
+                    <th>Area circulo</th>
+                    <th>Volumen esfera</th>
+                    <th>Superficie esfera</th>
+                </thead>
+                    <tr>
+                        <td>${numero}</td>
+                        <td>${fixCirculo}</td>
+                        <td>${fixArea}</td>
+                        <td>${fixVol}</td>
+                        <td>${fixSuper}</td>
+                    </tr>
+            </table>`
+        }
+    };
+</script>
+</html>
