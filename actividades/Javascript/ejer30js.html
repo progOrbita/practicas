@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Ejercicio 29</title>
+    <script>
+        /*
+Un array de números se llama partidario si todo número que está en una casilla par (0,2,4,…) es mayor que cualquiera de los números que están en las casillas impares (1,3,5,…). 
+Escribe un programa que lea un array de números enteros y luego, diga si es partidario o no. 
+Por ejemplo, si el arreglo es el siguiente: 
+El programa debe escribir: es partidario. 
+Para ello deben implementarse las siguientes funciones:
+function leeMatriz(m)
+Leerá, mediante un bucle, los 10 elementos de la matriz. 
+function esPartidario(m)
+Devuelve true si el array es partidario y false en caso contrario
+function muestraMatriz(m)
+Mostrará por pantalla (en el documento) todos los elementos de la matriz separados por 
+con espacios en blanco.
+*/
+    </script>
+</head>
+<body>
+    <div id="main">
+      
+    </div>
+    <div id="campoBotones">
+        <input type="button" onclick="leerMatriz(matriz)" value="leer matriz">
+        <input type="button" onclick="escribirPartidario()" value="es partidario?">
+        <input type="button" onclick="mostrarMatriz(matriz)" value="mostrar matriz">
+    </div>
+    <a href="index.html">Volver</a>
+</body>
+<script>
+        function leerMatriz(matriz){
+            document.getElementById('main').innerHTML = "";
+            for (let index = 0; index < 10; index++) {
+                matriz[index] = parseInt(window.prompt('inserte el elemento numero '+index));
+                document.getElementById('main').innerHTML ="Matriz creada"; 
+            }
+        }
+        function mostrarMatriz(matriz){
+            document.getElementById('main').innerHTML = "";
+            for (let index = 0; index < matriz.length; index++) {
+                document.getElementById('main').innerHTML += matriz[index]+" "; 
+            }
+        }
+        function esPartidario(matriz){
+            let maximoPar = 1;
+            let maximoImpar = 1;
+            for (let index = 0; index < matriz.length; index++) {
+                //el maximo de los pares
+                if(index%2==0){
+                    if(maximoPar < matriz[index]){
+                        maximoPar = matriz[index];
+                    }
+                }
+                //para los impares
+                if(index%2!=0){
+                    if(maximoImpar < matriz[index]){
+                        maximoImpar = matriz[index];
+                    }
+                }
+            }
+            if(maximoPar > maximoImpar){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        function escribirPartidario(){
+            if(esPartidario(matriz)){
+                document.getElementById('main').innerHTML ='Es partidario';
+            }
+            else{
+                document.getElementById('main').innerHTML ='No es partidario';
+            }
+        }
+        let matriz = [];
+</script>
+</html>
