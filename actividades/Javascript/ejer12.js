@@ -11,14 +11,10 @@ Lo que deseamos escribir en una página web mediante Javascript es lo siguiente:
 <H6>Encabezado de nivel 6</H6>
 Para ello tenemos que hacer un bucle que empiece en 1 y termine en 6 y en cada iteración escribiremos el encabezado que toca.
 */
-let a = 1;
 document.onreadystatechange = () => {
-    for (let index = 1; index <= 6; index++) {    
-        //For some reason it iterates two times, to avoid it.
-        if(a > 6){
-           return;
+    if (document.readyState === 'complete') {
+        for (let index = 1; index <= 6; index++) {
+            document.getElementById('main').innerHTML += "<h"+index+">Encabezado de nivel "+index+"</h"+index+">";  
         }   
-        document.getElementById('main').innerHTML += "<h"+index+">Encabezado de nivel "+index+"</h"+index+">"; 
-        a++;      
     }
   };
