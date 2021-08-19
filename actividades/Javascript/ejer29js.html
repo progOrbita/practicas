@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Ejercicio 29</title>
+    <script>
+        /*
+Crear un documento HTML (ejer29js.html) en el que se incluya código Javascript que trabaje con una 
+matriz de 20 números enteros. 
+El programa debe realizar las siguientes operaciones:
+ leer una matriz de 20 enteros
+ mostrar la matriz en el documento
+ indicar la siguiente información acerca de la matriz:
+ suma de todos sus elementos
+ valor máximo de la matriz
+ valor mínimo de la matriz
+Para ello deben implementarse las siguientes funciones:
+function leeMatriz(m)
+Leerá, mediante un bucle, los 20 elementos de la matriz. 
+function sumaMatriz(m)
+Devuelve la suma de todos los elementos de la matriz
+function maxMatriz(m)
+Devuelve el mayor de los elementos de la matriz
+function minMatriz(m)
+Devuelve el menor de los elementos de la matriz
+function muestraMatriz(m)
+Mostrará por pantalla (en el documento) todos los elementos de la matriz separados por 
+con espacios en blanco.
+*/
+    </script>
+</head>
+<body>
+    <div id="main">
+      
+    </div>
+    <div id="campoBotones">
+        <input type="button" onclick="leerMatriz(matriz)" value="leer matriz">
+        <input type="button" onclick="sumarMatriz(matriz)" value="sumar matriz">
+        <input type="button" onclick="maxMatriz(matriz)" value="mayor elemento de la matriz">
+        <input type="button" onclick="minMatriz(matriz)" value="menor elemento de la matriz">
+    </div>
+    <a href="index.html">Volver</a>
+</body>
+<script>
+        function leerMatriz(matriz){
+            document.getElementById('main').innerHTML = "";
+            for (let index = 0; index < matriz.length; index++) {
+                document.getElementById('main').innerHTML += matriz[index]+" "; 
+            }
+        }
+        function sumarMatriz(matriz){
+            let total = 0;
+            document.getElementById('main').innerHTML = "";
+            for (let index = 0; index < matriz.length; index++) {
+                total += matriz[index];
+            }
+            document.getElementById('main').innerHTML = "Total de la matriz: "+total;
+        }
+        function maxMatriz(matriz){
+            let mayor = 1;
+            document.getElementById('main').innerHTML = "";
+            for (let index = 0; index < matriz.length; index++) {
+                if(mayor < matriz[index]){
+                    mayor = matriz[index];
+                }
+            }
+            document.getElementById('main').innerHTML = "Mayor numero de la matriz: "+mayor;
+        }
+        function minMatriz(matriz){
+            let minimo = 1;
+            document.getElementById('main').innerHTML = "";
+            for (let index = 0; index < matriz.length; index++) {
+                if(minimo > matriz[index]){
+                    minimo = matriz[index];
+                }
+            }
+            document.getElementById('main').innerHTML = "Menor numero de la matriz: "+minimo;
+        }
+        let matriz = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+</script>
+</html>
