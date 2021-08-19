@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Ejercicio 32</title>
+    <script>
+        /*
+Crear un documento HTML (ejer31js.html) en el que se incluya código Javascript que realice lo siguiente:
+ Leer por teclado dos cadenas de texto (cad1 y cad2).
+ A partir de las cadenas leídas, el programa debe mostrar la siguiente información (suponiendo 
+que hemos introducido como cad1 'Ayuntamiento' y como cad2 'Oviedo'):
+*/
+    </script>
+</head>
+<body>
+    <div id="main">
+      
+    </div>
+    <a href="index.html">Volver</a>
+</body>
+<script>
+        let cadena = window.prompt('escribe el nombre de usuario (minimo 3 letras)');
+        let cadenaB = window.prompt('escribe el correo (debe contener @)');
+        let error = 0;
+        if(cadena.length < 3){
+            document.getElementById('main').innerHTML += "El usuario no es correcto";
+            error = 1;
+        }
+        if(!cadenaB.includes('@')){
+            document.getElementById('main').innerHTML += "<br/>El email no es correcto";
+            error = 1;
+        }
+        if(error == 0){
+            let correo = cadenaB.replace('@',' (at) ');
+            document.getElementById('main').innerHTML += cadena.toUpperCase()+"<br/>"+correo;
+        }
+        
+</script>
+</html>
