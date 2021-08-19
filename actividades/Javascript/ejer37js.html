@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Ejercicio 37</title>
+    <style>
+        thead{
+            background-color: gray;
+            width: 100px;
+            height: 60px;
+        }
+        table, th, td{
+            border: 1px solid black;
+        }
+    </style>
+    <script>
+/*
+Crear un documento HTML (ejer37js.html) que realice el siguiente proceso:
+ Desarrollar un programa que lea por teclado un valor numérico que representará la base de 
+una potencia.
+ A continuación se mostrará una tabla con las diez primeras potencias, como la que sigue (suponemos que hemos introducido el valor 2)
+*/
+    </script>
+</head>
+<body>
+    <div id="main">
+      
+    </div>
+    <a href="index.html">Volver</a>
+</body>
+<script>
+    document.onreadystatechange = () => {
+        if (document.readyState === 'complete') {
+           let numero = parseInt(window.prompt('indica un numero'));
+           let tabla = `<table><thead><th>Base</th><th>Potencia</th></thead>`;
+                for (let index = 1; index <= 10; index++) {
+                    tabla += '<tr><td>'+numero+'</td><td>'+Math.pow(numero,index)+'</td></tr>';   
+                }     
+                tabla += '</table>';
+            document.getElementById('main').innerHTML = tabla;
+        }
+    };
+</script>
+</html>
