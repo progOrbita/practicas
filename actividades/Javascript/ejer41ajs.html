@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Ejercicio 41</title>
+    <script>
+/*
+Crea un programa que lea por teclado un número entero (base) y otro número entero (tope). El programa debe mostrar en el documento HTML las tope primeras potencias de la base
+
+*/
+    </script>
+    <style>
+        #formulario p{
+            display: inline-block;
+            min-width: 180px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+      
+    </div>
+    <a href="index.html">Volver</a>
+</body>
+<script>
+        let base = window.prompt('Indica la base');
+        let tope = window.prompt('Indica el tope');
+        document.getElementById('main').innerHTML += 'Base = '+base+'<br/>Tope = '+tope+'<br/><br/>';
+        for (let index = 0; index <= tope; index++) {
+            document.getElementById('main').innerHTML += base+' ^ '+index+' = '+Math.pow(base,index)+'<br/>';
+        }
+</script>
+</html>
