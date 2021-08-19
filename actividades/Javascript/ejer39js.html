@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Ejercicio 39</title>
+    <script>
+/*
+alidar el formulario de modo que los datos de entrada cumplan los siguientes criterios:
+ Ningún campo puede quedar vacío.
+ El nombre y apellidos deben tener una longitud mínima de 3 caracteres.
+ La fecha de nacimiento debe ser válida y, además, debe tener más de 18 años.
+ El email debe tener el siguiente formato:
+__algo__@__algo__.__algo
+ El email y el email repetido deben ser iguales.
+ La clave debe tener una longitud mínima de 6 caracteres.
+ Clave y repetir clave deben ser iguales.
+ Debe seleccionar un nivel de estudios.
+
+*/
+    </script>
+    <style>
+        #formulario p{
+            display: inline-block;
+            min-width: 180px;
+        }
+    </style>
+</head>
+<body>
+    <div id="formulario">
+        <p>Nombre</p><input type="text" id="nombre"><br/>
+        <p>Apellidos</p><input type="text" id="apellidos"><br/>
+        <p>Fecha Nac. (dia/mes/año)</p><input type="number" id="day">-<input type="number" id="month">-<input type="number" id="year"><br/>
+        <p>Email</p><input type="email" id="email"><br/>
+        <p>repetir email</p><input type="email" id="emailB"><br/>
+        <p>Clave</p><input type="password" id="clave"><br/>
+        <p>Repetir clave</p><input type="password" id="claveB"><br/>
+        <p>Estudios</p><select id="estudios">
+            <option selected>-Elige estudios-</option>
+            <option>Superiores</option>
+            <option>Medios</option>
+            <option>Inferiores</option>
+        </select><br/>
+        <input type="submit" value="enviar" onclick=verificarDatos()>
+    </div>
+    <div id="main">
+      
+    </div>
+    <a href="index.html">Volver</a>
+</body>
+<script>
+        function verificarDatos(){
+            let error = 0;
+            let nombre = document.getElementById('nombre').value;
+            let apellidos = document.getElementById('apellidos').value;
+            let day = document.getElementById('day').value;
+            let month = document.getElementById('month').value;
+            let year = document.getElementById('year').value;
+            let date = new Date(year, month, day);
+            let email = document.getElementById('email').value;
+            let emailB = document.getElementById('emailB').value;
+            let clave = document.getElementById('clave').value;
+            let claveB = document.getElementById('claveB').value;
+            let estudios = document.getElementById('estudios').value;
+            document.getElementById('main').innerHTML = "";
+            if(nombre.length < 3){
+                document.getElementById('main').innerHTML += "<br/>Nombre demasiado corto";
+                error = 1;
+            }
+            if(apellidos.length < 3){
+                document.getElementById('main').innerHTML += "<br/>Apellido demasiado corto";
+                error = 1;
+            }            
+            let emailReg = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
+            let emailFound = "";
+            emailFound = email.match(emailReg);
+            if(emailFound == null){
+                document.getElementById('main').innerHTML += "<br/>El Email es incorrecto";
+                error = 1;
+            }
+            if(day > 31 || month > 12 || year < 1900){
+                document.getElementById('main').innerHTML += "<br/>Revise la fecha";
+                error = 1;
+            }
+            let today = new Date();
+            let diasFecha = parseInt(date.getMonth())*31+parseInt(date.getFullYear())*365+parseInt(date.getDate());
+            let diasHoy = parseInt(today.getMonth())*31+parseInt(today.getFullYear())*365+parseInt(today.getDate());
+            console.log(diasFecha-diasHoy);
+            if((diasFecha-diasHoy) > -6575){
+                document.getElementById('main').innerHTML += "<br/>Debes ser mayor de 18 años";
+                error = 1;
+            }
+            if(email != emailB){
+                document.getElementById('main').innerHTML += "<br/>Los emails no coinciden";
+                error = 1;
+            }
+            if(clave.length < 6){
+                document.getElementById('main').innerHTML += "<br/>La clave es demasiado corta";
+                error = 1;
+            }
+            if(clave != claveB){
+                document.getElementById('main').innerHTML += "<br/>Las claves no coinciden";
+                error = 1;
+            }
+            if(estudios == "-Elige estudios-"){
+                document.getElementById('main').innerHTML += "<br/>Selecciona tus estudios";
+                error = 1;  
+            }
+        }
+</script>
+</html>
