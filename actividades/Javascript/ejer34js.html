@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Ejercicio 34</title>
+    <script>
+        /*
+Crear un documento HTML (ejer34js.html) en el que se incluya código Javascript que realice lo siguiente:
+Implementar un programa que muestre por pantalla todas las fechas 1 de enero que sean domingo
+del año 2018 al 2050
+*/
+    </script>
+</head>
+<body>
+    <div id="main">
+      
+    </div>
+    <a href="index.html">Volver</a>
+</body>
+<script>
+        
+        for (let index = 2018; index <= 2050; index++) {
+            let date = new Date(index,0,1);
+            console.log(date);
+            if(date.getDay()==0){
+                document.getElementById('main').innerHTML += "El dia "+date.getDate()+" de enero de "+date.getFullYear()+" es domingo<br/>";
+            }
+        }
+</script>
+</html>
