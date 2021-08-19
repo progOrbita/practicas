@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Ejercicio 41</title>
+    <script>
+/*
+Escribir un programa que, basándose en la fórmula del interés simple:
+I = C*r*t/100
+ I es el interés simple obtenido del capital.
+ C es el capital invertido.
+ r es el rédito, o porcentaje de interés anual.
+ t es el número de periodos temporales (años).
+Calcular el interés producido en 20 años (t), sabiendo que el rédito (r) es del 5% y el capital (C) es de 
+30000€. Mostrar el resultado en forma de tabla HTML:
+*/
+    </script>
+    <style>
+        p{
+            border: 1px solid black;
+            display: inline-block;
+        }
+        td{
+            border: 1px solid black;
+        }
+        th{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <p><b>Cálculo del interés simple anual</b><br/>
+    Capital = 30000€, redito=5%, periodo max=20 años<br/>
+    I = (C * r * t)/100
+    </p>
+    <div id="main">
+      
+    </div>
+    <a href="index.html">Volver</a>
+</body>
+<script>
+    let capital = 30000;
+    let redito = 0.05;
+    let tiempo = 20;
+    let interes = 0;
+    let tabla = '<table><thead><th>Años</th><th>Interes Generado</th></thead><tbody>';
+    for (let index = 1; index < tiempo; index++) {
+        interes = (capital*redito*index);
+        tabla += '<tr><td>'+index+'</td><td>'+interes+'</td>';
+    }
+    tabla += '</tbody></table>';
+    document.getElementById('main').innerHTML = tabla;
+</script>
+</html>
