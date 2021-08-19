@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Ejercicio 33</title>
+    <script>
+        /*
+Crear un documento HTML (ejer33js.html) en el que se incluya código Javascript que realice lo siguiente:
+Implementar un programa que muestre por pantalla la fecha y hora actuales en diferentes formatos.
+Para ello debemos implementar una función:
+function formatoFecha(tipo)
+la función devolverá una cadena de caracteres 
+Si tipo toma los siguientes valores, el formato será:
+ tipo = 1 (formato largo):
+Son las 10:14pm del lunes 20 de febrero del 2017
+ tipo = 2 (formato corto):
+20/02/2017 10:14
+ tipo = 3 (formato americano):
+02/20/2017 10:14
+ tipo = 4 (formato medio):
+Son las 10:14 del 20-Feb-2017 (lunes)
+ tipo = 5:
+Son las 10:14 del 20-Feb-2017 (lunes) - Faltan 13 horas y 46 minutos 
+para la media noche
+*/
+    </script>
+</head>
+<body>
+    <div id="botones">
+        <span>Indica el tipo de la fecha</span><input type="number" id="numero">
+        <input type="button" value="ver fecha" onclick="mostrarFecha()">
+    </div>
+    <p>1 - formato largo</p>
+    <p>2 - formato corto</p>
+    <p>3 - formato americano</p>
+    <p>4 - formato medio</p>
+    <p>5 - tiempo para la medianoche</p>
+
+    <div id="main">
+      
+    </div>
+    <a href="index.html">Volver</a>
+</body>
+<script>
+        function formatoFecha(tipo){
+        let date = new Date();
+        let diasSemana = ['domingo','lunes','martes','miercoles','jueves','viernes','sabado'];
+        let meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+        switch(tipo){
+            //formato largo
+            case 1:
+            document.getElementById('main').innerHTML = "Son las "+date.getHours()+":"+date.getMinutes()+" del "+diasSemana[date.getDay()]+" "+
+            date.getDate()+" de "+" "+meses[date.getMonth()]+" del "+date.getFullYear();
+            break;
+            //formato corto
+            case 2:
+            document.getElementById('main').innerHTML = date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes();
+            break;
+            //formato americano
+            case 3:
+            document.getElementById('main').innerHTML = date.getMonth()+"/"+date.getDate()+"/"+date.getFullYear()+" "+date.getHours()+":"+date.getMinutes();
+            break;
+            //formato medio
+            case 4:
+            document.getElementById('main').innerHTML = "Son las "+date.getHours()+":"+date.getMinutes()+" del "+date.getDay()+"-"+meses[date.getMonth()]+"-"+date.getFullYear()+
+            " ("+diasSemana[date.getDay()]+")";
+            break;
+            //tipo 5
+            case 5:
+            document.getElementById('main').innerHTML = "Son las "+date.getHours()+":"+date.getMinutes()+" del "+date.getDay()+"-"+meses[date.getMonth()]+"-"+date.getFullYear()+
+            " ("+diasSemana[date.getDay()]+") - Faltan "+(24-date.getHours())+" horas y "+(60-date.getMinutes())+" minutos para la media noche";
+            break;
+            default:
+            document.getElementById('main').innerHTML = "Has metido un numero fuera de rango";
+            break;
+            }
+        }
+        function mostrarFecha(){
+        let tipo = parseInt(document.getElementById('numero').value);
+        formatoFecha(tipo);
+    }
+</script>
+</html>
