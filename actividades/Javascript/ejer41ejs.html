@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Ejercicio 41</title>
+    <script>
+/*
+Implementar un programa que defina una matriz que contendrá el nombre y extensión de 5 imágenes. Cuando se cargue la página, se mostrará aleatoriamente una de las cinco imágenes en una capa 
+que quede centrada horizontalmente en la ventana del navegador.
+*/
+    </script>
+    <style>
+        img{
+            margin-left: 35%;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+      
+    </div>
+    <a href="index.html">Volver</a>
+</body>
+<script>
+    let random = Math.floor(Math.random()*5)+1;
+    let images = ["https://static.zerochan.net/Pei.%28Sumurai%29.full.3418964.jpg","https://static.zerochan.net/Jose.Vega.full.3414354.jpg","https://static.zerochan.net/Pixiv.Id.19962999.full.3410171.jpg","https://static.zerochan.net/Bemani.full.3407013.jpg","https://static.zerochan.net/Kochiya.Sanae.full.3405353.jpg"];
+    document.getElementById('main').innerHTML = '<img src="'+images[random]+'"></img>';
+
+</script>
+</html>
