@@ -35,6 +35,7 @@ con espacios en blanco.
     </div>
     <div id="campoBotones">
         <input type="button" onclick="leerMatriz(matriz)" value="leer matriz">
+        <input type="button" onclick="mostrarMatriz(matriz)" value="mostrar matriz">
         <input type="button" onclick="sumarMatriz(matriz)" value="sumar matriz">
         <input type="button" onclick="maxMatriz(matriz)" value="mayor elemento de la matriz">
         <input type="button" onclick="minMatriz(matriz)" value="menor elemento de la matriz">
@@ -43,6 +44,13 @@ con espacios en blanco.
 </body>
 <script>
         function leerMatriz(matriz){
+            document.getElementById('main').innerHTML = "";
+            for (let index = 0; index < 20; index++) {
+                matriz[index] = parseInt(window.prompt('inserte el elemento numero '+index));
+                document.getElementById('main').innerHTML ="Matriz creada"; 
+            }
+        }
+        function mostrarMatriz(matriz){
             document.getElementById('main').innerHTML = "";
             for (let index = 0; index < matriz.length; index++) {
                 document.getElementById('main').innerHTML += matriz[index]+" "; 
@@ -76,6 +84,6 @@ con espacios en blanco.
             }
             document.getElementById('main').innerHTML = "Menor numero de la matriz: "+minimo;
         }
-        let matriz = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+        let matriz = [];
 </script>
 </html>

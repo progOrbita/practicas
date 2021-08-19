@@ -3,8 +3,6 @@
 <head>
     <meta charset='utf-8'>
     <title>Ejercicio 28</title>
-    
-    <script src='ejer28.js'></script>
     <script>
         /*
 Crear un documento HTML (ejer28js.html) en el que se incluya código Javascript que trabaje con una 
@@ -29,13 +27,21 @@ con espacios en blanco.
     </div>
     <div id="campoBotones">
         <input type="button" onclick="leerMatriz(matriz)" value="leer matriz">
+        <input type="button" onclick="mostrarMatriz(matriz)" value="mostrar matriz">
         <input type="button" onclick="incrementarMatriz(matriz)" value="incrementar matriz">
 
     </div>
     <a href="index.html">Volver</a>
 </body>
 <script>
-        function leerMatriz(matriz){
+    function leerMatriz(matriz){
+            document.getElementById('main').innerHTML = "";
+            for (let index = 0; index < 10; index++) {
+                matriz[index] = parseInt(window.prompt('inserte el elemento numero '+index));
+                document.getElementById('main').innerHTML ="Matriz creada"; 
+            }
+        }
+        function mostrarMatriz(matriz){
             document.getElementById('main').innerHTML = "";
             for (let index = 0; index < matriz.length; index++) {
                 document.getElementById('main').innerHTML += matriz[index]+" "; 
@@ -49,6 +55,6 @@ con espacios en blanco.
             }
             document.getElementById('main').innerHTML = "numero añadido";
         }
-        let matriz = [1,2,3,4,5,6,7,8,9,10];
+        let matriz = [];
 </script>
 </html>
