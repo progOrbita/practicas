@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Ejercicio 31</title>
+    <script>
+        /*
+Crear un documento HTML (ejer31js.html) en el que se incluya código Javascript que realice lo siguiente:
+ Leer por teclado dos cadenas de texto (cad1 y cad2).
+ A partir de las cadenas leídas, el programa debe mostrar la siguiente información (suponiendo 
+que hemos introducido como cad1 'Ayuntamiento' y como cad2 'Oviedo'):
+*/
+    </script>
+</head>
+<body>
+    <div id="main">
+      
+    </div>
+    <a href="index.html">Volver</a>
+</body>
+<script>
+        let cadena = window.prompt('escribe la primera cadena');
+        let cadenaB = window.prompt('escribe la segunda cadena');
+        document.getElementById('main').innerHTML = "Cadena 1: "+cadena;
+        document.getElementById('main').innerHTML += "<br/>Cadena 2: "+cadenaB;
+        document.getElementById('main').innerHTML += "<br/>Longitud de la cadena 1: "+cadena.length;
+        document.getElementById('main').innerHTML += "<br/>Longitud de la cadena 2: "+cadenaB.length;
+        if(cadena.length > cadenaB.length){
+            document.getElementById('main').innerHTML += "<br/>La cadena 1 es más larga que la cadena 2";
+        }
+        else{
+            document.getElementById('main').innerHTML += "<br/>La cadena 2 es más larga que la cadena 1";
+        }
+        if(cadena > cadenaB){
+            document.getElementById('main').innerHTML += "<br/>La cadena 1 es mayor alfabeticamente que la cadena 2";
+        }
+        else{
+            document.getElementById('main').innerHTML += "<br/>La cadena 1 es menor alfabeticamente que la cadena 2";
+        }
+            document.getElementById('main').innerHTML += "<br/>La cadena 1 en mayusculas: "+cadena.toUpperCase();
+            document.getElementById('main').innerHTML += "<br/>La cadena 1 en minusculas: "+cadena.toLowerCase();
+            document.getElementById('main').innerHTML += "<br/>El segundo caracter de la cadena 1 es: "+cadena.charAt(1);
+            document.getElementById('main').innerHTML += "<br/>La primera 'a' en la cadena esta en la posicion: "+cadena.indexOf('a');
+            document.getElementById('main').innerHTML += "<br/>Cambiando la 'a' por 'A' en la primera cadena: "+cadena.replaceAll('a','A');
+        if(cadena.includes(cadenaB)){
+            document.getElementById('main').innerHTML += "<br/>La cadena 2 esta contenida en la cadena 1";
+        }
+        else{
+            document.getElementById('main').innerHTML += "<br/>La cadena 2 no esta contenida en la cadena 1";
+        }
+            document.getElementById('main').innerHTML += "<br/>Los cuatro primeros caracteres de la cadena 1 son: "+cadena.substring(0,4);
+
+
+
+
+</script>
+</html>
