@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Ejercicio 28</title>
+    
+    <script src='ejer28.js'></script>
+    <script>
+        /*
+Crear un documento HTML (ejer28js.html) en el que se incluya código Javascript que trabaje con una 
+matriz de 10 números enteros. Se trata de:
+ leer la matriz, 
+ incrementar los elementos con un incremento específico y
+ visualizar la matriz por pantalla.
+Para ello definiremos las siguientes funciones:
+function leeMatriz(m)
+Leerá, mediante un bucle, los 10 elementos de la matriz. 
+function incrementaMatriz(m,inc)
+Recorrerá la matriz incrementando cada valor de lsa matriz con el valor inc.
+function muestraMatriz(m)
+Mostrará por pantalla (en el documento) todos los elementos de la matriz separados por 
+con espacios en blanco.
+*/
+    </script>
+</head>
+<body>
+    <div id="main">
+      
+    </div>
+    <div id="campoBotones">
+        <input type="button" onclick="leerMatriz(matriz)" value="leer matriz">
+        <input type="button" onclick="incrementarMatriz(matriz)" value="incrementar matriz">
+
+    </div>
+    <a href="index.html">Volver</a>
+</body>
+<script>
+        function leerMatriz(matriz){
+            document.getElementById('main').innerHTML = "";
+            for (let index = 0; index < matriz.length; index++) {
+                document.getElementById('main').innerHTML += matriz[index]+" "; 
+            }
+        }
+        function incrementarMatriz(matriz){
+            let numero = parseInt(window.prompt('cuanto quieres incrementar a cada valor?'));
+            document.getElementById('main').innerHTML = "";
+            for (let index = 0; index < matriz.length; index++) {
+                matriz[index] = matriz[index]+numero;
+            }
+            document.getElementById('main').innerHTML = "numero añadido";
+        }
+        let matriz = [1,2,3,4,5,6,7,8,9,10];
+</script>
+</html>
