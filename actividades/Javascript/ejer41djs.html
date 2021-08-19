@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Ejercicio 41</title>
+    <script>
+/*
+Implementar un programa que nos pregunte sobre nuestras preferencias y gustos. En función de las 
+respuestas del usuario, se mostrarán enlaces interesantes sobre dichas aficiones/gustos
+*/
+    </script>
+</head>
+<body>
+    <div id="main">
+      
+    </div>
+    <a href="index.html">Volver</a>
+</body>
+<script>
+    let comprar = window.prompt('te gusta comprar? (S/N)');
+    let musica = window.prompt('te gusta la musica? (S/N)');
+    let vidya = window.prompt('te gusta los videojuegos? (S/N)');
+    console.log(comprar);
+    if(comprar == 'S'){
+        document.getElementById('main').innerHTML += '<h1>Web de compras</h1>';
+        document.getElementById('main').innerHTML += '<a href="www.elcorteingles.es">El Corte ingles</a><br/>';
+        document.getElementById('main').innerHTML += '<a href="www.amazon.es">Amazon</a><br/>';
+        document.getElementById('main').innerHTML += '<a href="www.ebay.es">Ebay</a><br/>';
+    }
+    if(musica == 'S'){
+        document.getElementById('main').innerHTML += '<h1>Web de musica</h1>';
+        document.getElementById('main').innerHTML += '<a href="www.youtube.es">Youtube</a><br/>';
+        document.getElementById('main').innerHTML += '<a href="www.spotify.com/es">Spotify</a><br/>';
+        document.getElementById('main').innerHTML += '<a href="www.musica.com">Pagina random</a><br/>';
+    }
+    if(vidya == 'S'){
+        document.getElementById('main').innerHTML += '<h1>Web de videojuegos</h1>';
+        document.getElementById('main').innerHTML += '<a href="www.opencritic.com">Opencritic</a><br/>';
+        document.getElementById('main').innerHTML += '<a href="www.metacritic.com/game">Metacritic</a><br/>';
+        document.getElementById('main').innerHTML += '<a href="www.fnac.es/juegos">Fnac</a><br/>';
+    }
+
+</script>
+</html>
