@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Ejercicio 38</title>
+    <style>
+        thead{
+            background-color: gray;
+            width: 100px;
+            height: 60px;
+        }
+        table, th, td{
+            border: 1px solid black;
+        }
+    </style>
+    <script>
+/*
+mplementar un programa que cree un vector de 11 elementos (solamente nos interesan las posiciones de la 1 a la 10). El programa debe generar 100 números aleatorios comprendidos entre 1 y 10.
+La posición i del vector indicará el número de veces que se ha generado el número i.
+
+*/
+    </script>
+</head>
+<body>
+    <div id="main">
+      
+    </div>
+    <div id="campoBotones">
+        <input type="button" onclick="iniciarVector(vector)" value="iniciar vector">
+        <input type="button" onclick="mostrarVector(vector)" value="mostrar el vector">
+        <input type="button" onclick="llenaVector(vector)" value="Llenar el vector">
+
+    </div>
+    <a href="index.html">Volver</a>
+</body>
+<script>
+        let vector = [0,0,0,0,0,0,0,0,0,0,0];
+            function iniciarVector(vector){
+                document.getElementById('main').innerHTML = "";
+                for (let index = 1; index < vector.length; index++) {
+                    vector[index] = 0;
+                }
+                document.getElementById('main').innerHTML ="Vector vaciado"; 
+            }
+            function llenaVector(vector){
+                let vectorFrecuencia = [];
+                for (let index = 0; index < 100; index++) {
+                    vectorFrecuencia[index] = Math.floor((Math.random())*10)+1;
+                }
+                document.getElementById('main').innerHTML = "";
+                for (let index = 0; index < vectorFrecuencia.length; index++) {
+                    switch(vectorFrecuencia[index]){
+                        case 1:
+                            vector[1]++;
+                            break;
+                        case 2:
+                            vector[2]++;
+                            break;  
+                        case 3:
+                            vector[3]++;
+                            break;
+                        case 4:
+                            vector[4]++;
+                            break;
+                        case 5:
+                            vector[5]++;
+                            break;
+                        case 6:
+                            vector[6]++;
+                            break;
+                        case 7:
+                            vector[7]++;
+                            break;
+                        case 8:
+                            vector[8]++;
+                            break;
+                        case 9:
+                            vector[9]++;
+                            break;
+                        case 10:
+                            vector[10]++;
+                            break;   
+                    }
+                    
+                }
+                document.getElementById('main').innerHTML = "Vector llenado";
+            }
+            function mostrarVector(vector){
+                document.getElementById('main').innerHTML = "";
+                let cantidad = 0;
+                document.getElementById('main').innerHTML += "<h3>HISTOGRAMA DE FRECUENCIAS</h3>";
+                for (let index = 1; index < vector.length; index++) {
+                    document.getElementById('main').innerHTML += '<span>('+index+'): ';
+                    for (cantidad = 0; cantidad < vector[index]; cantidad++) {
+                        document.getElementById('main').innerHTML += '*';
+                    }
+                    document.getElementById('main').innerHTML += '('+cantidad+')<br/>';
+                }
+            }
+</script>
+</html>
