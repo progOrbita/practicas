@@ -44,7 +44,6 @@
             ul{
                 display: inline-flex;
                 list-style-type: none;      
-                margin-left: 20%;
             }             
         </style>
     </head>
@@ -96,11 +95,12 @@
         </div>
         
         <div class="container table-responsive" id="tableContent">
-           
-        </div>
-        <div id="pages">
+        
+            <div id="pages">
 
+            </div>
         </div>
+        
     </body>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>       
@@ -128,23 +128,7 @@
 				return false;
 			}
 			return true;			
-		}
-        /**
-         * Add page numbers under the table in a div
-         * @param number total of registers.
-         */
-        function addPagination(number){
-            $('#pages').empty();
-            //second number is the number of results per page
-            let pages = Math.ceil(number/10);
-            let pageNumbers = "";
-            pageNumbers += "<ul>";
-                for (let index = 1; index <= pages; index++) {
-                    pageNumbers += '<li><input class="btn btn-secondary" type="button" id="pagination" value="'+index+'"></input></li>';
-                }
-                pageNumbers += '</ul>';
-            $('#pages').append(pageNumbers);
-        }
+		}   
         /**
          * Disable the save button if there's an error in the data sent.
          * @param arrayData array containing the data
@@ -213,7 +197,6 @@
                 $('#tableContent').empty();
                 $('#messages').empty();
                 $('#tableCaption').empty();
- 
                 //Insert the table data
                 let jsonData = JSON.parse(data);
                 $('#tableContent').append(jsonData);
@@ -231,23 +214,6 @@
                     else{
                         $('#tableCaption').append('Users removed');
                     }
-                    //To include a pagination, obtain numbers of users registered and removed
-                    let paginationRequest = $.ajax({
-                        url: "api.php?action=countUsers",
-                        context: document.body,
-                        type: "POST"
-			        });
-                    paginationRequest.done(function(data){
-                        let jsonPagination = JSON.parse(data); //Array with two numbers.
-                        // 0 -> number of users registered
-                        // 1 -> number of users removed
-                        if($('#sliderForm:checked').length == 1){
-                        addPagination(jsonPagination[0]);
-                    }
-                    else{
-                        addPagination(jsonPagination[1]);
-                    }
-                    });
                 }
                 //if the query is empty
                 else{

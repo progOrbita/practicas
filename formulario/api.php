@@ -15,12 +15,16 @@ if(!defined('_PS_VERSION_')){
          * end close tbody and table tags.
          * @param array $tableData data obtained from the query
          * @param int $removed 0 -> register tab, 1 -> removed tab.
+         * @param array $totalRegistered array with two numbers counting all the registers and removed users.
          * @return string $beggining+$mainData+$end containing the entire table in html
         */
-    function createTable(array $tableData, int $removed){
+    function createTable(array $tableData, int $removed, array $totalRegistered){
             $mainData = "";
             $i = 0;
             $len = count($tableData);
+            $cur_page = Tools::getValue('pageNumber');
+            $num_limit = 10;
+            $pages = "";
             $beggining = '
                 <table class="table table-dark table-striped table-hover table-bordered table-fixed">
             <caption id="tableCaption"></caption>            
@@ -118,7 +122,19 @@ if(!defined('_PS_VERSION_')){
                 $mainData .= '</tr>';
             }
         $end = '</tbody></table>';
-        return $beggining.$mainData.$end;
+            //pagination creation. 0 registered, 1 removed users
+            if($removed == 0){
+                $number = $totalRegistered[0];
+            }
+            else{
+                $number = $totalRegistered[1];
+            }
+            $pagesNumber = ceil($number/$num_limit);
+            $pages .= '<ul>';
+                for ($i = 1; $i <= $pagesNumber; $i++) {
+                    $pages .= '<li><input class="btn btn-secondary" type="button" id="pagination" value="'.$i.'"></input></li>';
+                }
+        return $beggining.$mainData.$end.$pages;
     }
     $accion = (string) Tools::getValue('action','default');
     $api_functions = new Resources();
@@ -161,7 +177,7 @@ if(!defined('_PS_VERSION_')){
             }
             $resultQuery = $api_functions->find($data_array,$number);
             $remove = $data_array["removed"];
-            $result = createTable($resultQuery, $remove);
+            $result = createTable($resultQuery, $remove,$api_functions->countRegisters());
             break;
         // User return to registered status
         case "undo":
