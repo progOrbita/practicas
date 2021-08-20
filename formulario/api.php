@@ -129,11 +129,19 @@ if(!defined('_PS_VERSION_')){
             else{
                 $number = $totalRegistered[1];
             }
+            //calculations for displaying text
             $pagesNumber = ceil($number/$num_limit);
+            $current_number = (($cur_page-1)*$num_limit)+1;
+            $current_limit = $cur_page*$num_limit;
+            //If there's less than current limit
+            if($number < $current_limit){
+                $current_limit = $number;
+            }
             $pages .= '<ul>';
                 for ($i = 1; $i <= $pagesNumber; $i++) {
                     $pages .= '<li><input class="btn btn-secondary" type="button" id="pagination" value="'.$i.'"></input></li>';
                 }
+                $pages .= '<span> Displaying '.$current_number.'-'.$current_limit.' of '.$number.' results</span></ul>';
         return $beggining.$mainData.$end.$pages;
     }
     $accion = (string) Tools::getValue('action','default');
