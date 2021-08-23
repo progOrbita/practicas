@@ -34,6 +34,7 @@ if(!defined('_PS_VERSION_')){
             break;
             //Find all the users from the filters given
         case "find":
+            $num_limit = 10;
             $post = file_get_contents('php://input');
             //decode jsonstring into an array of json objects
             $jsonData = json_decode($post);
@@ -49,7 +50,7 @@ if(!defined('_PS_VERSION_')){
             }
             $resultQuery = $api_functions->find($data_array,$number,$num_limit);
             $remove = $data_array["removed"];
-            $result = createTable($resultQuery, $remove,$api_functions->countRegisters(),$num_limit);
+            $result = $api_functions->createTable($resultQuery, $remove,$api_functions->countRegisters(),$num_limit);
             break;
         // User return to registered status
         case "undo":
