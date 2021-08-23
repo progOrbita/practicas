@@ -97,6 +97,9 @@
                 break;
             }
         }
+        /*
+        * For inverse, pow, root, +/- and "." buttons
+        */
         function autoOperation(operation){
                 $('#result').html(operation);
                 $('#operations').html(operation);
@@ -165,6 +168,7 @@
                 //If it's 1, after inserting a number it will reset
                 operated = 1;
                 if(operation !== "="){
+                    $('#symbol').empty();
                     $('#symbol').append(operation);
                 }
                 else{
