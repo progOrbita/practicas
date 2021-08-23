@@ -143,6 +143,37 @@
                     $('#symbol').empty();
                     $('#symbol').append("/");
                 }
+                if(operation == 'equal'){
+                    let operType = $('#symbol').html();
+                    let numberString = $('#operations').html();
+                    let resultString = $('#result').html();
+                    if(isNaN(resultString)){
+                        resultString = 0;
+                    }
+                    if(numberString.startsWith('.')){
+                        console.log('start with point');
+                    }
+                    let result = parseInt(resultString);
+                    let numbers = parseInt(numberString);
+                    switch(operType){
+                        case "+":
+                        total = result+numbers;
+                        $('#result').html(total);
+                        break;
+                        case "-":
+                        total = result-numbers;
+                        $('#result').html(total);
+                        break;
+                        case "x":
+                        total = result*numbers;
+                        $('#result').html(total);
+                        break;
+                        case "/":
+                        total = result/numbers;
+                        $('#result').html(total);
+                        break;
+                    }
+                }
             });
         });
     </script>
