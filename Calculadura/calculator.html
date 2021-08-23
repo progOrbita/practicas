@@ -95,15 +95,19 @@
             //Removed button, either last digit, current operation or everything
             $(document).on('click','#remButton',function(){
                 let remove = $(this).val();
+                //Clean current operation
                 if(remove == 'CE'){
+                    $('#operations').empty();
+                    $('#symbol').empty();
+                }
+                //Clean everything
+                if(remove == 'C'){
                     $('#result').empty();
                     $('#operations').empty();
+                    $('#backlog').empty();
                     $('#symbol').empty();
                 }
-                if(remove == 'C'){
-                    $('#operations').empty();
-                    $('#symbol').empty();
-                }
+                //remove last number
                 if(remove == '<-'){
                     let numbers = $('#operations').html();
                     let remLast = numbers.slice(0,numbers.length-1);
