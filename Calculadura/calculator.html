@@ -58,9 +58,12 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script>
+        /**
+         * For plus/minus/mult/divide
+         */
         function executeOperation(){
             let operType = $('#symbol').html();
-            let numberString = $('#operations').html();
+            let numberString = $('#digits').html();
             let resultString = $('#result').html();
 
             //if result is empty and an operation is pressed
@@ -102,44 +105,44 @@
         */
         function autoOperation(operation){
                 $('#result').html(operation);
-                $('#operations').html(operation);
+                $('#digits').html(operation);
         }
         $(document).ready(function(){
             //clean number line if another number is pressed after an operation
             let operated = 0;
             $(document).on('click','#numButtons',function(){
                 if(operated == 1){
-                    $('#operations').empty(); 
+                    $('#digits').empty(); 
                     $('#symbol').empty();
                 }
                 operated = 0;
-                $('#operations').append($(this).val());
+                $('#digits').append($(this).val());
             });
             //Removed button, either last digit, current operation or everything
             $(document).on('click','#remButton',function(){
                 let remove = $(this).val();
                 //Clean current operation
                 if(remove == 'CE'){
-                    $('#operations').empty();
+                    $('#digits').empty();
                     $('#symbol').empty();
                 }
                 //Clean everything
                 if(remove == 'C'){
                     $('#result').empty();
-                    $('#operations').empty();
+                    $('#digits').empty();
                     $('#symbol').empty();
                 }
                 //remove last number
                 if(remove == '<-'){
-                    let numbers = $('#operations').html();
+                    let numbers = $('#digits').html();
                     let remLast = numbers.slice(0,numbers.length-1);
-                    $('#operations').empty();
-                    $('#operations').append(remLast);
+                    $('#digits').empty();
+                    $('#digits').append(remLast);
                 }
             });
             //inverse, pow, root and change plus/min and "." operations that change current value without =
             $(document).on('click','#autoOper',function(){
-                let numbers = $('#operations').html();
+                let numbers = $('#digits').html();
                 $('#symbol').empty();
                 operation = $(this).attr('name');
                 switch (operation){
@@ -153,11 +156,11 @@
                     autoOperation(Math.sqrt(numbers,2));
                     break;
                     case "plusMin":
-                    $('#operations').html(-numbers);
+                    $('#digits').html(-numbers);
                     break;
                     case "buttonPoint":
                     if(!numbers.includes('.')){
-                        $('#operations').append('.');
+                        $('#digits').append('.');
                     }
                     break;
                 }
