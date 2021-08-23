@@ -130,6 +130,17 @@
                     $('#result').html(Math.sqrt(numbers,2));
                     $('#operations').html(Math.sqrt(numbers,2));
                 }
+                if(operation =='plusMin'){
+                    let numbers = $('#operations').html();
+                    $('#operations').html(-numbers);
+                }
+                if(operation == 'buttonPoint'){
+                    let numbers = $('#operations').html();
+                    if(!numbers.includes('.')){
+                        $('#operations').append('.');
+                    }
+                }
+            });
             //operators
             $(document).on('click','#calcButton',function(){
                 let operation = $(this).attr('name');
