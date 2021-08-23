@@ -92,9 +92,11 @@
                 if(remove == 'CE'){
                     $('#result').empty();
                     $('#operations').empty();
+                    $('#symbol').empty();
                 }
                 if(remove == 'C'){
                     $('#operations').empty();
+                    $('#symbol').empty();
                 }
                 if(remove == '<-'){
                     let numbers = $('#operations').html();
@@ -103,8 +105,9 @@
                     $('#operations').append(remLast);
                 }
             });
-            //inverse, pow and root change current value without =
+            //inverse, pow, root and change plus/min and "." operations that change current value without =
             $(document).on('click','#autoOper',function(){
+                $('#symbol').empty();
                 operation = $(this).attr('name');
                 if(operation == 'inverse'){
                     let numbers = $('#operations').html();
