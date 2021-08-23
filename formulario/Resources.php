@@ -190,13 +190,22 @@ class Resources{
     }
     /**
      * Check and remove a name from the table 
-     * @param int $id name to be deleted from the table
+     * @param int $id user id to be deleted from the table
      * @return $query result of the query, or the array with the query if doesn't exist
      */
     function delete(int $id){
             $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
             return $query;
     } 
+    /**
+     * Check and remove all the names from the table 
+     * @param string $name name to be deleted from the table
+     * @return $query result of the query, or the array with the query if doesn't exist
+     */
+    function remove(string $name){
+        $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET removed=1, mod_date=NOW(), del_date=NOW() WHERE name="'.$name.'"');
+        return $query;
+    }
     /**
      * Find users either registered or removed from the database within a limit
      * @param array $array_data the inputs to filter the query if any

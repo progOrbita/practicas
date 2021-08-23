@@ -27,10 +27,15 @@ if(!defined('_PS_VERSION_')){
 		    $array_save = ["id"=> $jsonData[0], "name" =>$jsonData[1],"age" =>$jsonData[2],"date" =>$jsonData[3]];
             $result =  $api_functions->save($array_save);
             break;
-        //remove the row given a name.
+        //remove the user given a id
         case "delete":
 		    $id = Tools::getValue('id',"");
 		    $result = $api_functions->delete($id);
+            break;
+        //Remove the user given a name
+        case "remove":
+            $name = Tools::getValue('name');
+            $result = $api_functions->remove($name);
             break;
             //Find all the users from the filters given
         case "find":
