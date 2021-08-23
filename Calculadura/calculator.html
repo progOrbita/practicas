@@ -124,6 +124,25 @@
                     $('#result').html(Math.sqrt(numbers,2));
                     $('#operations').html(Math.sqrt(numbers,2));
                 }
+            //operators
+            $(document).on('click','#calcButton',function(){
+                let operation = $(this).attr('name');
+                if(operation == 'plus'){
+                    $('#symbol').empty();
+                    $('#symbol').append("+");
+                }
+                if(operation == 'minus'){
+                    $('#symbol').empty();
+                    $('#symbol').append("-");
+                }
+                if(operation == 'mult'){
+                    $('#symbol').empty();
+                    $('#symbol').append("x");
+                }
+                if(operation == 'divide'){
+                    $('#symbol').empty();
+                    $('#symbol').append("/");
+                }
             });
         });
     </script>
