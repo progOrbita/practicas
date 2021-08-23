@@ -133,9 +133,15 @@ class Resources{
             if($number < $current_limit){
                 $current_limit = $number;
             }
-            $pages .= '<nav><ul class="pagination justify-content-left">';
+            $pages .= '<nav><ul class="pagination justify-content-center">';
                 for ($i = 1; $i <= $pagesNumber; $i++) {
+                    //Check the current page to add active
+                    if( $i == $cur_page){
+                        $pages .= '<li class="page-item active"><input class="btn btn-secondary page-link" type="button" id="pagination" value="'.$i.'"></input></li>';
+                    }
+                    else{
                     $pages .= '<li class="page-item"><input class="btn btn-secondary page-link" type="button" id="pagination" value="'.$i.'"></input></li>';
+                    }
                 }
                 $pages .= '</ul></nav><span> Displaying '.$current_number.'-'.$current_limit.' of '.$number.' results</span>';
         return $beggining.$mainData.$end.$pages;
