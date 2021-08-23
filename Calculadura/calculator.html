@@ -81,6 +81,10 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script>
+        function autoOperation (operation){
+                $('#result').html(operation);
+                $('#operations').html(operation);
+        }
         $(document).ready(function(){
             //clean number line if another number is pressed after an operation
             let operated = 0;
@@ -122,16 +126,13 @@
                 operation = $(this).attr('name');
                 switch (operation){
                     case "inverse":
-                    $('#result').html(1/(numbers));
-                    $('#operations').html(1/(numbers));
+                    autoOperation(1/(numbers));
                     break;
                     case "pow":
-                    $('#result').html(Math.pow(numbers,2));
-                    $('#operations').html(Math.pow(numbers,2));
+                    autoOperation(Math.pow(numbers,2));
                     break;
                     case "root":
-                    $('#result').html(Math.sqrt(numbers,2));
-                    $('#operations').html(Math.sqrt(numbers,2));
+                    autoOperation(Math.sqrt(numbers,2));
                     break;
                     case "plusMin":
                     $('#operations').html(-numbers);
