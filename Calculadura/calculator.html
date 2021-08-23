@@ -83,7 +83,13 @@
     <script>
         $(document).ready(function(){
             //Numbered buttons, they are added in the bottom part
+            let operated = 0;
             $(document).on('click','#numButtons',function(){
+                if(operated == 1){
+                    $('#operations').empty(); 
+                    $('#symbol').empty();
+                }
+                operated = 0;
                 $('#operations').append($(this).val());
             });
             //Removed button, either last digit, current operation or everything
@@ -127,6 +133,8 @@
             //operators
             $(document).on('click','#calcButton',function(){
                 let operation = $(this).attr('name');
+                //If it's 1, after inserting a number it will reset
+                operated = 1;
                 if(operation == 'plus'){
                     $('#symbol').empty();
                     $('#symbol').append("+");
