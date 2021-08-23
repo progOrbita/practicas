@@ -173,8 +173,8 @@
                     if(numberString.startsWith('.')){
                         numberString = 0+numberString;
                     }
-                    let result = parseInt(resultString);
-                    let numbers = parseInt(numberString);
+                    let result = parseFloat(resultString);
+                    let numbers = parseFloat(numberString);
                     switch(operType){
                         case "+":
                         total = result+numbers;
