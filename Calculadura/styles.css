@@ -1,26 +1,23 @@
 body{
     width: 30%;
 }
+p{
+    display: inline-block;
+    height: 50px;
+}
 #calcWindow{
     border: 1px solid black;
     margin-top: 25px;
     min-height: 200px;
     display: flex;
+    width: 66%;
 }
-#operations{
-    align-self: flex-end;
-}
-#symbol{
-    align-self: flex-end;
-}
-p{
-    display: inline-block;
-    height: 50px;
-}
-#backlog{
-    position: absolute;
-    top: 15%;
+#digits{
+    align-self: flex-end; 
 }
 #result{
     position: absolute;
+}
+#symbol{
+    align-self: flex-end;
 }
