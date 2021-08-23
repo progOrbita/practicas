@@ -33,7 +33,7 @@
     </head>
     <body>
         <div class="container-sm" id="calcWindow">
-            <p id="result">0</p>
+            <p id="result"></p>
             <p id="operations"></p>
             <p id="symbol"></p>
         </div>
@@ -166,8 +166,9 @@
                     let operType = $('#symbol').html();
                     let numberString = $('#operations').html();
                     let resultString = $('#result').html();
-                    if(isNaN(resultString)){
-                        resultString = 0;
+                    //if result is empty and a operation 
+                    if($.trim($("#result").html())==''){
+                        resultString = numberString;
                     }
                     if(numberString.startsWith('.')){
                         numberString = 0+numberString;
@@ -189,6 +190,11 @@
                         break;
                         case "/":
                         total = result/numbers;
+                        $('#result').html(total);
+                        break;
+                        //if = is pressed
+                        default:
+                        total = numbers;
                         $('#result').html(total);
                         break;
                     }
