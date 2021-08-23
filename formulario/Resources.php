@@ -22,7 +22,7 @@ class Resources{
         $pages = "";
         $beggining = '
             <table class="table table-sm table-dark table-striped table-hover table-bordered table-fixed">
-        <caption id="tableCaption"></caption>            
+        <caption style="padding-top 0px, padding-bottom: 0px" id="tableCaption"></caption>
         <thead>
             <tr class="bg-info">
                 <th>ID</th>
@@ -133,11 +133,11 @@ class Resources{
             if($number < $current_limit){
                 $current_limit = $number;
             }
-            $pages .= '<ul>';
+            $pages .= '<nav><ul class="pagination justify-content-left">';
                 for ($i = 1; $i <= $pagesNumber; $i++) {
-                    $pages .= '<li><input class="btn btn-secondary" type="button" id="pagination" value="'.$i.'"></input></li>';
+                    $pages .= '<li class="page-item"><input class="btn btn-secondary page-link" type="button" id="pagination" value="'.$i.'"></input></li>';
                 }
-                $pages .= '<span> Displaying '.$current_number.'-'.$current_limit.' of '.$number.' results</span></ul>';
+                $pages .= '</ul></nav><span> Displaying '.$current_number.'-'.$current_limit.' of '.$number.' results</span>';
         return $beggining.$mainData.$end.$pages;
     }
 /**
