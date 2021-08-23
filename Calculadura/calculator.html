@@ -35,7 +35,7 @@
                     <input class="form form-control col-1" type="button" id="remButton" name="removeLast" value="<-">
                 </div>
                 <div class="row">
-                    <input class="form form-control col-1" type="button" name="Divided" value="1/x">
+                    <input class="form form-control col-1" type="button" name="inverse" value="1/x">
                     <input class="form form-control col-1" type="button" name="pow" value="x2">
                     <input class="form form-control col-1" type="button" name="root" value="&#x221A">
                     <input class="form form-control col-1" type="button" id="calcButton" name="divide" value="/">
@@ -90,6 +90,25 @@
                     let remLast = numbers.slice(0,numbers.length-1);
                     $('#operations').empty();
                     $('#operations').append(remLast);
+                }
+            });
+            //inverse, pow and root change current value without =
+            $(document).on('click','#autoOper',function(){
+                operation = $(this).attr('name');
+                if(operation == 'inverse'){
+                    let numbers = $('#operations').html();
+                    $('#result').html(1/(numbers));
+                    $('#operations').html(1/(numbers));
+                }
+                if(operation == 'pow'){
+                    let numbers = $('#operations').html();
+                    $('#result').html(Math.pow(numbers,2));
+                    $('#operations').html(Math.pow(numbers,2));
+                }
+                if(operation == 'root'){
+                    let numbers = $('#operations').html();
+                    $('#result').html(Math.sqrt(numbers,2));
+                    $('#operations').html(Math.sqrt(numbers,2));
                 }
             });
         });
