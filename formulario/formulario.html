@@ -15,16 +15,16 @@
 	<form class="needs-validation row-cols-4" method="post" id="formulary" novalidate>
 		<div class="col-md">
 			<div class="form-floating mb-3">
-				<input class="form-control" type="text" name="formText" id="textData" placeholder="insert your name" autocomplete="off">
-				<label for="floatingInput">Teoric name</label>
+				<input class="form-control" type="text" name="name" id="textData" placeholder="insert your name" autocomplete="off">
+				<label for="floatingInput">Name</label>
 			</div>
-				<label class="form-label">Teoric age</label>
+				<label class="form-label">Age</label>
 			<div class="input-group mb-3">	
-				<input class="form-control" type="number" name="formNumber" id="numberData">
+				<input class="form-control" type="number" name="age" id="numberData">
 			</div>
-				<label class="form-label">Teoric date</label>
+				<label class="form-label">Date</label>
 			<div class="input-group mb-3">
-				<input class="form-control" type="date" name="formDate" id="dateData">
+				<input class="form-control" type="date" name="date" id="dateData">
 			</div>
 			<div class="input-group flex-nowrap">
 				<input class="btn btn-primary" type="button" value="Validate data" id="validate" name="dataValidate">
@@ -77,9 +77,12 @@
 		 * Validate data given with Ajax and show the inputs that are right and wrong 
 		 */
 		function validateData(){
-			let getData = $('#formulary').find("input");
-			let dataSerial = getData.serialize();	
-			let ajaxRequest = apiCall("validate",dataSerial);
+			let name = $('#textData').val();
+            let age = $('#numberData').val();
+            let date = $('#dateData').val();
+			let arrayData = [name, age, date];
+            let jsonString = JSON.stringify(arrayData);	
+			let ajaxRequest = apiCall("verify",jsonString);
 			ajaxRequest.done(function(data){
 				let jsonData = JSON.parse(data);
 				if(comprobarApi(jsonData)){
@@ -92,9 +95,12 @@
 		 * Add data using Ajax showing messages if was added or there's an error
 		 */
 		function addData(){
-			let getData = $('#formulary').find("input");
-				let dataSerial = getData.serialize();
-				let ajaxRequest = apiCall("save",dataSerial);
+			let name = $('#textData').val();
+            let age = $('#numberData').val();
+            let date = $('#dateData').val();
+			let arrayData = [name, age, date];
+			let jsonString = JSON.stringify(arrayData);	
+			let ajaxRequest = apiCall("add",jsonString);
 			ajaxRequest.done(function(data){
 				$('#divResult').empty();
 				$('#divResult').removeClass('text-danger');								
@@ -136,7 +142,7 @@
 				let confirmation = confirm("¿Are you sure you want to delete it?");
 				let ajaxRequest;
 				if(confirmation === true){
-					ajaxRequest = apiCall("delete",{name: check_empty_name});
+					ajaxRequest = apiCall("remove",{name: check_empty_name});
 				}
 				else{
 					$('#divResult').append('<p>Nothing have been removed</p>');
