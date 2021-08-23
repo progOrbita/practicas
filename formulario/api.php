@@ -201,10 +201,6 @@ if(!defined('_PS_VERSION_')){
             $array_add = ["name" => $jsonData[0],"age" => $jsonData[1],"date" => $jsonData[2]];
             $result = $api_functions->add($array_add);
             break;
-        //Count users, after find call
-        case "countUsers":
-            $result = $api_functions->countRegisters();
-            break;
         //if there's an error with the action sent or isnt written
         default:
             $result = "There was an unexpected error with the server connection";
