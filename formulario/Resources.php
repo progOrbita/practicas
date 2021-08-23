@@ -2,6 +2,144 @@
 
 class Resources{
     protected $table = _DB_PREFIX_.'formulary';
+         /**
+         * Creates the entire table. 
+         * Beggining is table start and thead. 
+         * Main data all the rows with the information 
+         * end close tbody and table tags.
+         * pages includes pagination at the bottom of the table
+         * @param array $tableData data obtained from the query
+         * @param int $removed 0 -> register tab, 1 -> removed tab.
+         * @param array $totalRegistered array with two numbers counting all the registers and removed users.
+         * @param int $num_limit integer with the users displayed per page
+         * @return string $beggining+$mainData+$end containing the entire table in html
+        */
+    function createTable(array $tableData, int $removed, array $totalRegistered, int $num_limit){
+        $mainData = "";
+        $i = 0;
+        $len = count($tableData);
+        $cur_page = Tools::getValue('pageNumber');
+        $pages = "";
+        $beggining = '
+            <table class="table table-sm table-dark table-striped table-hover table-bordered table-fixed">
+        <caption id="tableCaption"></caption>            
+        <thead>
+            <tr class="bg-info">
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Date</th>
+                <th>Creation date</th>
+                <th>Modification date</th>';
+                //if there's no users added in the table
+                if($len == 0 && $removed == 0){
+                    $beggining .= '<th class="col-2">actions</th>';
+                }
+                //For removed users, key is to insert th only once
+                foreach ($tableData as $key => $value) {
+                    foreach ($value as $keyVal => $string) {
+                        if($key == 0 && $keyVal=="removed" && $string==1){
+                            $beggining .= '<th>Deletion date</th>
+                                            <th>Actions</th>';
+                        }
+                        //for non-removed users
+                        if($key == 0 && $keyVal=="removed" && $string==0){
+                            $beggining .= '<th class="col-2">Actions</th>';
+                        }
+                    }
+                } 
+        $beggining .=  '</tr>
+                </thead>
+            <tbody>';
+            //If there's no users added in the table
+            if($len == 0 && $removed == 0){
+        $mainData .='<tr>
+            <td><input class="form-control text-light btn-secondary" value="" disabled></input></td>
+            <td><input type="text" class="form-control .name" name="insName" id="insertName"></input></td>
+            <td><input type="number" class="form-control .age" name="insAge" id="insertAge"></input></td>
+            <td><input type="date" class="form-control .date" name="insDate" id="insertDate"></input></td>
+            <td><input class="form-control text-light btn-secondary" value="" disabled></input></td>
+            <td><input class="form-control text-light btn-secondary" value="" disabled></input></td>
+            <td><i style="font-size: 2rem;" class="bi bi-pencil-square" type="button" data-toggle="tooltip" title="add new user" name="addNew" id="addNew"></i></td>
+            </tr>';          
+        }
+        //Key is the result number. Value is array containing the data
+            foreach ($tableData as $key => $value) {
+                $mainData .= '<tr>';
+                //array have keyVal (ID, name...) and the string which is keyVal value (12,user).
+                foreach ($value as $keyVal => $string) {
+                    switch($keyVal){
+                        case "name":
+                            $mainData .= '<td><input type="text" class="form-control '.$keyVal.'" value="'.$string.'"></input></td>'; 
+                        break;
+                        case "age":
+                            $mainData .= '<td><input type="number" class="form-control '.$keyVal.'" value="'.$string.'"></input></td>';
+                            break; 
+                        case "date":
+                            $mainData .= '<td><input type="date" class="form-control '.$keyVal.'" value="'.$string.'"></input></td>'; 
+                            break;
+                        case "ID":
+                        case "creation_date":
+                        case "mod_date":
+                            $mainData .= '<td><input class="form-control text-light btn-secondary '.$keyVal.'" value="'.$string.'" disabled></input></td>'; 
+                            break;
+                        case "del_date":
+                                if($string != ""){
+                                $mainData .= '<td><input class="form-control text-light btn-secondary '.$keyVal.'" value="'.$string.'" disabled></input></td>'; 
+                            }
+                        break;
+                        case "removed":
+                            if($string==0){
+                                $mainData .=
+                                '<td>
+                                    <i style="font-size: 2rem;" class="bi bi-x-octagon-fill" type="button" data-toggle="tooltip" title="Remove user" name="delete" id="delete" value="'.$value["ID"].'"></i>
+                                    <i style="font-size: 2rem;" class="bi bi-check-square text-success" type="button" data-toggle="tooltip" title="verify fields" name="verify" id="verify" value="'.$value["ID"].'"></i>
+                                    <i style="font-size: 2rem;" class="bi bi-key-fill text-success" type="button" data-toggle="tooltip" title="update user" name="save" id="save" value="'.$value["ID"].'"></i></td>';
+                            //Last row from registered users (removed == 0). To include an empty row with a specific button
+                            if($i == $len - 1){
+                               $mainData .= '</tr>
+                                  <tr>
+                                    <td><input class="form-control text-light btn-secondary" value="" disabled></input></td>
+                                    <td><input type="text" class="form-control .name" name="insName" id="insertName"></input></td>
+                                    <td><input type="number" class="form-control .age" name="insAge" id="insertAge"></input></td>
+                                    <td><input type="date" class="form-control .date" name="insDate" id="insertDate"></input></td>
+                                    <td><input class="form-control text-light btn-secondary" value="" disabled></input></td>
+                                    <td><input class="form-control text-light btn-secondary" value="" disabled></input></td>
+                                    <td><i style="font-size: 2rem;" class="bi bi-pencil-square" type="button" data-toggle="tooltip" title="add new user" name="addNew" id="addNew"></i></td>';
+                                }
+                                $i++;
+                            }
+                            if($string==1){
+                                $mainData .='<td><i style="font-size: 2rem;" class="bi bi-eject" type="button" data-toggle="tooltip" title="undo" name="undo" id="undo" value="'.$value["ID"].'"></i>';
+                            }
+                        break;
+                    }
+                }
+                $mainData .= '</tr>';
+            }
+        $end = '</tbody></table>';
+            //pagination creation. 0 registered, 1 removed users
+            if($removed == 0){
+                $number = $totalRegistered[0];
+            }
+            else{
+                $number = $totalRegistered[1];
+            }
+            //calculations for displaying text
+            $pagesNumber = ceil($number/$num_limit);
+            $current_number = (($cur_page-1)*$num_limit)+1;
+            $current_limit = $cur_page*$num_limit;
+            //If there's less than current limit
+            if($number < $current_limit){
+                $current_limit = $number;
+            }
+            $pages .= '<ul>';
+                for ($i = 1; $i <= $pagesNumber; $i++) {
+                    $pages .= '<li><input class="btn btn-secondary" type="button" id="pagination" value="'.$i.'"></input></li>';
+                }
+                $pages .= '<span> Displaying '.$current_number.'-'.$current_limit.' of '.$number.' results</span></ul>';
+        return $beggining.$mainData.$end.$pages;
+    }
 /**
  * validate an array of elements, used for the form
  * @param array $array_data array to be checked. Insert in error if values are wrong otherwise in good if values are fine
