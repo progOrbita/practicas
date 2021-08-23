@@ -60,7 +60,7 @@
                 </div>
                 <div class="row">
                     <input class="form form-control col-1" type="button" name="buttonPlMin" value="+/-">
-                    <input class="form form-control col-1" type="button" id="calcButton" name="button0" value="0">
+                    <input class="form form-control col-1" type="button" id="numButtons" name="button0" value="0">
                     <input class="form form-control col-1" type="button" name="buttonPoint" value=".">
                     <input class="form form-control col-1" type="button" name="buttonEqual" value="=">
                 </div>
@@ -71,8 +71,26 @@
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script>
         $(document).ready(function(){
+            //Numbered buttons, they are added in the bottom part
             $(document).on('click','#numButtons',function(){
                 $('#operations').append($(this).val());
+            });
+            //Removed button, either last digit, current operation or everything
+            $(document).on('click','#remButton',function(){
+                remove = $(this).val();
+                if(remove == 'CE'){
+                    $('#result').empty();
+                    $('#operations').empty();
+                }
+                if(remove == 'C'){
+                    $('#operations').empty();
+                }
+                if(remove == '<-'){
+                    numbers = $('#operations').html();
+                    remLast = numbers.slice(0,numbers.length-1);
+                    $('#operations').empty();
+                    $('#operations').append(remLast);
+                }
             });
         });
     </script>
