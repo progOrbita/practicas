@@ -51,6 +51,14 @@
 			$(value).removeClass("bg-success");
 			$(value).addClass("bg-danger");
 		}
+		function inputCorrecto(value){
+			$('input[name="'+value+'"]').removeClass("bg-danger");
+			$('input[name="'+value+'"]').addClass("bg-success");	
+		}
+		function inputIncorrecto(value){
+			$('input[name="'+value+'"]').removeClass("bg-success");
+			$('input[name="'+value+'"]').addClass("bg-danger");						
+		}
 		/**
 		 * Check if the call to api.php gives an error.
 		 */
@@ -84,12 +92,20 @@
             let jsonString = JSON.stringify(arrayData);	
 			let ajaxRequest = apiCall("verify",jsonString);
 			ajaxRequest.done(function(data){
-				let jsonData = JSON.parse(data);
-				if(comprobarApi(jsonData)){
-					jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
-					jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
-				}
-			});
+				$('#divResult').empty();
+				$('#divResult').removeClass('text-danger');									
+				let jsonData = JSON.parse(data);	
+				//if there's errors in the formulary		
+				jsonData.good.forEach(element => inputCorrecto(element));
+				jsonData.error.forEach(element => inputIncorrecto(element));
+                if(jsonData.error.length !== 0){
+                    $('#divResult').append("Data invalid");
+                    $('#divResult').addClass('text-danger');
+                }
+                else{
+                    $('#divResult').append("Data is fine, you can save it");
+                }
+            });
 		}
 		/**
 		 * Add data using Ajax showing messages if was added or there's an error
