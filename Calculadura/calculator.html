@@ -82,7 +82,7 @@
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script>
         $(document).ready(function(){
-            //Numbered buttons, they are added in the bottom part
+            //clean number line if another number is pressed after an operation
             let operated = 0;
             $(document).on('click','#numButtons',function(){
                 if(operated == 1){
@@ -117,56 +117,41 @@
             });
             //inverse, pow, root and change plus/min and "." operations that change current value without =
             $(document).on('click','#autoOper',function(){
+                let numbers = $('#operations').html();
                 $('#symbol').empty();
                 operation = $(this).attr('name');
-                if(operation == 'inverse'){
-                    let numbers = $('#operations').html();
+                switch (operation){
+                    case "inverse":
                     $('#result').html(1/(numbers));
                     $('#operations').html(1/(numbers));
-                }
-                if(operation == 'pow'){
-                    let numbers = $('#operations').html();
+                    break;
+                    case "pow":
                     $('#result').html(Math.pow(numbers,2));
                     $('#operations').html(Math.pow(numbers,2));
-                }
-                if(operation == 'root'){
-                    let numbers = $('#operations').html();
+                    break;
+                    case "root":
                     $('#result').html(Math.sqrt(numbers,2));
                     $('#operations').html(Math.sqrt(numbers,2));
-                }
-                if(operation =='plusMin'){
-                    let numbers = $('#operations').html();
+                    break;
+                    case "plusMin":
                     $('#operations').html(-numbers);
-                }
-                if(operation == 'buttonPoint'){
-                    let numbers = $('#operations').html();
+                    break;
+                    case "buttonPoint":
                     if(!numbers.includes('.')){
                         $('#operations').append('.');
                     }
+                    break;
                 }
             });
             //operators
             $(document).on('click','#calcButton',function(){
-                let operation = $(this).attr('name');
+                let operation = $(this).val();
                 //If it's 1, after inserting a number it will reset
                 operated = 1;
-                if(operation == 'plus'){
-                    $('#symbol').empty();
-                    $('#symbol').append("+");
+                if(operation !== "="){
+                    $('#symbol').append(operation);
                 }
-                if(operation == 'minus'){
-                    $('#symbol').empty();
-                    $('#symbol').append("-");
-                }
-                if(operation == 'mult'){
-                    $('#symbol').empty();
-                    $('#symbol').append("x");
-                }
-                if(operation == 'divide'){
-                    $('#symbol').empty();
-                    $('#symbol').append("/");
-                }
-                if(operation == 'equal'){
+                if(operation === '='){
                     let operType = $('#symbol').html();
                     let numberString = $('#operations').html();
                     let resultString = $('#result').html();
@@ -174,6 +159,7 @@
                     if($.trim($("#result").html())==''){
                         resultString = numberString;
                     }
+                    //if starts with . an 0 is added behind
                     if(numberString.startsWith('.')){
                         numberString = 0+numberString;
                     }
@@ -181,25 +167,19 @@
                     let numbers = parseFloat(numberString);
                     switch(operType){
                         case "+":
-                        total = result+numbers;
-                        $('#result').html(total);
+                        $('#result').html(result+numbers);
                         break;
                         case "-":
-                        total = result-numbers;
-                        $('#result').html(total);
+                        $('#result').html(result-numbers);
                         break;
                         case "x":
-                        total = result*numbers;
-                        $('#result').html(total);
+                        $('#result').html(result*numbers);
                         break;
                         case "/":
-                        total = result/numbers;
-                        $('#result').html(total);
+                        $('#result').html(result/numbers);
                         break;
-                        //if = is pressed
                         default:
-                        total = numbers;
-                        $('#result').html(total);
+                        $('#result').html(numbers);
                         break;
                     }
                 }
