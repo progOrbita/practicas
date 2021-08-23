@@ -16,15 +16,26 @@
                 min-height: 200px;
                 display: flex;
             }
-            #calcWindow p:last-child{
+            #operations{
                 align-self: flex-end;
+            }
+            #symbol{
+                align-self: flex-end;
+            }
+            p{
+                display: inline-block;
+                height: 50px;
+            }
+            #result{
+                position: absolute;
             }
         </style>
     </head>
     <body>
         <div class="container-sm" id="calcWindow">
-            <p id="result">result here</p>
+            <p id="result">0</p>
             <p id="operations"></p>
+            <p id="symbol"></p>
         </div>
         <div class="container-sm" id="calcButtons">
             <form>
