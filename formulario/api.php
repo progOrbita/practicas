@@ -8,6 +8,8 @@ if(!defined('_PS_VERSION_')){
 		require_once '../../init.php';
 	}
     include "Resources.php";
+    //Pagination control
+    $num_limit = 10;
         /**
          * This is the entire table. 
          * Beggining is table start and thead. 
@@ -16,14 +18,14 @@ if(!defined('_PS_VERSION_')){
          * @param array $tableData data obtained from the query
          * @param int $removed 0 -> register tab, 1 -> removed tab.
          * @param array $totalRegistered array with two numbers counting all the registers and removed users.
+         * @param int $num_limit integer with the users displayed per page
          * @return string $beggining+$mainData+$end containing the entire table in html
         */
-    function createTable(array $tableData, int $removed, array $totalRegistered){
+    function createTable(array $tableData, int $removed, array $totalRegistered, int $num_limit){
             $mainData = "";
             $i = 0;
             $len = count($tableData);
             $cur_page = Tools::getValue('pageNumber');
-            $num_limit = 10;
             $pages = "";
             $beggining = '
                 <table class="table table-dark table-striped table-hover table-bordered table-fixed">
@@ -183,9 +185,9 @@ if(!defined('_PS_VERSION_')){
             else{
                 $data_array["removed"]=1;
             }
-            $resultQuery = $api_functions->find($data_array,$number);
+            $resultQuery = $api_functions->find($data_array,$number,$num_limit);
             $remove = $data_array["removed"];
-            $result = createTable($resultQuery, $remove,$api_functions->countRegisters());
+            $result = createTable($resultQuery, $remove,$api_functions->countRegisters(),$num_limit);
             break;
         // User return to registered status
         case "undo":
