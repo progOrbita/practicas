@@ -59,13 +59,6 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script>
-        /**
-         * For plus/minus/mult/divide
-         */
-        function executeOperation(){
-            let operType = $('#symbol').html();
-            let numberString = $('#digits').html();
-            let resultString = $('#result').html();
         /*
         * For inverse, pow, root, +/- and "." buttons
         */
@@ -73,6 +66,14 @@
                 $('#result').html(operation);
                 $('#digits').html(operation);
         }
+        /*
+        * For + - * / and =
+        */
+        function doOperation(){
+            let operType = $('#symbol').html(); // get operation type
+            let numberString = $('#digits').html(); // get first digit
+            let numberBString = $('#digitsB').html(); //get the second digit
+            let resultString = $('#result').html(); // get result
 
             //if result is empty and an operation is pressed
             if($.trim($("#result").html())==''){
