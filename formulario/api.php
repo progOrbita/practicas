@@ -15,7 +15,7 @@ if(!defined('_PS_VERSION_')){
         case "verify":
             $post = file_get_contents('php://input');
             //decode jsonstring into an array of json objects
-            $jsonData = json_decode($post);
+            $jsonData = json_decode($post,true);
             $array_verify = ["name" => $jsonData["name"],"age" => $jsonData["age"],"date" => $jsonData["date"]];
             $result = $api_functions->validate($array_verify);
             break;
@@ -66,8 +66,8 @@ if(!defined('_PS_VERSION_')){
         //Add a new user to the table
         case "add":
             $post = file_get_contents('php://input');
-            $jsonData = json_decode($post);
-            $array_add = ["name" => $jsonData[0],"age" => $jsonData[1],"date" => $jsonData[2]];
+            $jsonData = json_decode($post,true);
+            $array_add = ["name" => $jsonData["name"],"age" => $jsonData["age"],"date" => $jsonData["date"]];
             $result = $api_functions->add($array_add);
             break;
         //if there's an error with the action sent or isnt written
