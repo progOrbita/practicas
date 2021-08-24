@@ -14,14 +14,14 @@ class Resources{
          * @param int $num_limit integer with the users displayed per page
          * @return string $header+$body+$footer+$pages containing the entire table in html
         */
-    function createTable(array $tableData, int $removed, string $number,int $cur_page, int $num_limit){
+    function createTable(array $tableData, int $removed, int $totalUsers,int $cur_page, int $num_limit){
         $body = "";
         $i = 0;
         $len = count($tableData);
         $pages = "";
         $header = '
             <table class="table table-sm table-dark table-striped table-hover table-bordered table-fixed">
-        <caption style="padding-top 0px, padding-bottom: 0px" id="tableCaption"></caption>
+        <caption style="padding-top: 0px" id="tableCaption"></caption>
         <thead>
             <tr class="bg-info">
                 <th>ID</th>
@@ -119,12 +119,15 @@ class Resources{
         $footer = '</tbody></table>';
             //pagination creation. 0 registered, 1 removed users
             //calculations for displaying text
-            $pagesNumber = ceil($number/$num_limit);
+            $pagesNumber = ceil($totalUsers/$num_limit);
             $current_number = (($cur_page-1)*$num_limit)+1;
             $current_limit = $cur_page*$num_limit;
             //If there's less than current limit
-            if($number < $current_limit){
-                $current_limit = $number;
+            if($totalUsers < $current_limit){
+                $current_limit = $totalUsers;
+            }
+            if($current_limit == 0){
+                $current_number = 0;
             }
             $pages .= '<nav><ul class="pagination justify-content-center">';
                 for ($i = 1; $i <= $pagesNumber; $i++) {
@@ -136,7 +139,7 @@ class Resources{
                     $pages .= '<li class="page-item"><input class="btn btn-secondary page-link" type="button" id="pagination" value="'.$i.'"></input></li>';
                     }
                 }
-                $pages .= '</ul></nav><span> Displaying '.$current_number.'-'.$current_limit.' of <span id="totalUsers">'.$number.'</span> results</span>';
+                $pages .= '</ul></nav><span> Displaying '.$current_number.'-'.$current_limit.' of <span id="totalUsers">'.$totalUsers.'</span> results</span>';
         return $header.$body.$footer.$pages;
     }
 /**
