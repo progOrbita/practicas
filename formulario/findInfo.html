@@ -207,6 +207,9 @@
                             if(numRows < 3){
                                 findInfo(curPage-1);
                             }
+                            else{
+                                findInfo(curPage);
+                            }
                         }
                         //if there's an error somewhere in the delete query
                         else{
@@ -329,6 +332,9 @@
                             //If there is one row (head) return to previous page.
                             if(numRows < 2){
                                 findInfo(curPage-1);
+                            }
+                            else{
+                                findInfo(curPage);
                             }
                         }
                         //if there's an error somewhere in the delete query
