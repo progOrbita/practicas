@@ -239,25 +239,28 @@ class Resources{
             //Removed is 0, so is needed to check it. 
             if(empty($value) && $column !="removed"){
                 continue;
-            }        
-            if($column=="name"){
-                $whereArr[] = $column.' LIKE "%'.$value.'%"';
             }
-            if($column=="dateBeg"){
-                $whereArr[] = $dateQuery.' >= "'.$value.'"';
+            switch ($column){
+                case "name":
+                    $whereArr[] = $column.' LIKE "%'.$value.'%"';
+                    break;
+                case "dateBeg":
+                    $whereArr[] = $dateQuery.' >= "'.$value.'"';
+                    break;
+                case "dateEnd":
+                    $whereArr[] = $dateQuery.' <= "'.$value.'"';
+                    break;
+                case "removed":
+                    $whereArr[] = $column.' = '.$value;
+                    break;
             }
-            if($column=="dateEnd"){
-                $whereArr[] = $dateQuery.' <= "'.$value.'"';
-            }
-            if($column=="removed"){
-                $whereArr[] = $column.' = '.$value;
-            }
-            $whereStr = implode(' AND ',$whereArr);
         }
+        $whereStr = implode(' AND ',$whereArr);
+        //Count users
         $usersNumber = $this->countUsers($whereStr);
         //For pagination
         $limit = ' LIMIT '.$calc_page.','.$result_limit;
-        $queryRequest = $queryString.$whereStr.$limit;        
+        $queryRequest = $queryString.$whereStr.$limit;
         $query = Db::getInstance()->executeS($queryRequest);
         return $query;
     }
