@@ -215,7 +215,7 @@ class Resources{
      * @param array $array_data the inputs to filter the query if any
      * @param int $pagination number of page to show
      * @param int $result_limit Limit the registers per page
-     * Return $query which either shows results or return false if there's no data for the filters selected
+     * Return mixed $values number of registers found and registers themselves
      */
     function find(array $array_data, int $pagination, int $result_limit){
         //number of result per page
@@ -255,8 +255,8 @@ class Resources{
         $limit = ' LIMIT '.$calc_page.','.$result_limit;
         $queryRequest = $queryString.$whereStr.$limit;
         $query = Db::getInstance()->executeS($queryRequest);
-        return $query;
-    }
+        $values = [$usersNumber,$query];
+        return $values;
     }
     /**
      * Restore an user removed
