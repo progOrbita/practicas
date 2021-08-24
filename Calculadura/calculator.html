@@ -77,9 +77,13 @@
 
             //if result is empty and an operation is pressed
             if($.trim($("#result").html())==''){
-                resultString = numberString;
+                resultString = 0;
             }
-            //if starts with . an 0 is added behind
+            //If first number/digit is empty, take the value of result
+            if($.trim($("#digits").html())==''){
+                numberString = $('#result').html();
+            }
+            //if a number starts with . an 0 is added behind
             if(numberString.startsWith('.')){
                 numberString = 0+numberString;
             }
