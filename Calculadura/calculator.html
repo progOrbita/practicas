@@ -116,22 +116,8 @@
                 break;    
             }
         }
-        /*
-        * For inverse, pow, root, +/- and "." buttons
-        */
-        function autoOperation(operation){
-                $('#result').html(operation);
-                $('#digits').html(operation);
-        }
         $(document).ready(function(){
-            //clean number line if another number is pressed after an operation
-            let operated = 0;
             $(document).on('click','#numButtons',function(){
-                if(operated == 1){
-                    $('#digits').empty(); 
-                    $('#symbol').empty();
-                }
-                operated = 0;
                 $('#digits').append($(this).val());
             });
             //Removed button, either last digit, current operation or everything
@@ -184,14 +170,11 @@
             //operators
             $(document).on('click','#calcButton',function(){
                 let operation = $(this).val();
-                //If it's 1, after inserting a number it will reset
-                operated = 1;
                 if(operation !== "="){
                     $('#symbol').empty();
                     $('#symbol').append(operation);
                 }
                 else{
-                    executeOperation();
                 }
             });
         });
