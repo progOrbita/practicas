@@ -212,6 +212,11 @@ class Resources{
         $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET removed=1, mod_date=NOW(), del_date=NOW() WHERE name="'.$name.'"');
         return $query;
     }
+    function countUsers(string $conditions){
+        $countQuery = "SELECT COUNT(*) FROM ".$this->table." WHERE ".$conditions;
+        $usersNumber = Db::getInstance()->getValue($countQuery);
+        return $usersNumber;
+    }
     /**
      * Find users either registered or removed from the database within a limit
      * @param array $array_data the inputs to filter the query if any
@@ -249,33 +254,13 @@ class Resources{
             }
             $whereStr = implode(' AND ',$whereArr);
         }
+        $usersNumber = $this->countUsers($whereStr);
         //For pagination
         $limit = ' LIMIT '.$calc_page.','.$result_limit;
         $queryRequest = $queryString.$whereStr.$limit;        
         $query = Db::getInstance()->executeS($queryRequest);
         return $query;
     }
-    /**
-     * Count the registered and removed users from the table
-     * @return array $counters two ints with the register/removed 
-     */
-    function countRegisters(){
-        $queryRegister = "SELECT COUNT(*) FROM ".$this->table." WHERE removed=0";
-        $countReg = Db::getInstance()->executeS($queryRegister);
-        $queryRemoved = "SELECT COUNT(*) FROM ".$this->table." WHERE removed=1";
-        $countRem = Db::getInstance()->executeS($queryRemoved);
-        $counters = [];
-        foreach ($countReg as $key => $value){
-            foreach ($value as $keyVal => $string){
-                $counters[] = $string;
-            }
-        }
-        foreach ($countRem as $key => $value){
-            foreach ($value as $keyVal => $string){
-                $counters[] = $string;
-            }
-        }
-        return $counters;
     }
     /**
      * Restore an user removed
