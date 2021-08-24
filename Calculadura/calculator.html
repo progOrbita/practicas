@@ -66,6 +66,20 @@
                 $('#digits').html(operation);
         }
         /*
+         * To clean anything is needed in the calculator screen 
+         */
+        function cleaning(type){
+            switch(type){
+                //when CE or = is pressed
+                case "bot":
+                    $('#digits').empty();
+                    $('#digitsB').empty();
+                    $('#symbol').empty();
+                    secondDigits = 0;
+                    break;
+            }
+        }
+        /*
         * For + - * / and =
         */
         function doOperation(){
@@ -111,7 +125,7 @@
                 //When there's no second number
                 default:
                 $('#result').html(digitsA);
-                break;    
+                break;
             }
         }
         $(document).ready(function(){
@@ -128,28 +142,34 @@
             });
             //Removed button, either last digit, current operation or everything
             $(document).on('click','#remButton',function(){
-                let remove = $(this).val();
-                //Clean current operation
-                if(remove == 'CE'){
-                    $('#digits').empty();
-                    $('#digitsB').empty();
-                    $('#symbol').empty();
-                    secondDigits = 0;
-                }
-                //Clean everything
-                if(remove == 'C'){
-                    $('#result').empty();
-                    $('#digits').empty();
-                    $('#digitsB').empty();
-                    $('#symbol').empty();
-                    secondDigits = 0;
-                }
-                //remove last number
-                if(remove == '<-'){
-                    let numbers = $('#digits').html();
-                    let remLast = numbers.slice(0,numbers.length-1);
-                    $('#digits').empty();
-                    $('#digits').append(remLast);
+                switch($(this).val()){
+                    //Clean current operation
+                    case 'CE':
+                        cleaning("bot");
+                        break;
+                    //Clean everything
+                    case 'C':
+                        $('#result').empty();
+                        $('#digits').empty();
+                        $('#digitsB').empty();
+                        $('#symbol').empty();
+                        secondDigits = 0;
+                        break;
+                    //remove last number
+                    case '<-':
+                        let numbers = $('#digits').html();
+                        let numbersB = $('#digitsB').html();
+                        if(secondDigits === 0){
+                            let remLast = numbers.slice(0,numbers.length-1);
+                            $('#digits').empty();
+                            $('#digits').append(remLast);
+                        }
+                        else{
+                            let remLast = numbersB.slice(0,numbersB.length-1);
+                            $('#digitsB').empty();
+                            $('#digitsB').append(remLast);
+                        }
+                    break;
                 }
             });
             //inverse, pow, root and change plus/min and "." operations that change current value without =
@@ -158,18 +178,6 @@
                 $('#symbol').empty();
                 operation = $(this).attr('name');
                 switch (operation){
-                    case "inverse":
-                    autoOperation(1/(numbers));
-                    break;
-                    case "pow":
-                    autoOperation(Math.pow(numbers,2));
-                    break;
-                    case "root":
-                    autoOperation(Math.sqrt(numbers,2));
-                    break;
-                    case "plusMin":
-                    $('#digits').html(-numbers);
-                    break;
                     case "buttonPoint":
                     if(secondDigits===0){
                         if(!numbers.includes('.')){
@@ -181,6 +189,27 @@
                             $('#digitsB').append('.');
                         }
                     }
+                    break;
+                    case "inverse":
+                    autoOperation(1/(numbers));
+                    $('#symbol').empty();
+                    $('#digitsB').empty();
+                    break;
+                    case "pow":
+                    autoOperation(Math.pow(numbers,2));
+                    $('#symbol').empty();
+                    $('#digitsB').empty();
+                    break;
+                    case "root":
+                    autoOperation(Math.sqrt(numbers,2));
+                    $('#symbol').empty();
+                    $('#digitsB').empty();
+                    break;
+                    case "plusMin":
+                    $('#result').html(-numbers);
+                    $('#digits').html(-numbers);
+                    $('#symbol').empty();
+                    $('#digitsB').empty();
                     break;
                 }
             });
