@@ -200,6 +200,13 @@
                         if(jsonData === true){
                             $(this).closest("tr").remove();
                             showMessages('Name removed');
+                            let numUsers = $('tr').length;
+                            //Obtain current page number
+                            let curPage = $('.active input').val();
+                            //If there is two columns (head and add user) return to previous page.
+                            if(numUsers < 3 && curPage > 1){
+                                findInfo(curPage-1);
+                            }
                         }
                         //if there's an error somewhere in the delete query
                         else{
@@ -316,6 +323,13 @@
                         if(jsonData === true){
                             $(this).closest("tr").remove();
                             showMessages('User restored');
+                            let numUsers = $('tr').length;
+                            //Obtain current page number
+                            let curPage = $('.active input').val();
+                            //If there is two columns (head and add user) return to previous page.
+                            if(numUsers < 2 && curPage > 1){
+                                findInfo(curPage-1);
+                            }
                         }
                         //if there's an error somewhere in the delete query
                         else{
@@ -341,7 +355,7 @@
                 let name = $(this).closest("tr").find('#insertName').val();
                 let age = $(this).closest("tr").find('#insertAge').val();
                 let date = $(this).closest("tr").find('#insertDate').val();
-                let arrayInsert = [name, age, date];
+                let arrayInsert = {"name":name, "age":age, "date":date};
                 let jsonString = JSON.stringify(arrayInsert);
                 let ajaxRequest = $.ajax({
                     url: "api.php?action=add",
@@ -357,7 +371,15 @@
                         //all data is fine
                         if(jsonData === true){
 						    showMessages("Data inserted succesfully");
-                            findInfo();
+                            //obtain number of pages
+                            let numPages = $('ul li').length;
+
+                            //obtain number of rows in current page
+                            let numUsers = $('#totalUsers').html();
+                            findInfo(numPages);
+                            if(numUsers%10 == 0){
+                                findInfo(numPages+1);
+                            }
                             rowObject.removeClass('bg-danger');
 					    }
                         //Error in the query
