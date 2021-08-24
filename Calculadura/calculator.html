@@ -75,7 +75,10 @@
                     $('#digits').empty();
                     $('#digitsB').empty();
                     $('#symbol').empty();
-                    secondDigits = 0;
+                    break;
+                case "pow":
+                    $('#digitsB').empty();
+                    $('#symbol').empty();
                     break;
             }
         }
@@ -152,6 +155,7 @@
                     //Clean current operation
                     case 'CE':
                         cleaning("bot");
+                        secondDigits = 0;
                         break;
                     //Clean everything
                     case 'C':
@@ -180,7 +184,6 @@
             });
             //inverse, pow, root and change plus/min and "." operations that change current value without =
             $(document).on('click','#autoOper',function(){
-                power = 1;
                 let resultString = $('#result').html();
                 if($.trim($("#digits").html())==''){
                     $('#digits').html(resultString);
@@ -196,33 +199,28 @@
                         }
                     }
                     else{
-                        if(!numbersB.includes('.')){
+                        console.log($('#symbol').length);
+                        if(!numbersB.includes('.') && $.trim($("#symbol").html()) !==''){
                             $('#digitsB').append('.');
                         }
                     }
-                    break;
+                    return;
                     case "inverse":
                     autoOperation(1/(numbers));
-                    $('#symbol').empty();
-                    $('#digitsB').empty();
                     break;
                     case "pow":
                     autoOperation(Math.pow(numbers,2));
-                    $('#symbol').empty();
-                    $('#digitsB').empty();
                     break;
                     case "root":
                     autoOperation(Math.sqrt(numbers,2));
-                    $('#symbol').empty();
-                    $('#digitsB').empty();
                     break;
                     case "plusMin":
                     $('#result').html(-numbers);
                     $('#digits').html(-numbers);
-                    $('#symbol').empty();
-                    $('#digitsB').empty();
                     break;
                 }
+                cleaning("pow");
+                power = 1;
             });
             //operators + - x / and =
             $(document).on('click','#calcButton',function(){
@@ -248,6 +246,7 @@
                     doOperation();
                     //clean the bottom area
                     cleaning("bot");
+                    secondDigits = 0;
                 }
             });
         });
