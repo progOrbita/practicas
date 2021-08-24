@@ -54,7 +54,7 @@ if(!defined('_PS_VERSION_')){
                 $data_array["removed"]=1;
             }
             $resultQuery = $api_functions->find($data_array,$number,$num_limit);
-            $countUsers = $resultQuery[0];
+            $countUsers = (int) $resultQuery[0];
             $remove = $data_array["removed"];
             $result = $api_functions->createTable($resultQuery[1], $remove,$countUsers, $number,$num_limit);
             break;
