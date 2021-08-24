@@ -137,7 +137,7 @@
          */
         function findInfo(page){
             //default value
-            if(page === undefined){
+            if(page === undefined || page === 0){
                 page = 1;
             }
 			let getData = $('#formularyContent').find("input,select");
@@ -200,11 +200,11 @@
                         if(jsonData === true){
                             $(this).closest("tr").remove();
                             showMessages('Name removed');
-                            let numUsers = $('tr').length;
+                            let numRows = $('tr').length;
                             //Obtain current page number
                             let curPage = $('.active input').val();
-                            //If there is two columns (head and add user) return to previous page.
-                            if(numUsers < 3 && curPage > 1){
+                            //If there is two rows (head and add user) return to previous page.
+                            if(numRows < 3){
                                 findInfo(curPage-1);
                             }
                         }
@@ -323,11 +323,11 @@
                         if(jsonData === true){
                             $(this).closest("tr").remove();
                             showMessages('User restored');
-                            let numUsers = $('tr').length;
+                            let numRows = $('tr').length;
                             //Obtain current page number
                             let curPage = $('.active input').val();
-                            //If there is two columns (head and add user) return to previous page.
-                            if(numUsers < 2 && curPage > 1){
+                            //If there is one row (head) return to previous page.
+                            if(numRows < 2){
                                 findInfo(curPage-1);
                             }
                         }
@@ -373,8 +373,7 @@
 						    showMessages("Data inserted succesfully");
                             //obtain number of pages
                             let numPages = $('ul li').length;
-
-                            //obtain number of rows in current page
+                            //obtain number of users in current page
                             let numUsers = $('#totalUsers').html();
                             findInfo(numPages);
                             if(numUsers%10 == 0){
