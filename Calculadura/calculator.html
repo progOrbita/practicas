@@ -92,24 +92,25 @@
             }
             //After checks obtain the numbers
             let result = parseFloat(resultString);
-            let numbers = parseFloat(numberString);
+            let digitsA = parseFloat(numberString);
             let digitsB = parseFloat(numberBString);
             if(isNaN(digitsB)){
                 operType = "default";
             }
             switch(operType){
                 case "+":
-                $('#result').html(result+numbers);
+                $('#result').html(digitsA+digitsB);
                 break;
                 case "-":
-                $('#result').html(result-numbers);
+                $('#result').html(digitsA-digitsB);
                 break;
                 case "x":
-                $('#result').html(result*numbers);
+                $('#result').html(digitsA*digitsB);
                 break;
                 case "/":
-                $('#result').html(result/numbers);
+                $('#result').html(digitsA/digitsB);
                 break;
+                //When there's no second number
                 default:
                 $('#result').html(digitsA);
                 break;    
