@@ -129,10 +129,16 @@
             }
         }
         $(document).ready(function(){
-            //for inserting second number after an operation symbol have been pressed
+            //for inserting second number after an operation symbol have been pressed.
             let secondDigits = 0;
+            //for pow/sqrt/inverse to empty digits if a number is pressed
+            let power = 0;
             //buttons 0123456789, add numbers
             $(document).on('click','#numButtons',function(){
+                if(power == 1){
+                    $('#digits').empty();
+                    power = 0;
+                }
                 if(secondDigits === 0){
                 $('#digits').append($(this).val());
                 }
@@ -174,8 +180,13 @@
             });
             //inverse, pow, root and change plus/min and "." operations that change current value without =
             $(document).on('click','#autoOper',function(){
+                power = 1;
+                let resultString = $('#result').html();
+                if($.trim($("#digits").html())==''){
+                    $('#digits').html(resultString);
+                }
                 let numbers = $('#digits').html();
-                $('#symbol').empty();
+                let numbersB = $('#digitsB').html();
                 operation = $(this).attr('name');
                 switch (operation){
                     case "buttonPoint":
