@@ -117,8 +117,16 @@
             }
         }
         $(document).ready(function(){
+            //for inserting second number after an operation symbol have been pressed
+            let secondDigits = 0;
+            //buttons 0123456789, add numbers
             $(document).on('click','#numButtons',function(){
+                if(secondDigits === 0){
                 $('#digits').append($(this).val());
+                }
+                else{
+                    $('#digitsB').append($(this).val());
+                }
             });
             //Removed button, either last digit, current operation or everything
             $(document).on('click','#remButton',function(){
