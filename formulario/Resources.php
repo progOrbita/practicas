@@ -136,7 +136,7 @@ class Resources{
                     $pages .= '<li class="page-item"><input class="btn btn-secondary page-link" type="button" id="pagination" value="'.$i.'"></input></li>';
                     }
                 }
-                $pages .= '</ul></nav><span> Displaying '.$current_number.'-'.$current_limit.' of '.$number.' results</span>';
+                $pages .= '</ul></nav><span> Displaying '.$current_number.'-'.$current_limit.' of <span id="totalUsers">'.$number.'</span> results</span>';
         return $header.$body.$footer.$pages;
     }
 /**
