@@ -179,14 +179,33 @@
                     break;
                 }
             });
-            //operators
+            //operators + - x / and =
             $(document).on('click','#calcButton',function(){
                 let operation = $(this).val();
+                secondDigits = 1;
+                //Include the + - x /
+                //If there's at least a symbol, do the operation and empty the symbol and second number
+                if($('#symbol').length > 0){
+                    doOperation();
+                    $('#symbol').empty();
+                    $('#digitsB').empty();
+                    numberString = $('#result').html();
+                    $('#digits').empty();
+                    $('#digits').html(numberString);
+                }
+                //add a new symbol everytime it's pressed aside the =
                 if(operation !== "="){
                     $('#symbol').empty();
                     $('#symbol').append(operation);
                 }
+                //if = is pressed, operation is executed and restart the numbers
                 else{
+                    doOperation();
+                    //clean the bottom area
+                    $('#digits').empty();
+                    $('#digitsB').empty();
+                    $('#symbol').empty();
+                    secondDigits = 0;
                 }
             });
         });
