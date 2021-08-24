@@ -223,7 +223,7 @@
             let name = $(this).closest("tr").find('.name').val();
             let age = $(this).closest("tr").find('.age').val();
             let date = $(this).closest("tr").find('.date').val();
-            let arrayData = [name, age, date];
+            let arrayData = {"name":name, "age":age, "date":date};
             let jsonString = JSON.stringify(arrayData);
             //Only name/age/date is needed for verification
             let ajaxRequest = $.ajax({
@@ -260,7 +260,7 @@
             let name = $(this).closest("tr").find('.name').val();
             let age = $(this).closest("tr").find('.age').val();
             let date = $(this).closest("tr").find('.date').val();
-            let arrayData = [id, name, age, date];
+            let arrayData = {"id":id, "name":name, "age":age, "date":date};
             let jsonString = JSON.stringify(arrayData);
             //send the data as a JSON string
             let ajaxRequest = $.ajax({

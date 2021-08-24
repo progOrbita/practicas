@@ -16,15 +16,15 @@ if(!defined('_PS_VERSION_')){
             $post = file_get_contents('php://input');
             //decode jsonstring into an array of json objects
             $jsonData = json_decode($post);
-            $array_verify = ["name" => $jsonData[0],"age" => $jsonData[1],"date" => $jsonData[2]];
+            $array_verify = ["name" => $jsonData["name"],"age" => $jsonData["age"],"date" => $jsonData["date"]];
             $result = $api_functions->validate($array_verify);
             break;
         //store the formulary data sent in the table. Checking before that the data obtained is fine
         case "save":
             $post = file_get_contents('php://input');
             //decode jsonstring into an array of json objects
-            $jsonData = json_decode($post);
-		    $array_save = ["id"=> $jsonData[0], "name" =>$jsonData[1],"age" =>$jsonData[2],"date" =>$jsonData[3]];
+            $jsonData = json_decode($post,true);
+		    $array_save = ["id"=> $jsonData["id"], "name" =>$jsonData["name"],"age" =>$jsonData["age"],"date" =>$jsonData["date"]];
             $result =  $api_functions->save($array_save);
             break;
         //remove the user given a id
