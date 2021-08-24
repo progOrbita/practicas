@@ -73,21 +73,20 @@
             let numberString = $('#digits').html(); // get first digit
             let numberBString = $('#digitsB').html(); //get the second digit
             let resultString = $('#result').html(); // get result
-
-            //if result is empty and an operation is pressed
-            if($.trim($("#result").html())==''){
-                resultString = 0;
-            }
-            //If first number/digit is empty, take the value of result
-            if($.trim($("#digits").html())==''){
-                numberString = $('#result').html();
-            }
             //if a number starts with . an 0 is added behind
             if(numberString.startsWith('.')){
                 numberString = 0+numberString;
             }
             if(numberBString.startsWith('.')){
                 numberBString = 0+numberBString;
+            }
+            //if result is empty and an operation is pressed
+            if($.trim($("#result").html())==''){
+                resultString = 0;
+            }
+            //If first number/digit is empty, take the value of result
+            if($.trim($("#digits").html())==''){
+                numberString = resultString;
             }
             //After checks obtain the numbers
             let result = parseFloat(resultString);
