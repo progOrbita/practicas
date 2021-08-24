@@ -93,6 +93,10 @@
             //After checks obtain the numbers
             let result = parseFloat(resultString);
             let numbers = parseFloat(numberString);
+            let digitsB = parseFloat(numberBString);
+            if(isNaN(digitsB)){
+                operType = "default";
+            }
             switch(operType){
                 case "+":
                 $('#result').html(result+numbers);
@@ -107,13 +111,8 @@
                 $('#result').html(result/numbers);
                 break;
                 default:
-                if($.trim($("#result").html())){
-                   $('#result').html(numbers);
-                }
-                else{
-                   $('#result').html(result);
-                }
-                break;
+                $('#result').html(digitsA);
+                break;    
             }
         }
         /*
