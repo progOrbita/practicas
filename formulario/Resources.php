@@ -14,11 +14,10 @@ class Resources{
          * @param int $num_limit integer with the users displayed per page
          * @return string $header+$body+$footer+$pages containing the entire table in html
         */
-    function createTable(array $tableData, int $removed, array $totalRegistered, int $num_limit){
-        $mainData = "";
+    function createTable(array $tableData, int $removed, string $number,int $cur_page, int $num_limit){
+        $body = "";
         $i = 0;
         $len = count($tableData);
-        $cur_page = Tools::getValue('pageNumber');
         $pages = "";
         $header = '
             <table class="table table-sm table-dark table-striped table-hover table-bordered table-fixed">
@@ -119,12 +118,6 @@ class Resources{
             }
         $footer = '</tbody></table>';
             //pagination creation. 0 registered, 1 removed users
-            if($removed == 0){
-                $number = $totalRegistered[0];
-            }
-            else{
-                $number = $totalRegistered[1];
-            }
             //calculations for displaying text
             $pagesNumber = ceil($number/$num_limit);
             $current_number = (($cur_page-1)*$num_limit)+1;
