@@ -108,7 +108,7 @@
             //if second digit is empty and there's a operation take the first number value
             if($.trim($("#digitsB").html())=='' && $.trim($("#symbol").html())!=''){
                 $('#digitsB').html(numberString);
-
+                numberBString = numberString;
             }
             //After checks obtain the numbers
             let result = parseFloat(resultString);
@@ -138,23 +138,18 @@
         }
         $(document).ready(function(){
             //for inserting second number after an operation symbol have been pressed.
-            let secondDigits = 0;
+            let secondDigits = false;
             //for pow/sqrt/inverse to empty digits if a number is pressed
-            let power = 0;
-            let cleanDigitsA = 0;
+            let power = false;
+            //for clean digits after a number is pressed after an =
+            let cleanDigitsA = false;
             //buttons 0123456789, add numbers
             $(document).on('click','#numButtons',function(){
-                if(power == 1){
-                    $('#digits').empty();
-                    power = 0;
-                }
-                if(secondDigits === 0){
-                    if(cleanDigitsA === 1){
+                if(!secondDigits){
+                    if(cleanDigitsA){
                         $('#digits').empty();
-                        $('#symbol').empty();
-                        $('#digitsB').empty();
-                        cleanDigitsA = 0;
-                        secondDigits = 0;
+                        cleanDigitsA = false;
+                        secondDigits = false;
                         $('#digits').append($(this).val());
                     }
                     else{
@@ -170,8 +165,9 @@
                 switch($(this).val()){
                     //Clean current operation
                     case 'CE':
-                        cleaning("bot");
-                        secondDigits = 0;
+                        $('#digits').empty();
+                        $('#result').empty();
+                        secondDigits = false;
                         break;
                     //Clean everything
                     case 'C':
@@ -179,13 +175,13 @@
                         $('#digits').empty();
                         $('#digitsB').empty();
                         $('#symbol').empty();
-                        secondDigits = 0;
+                        secondDigits = false;
                         break;
                     //remove last number
                     case '<-':
                         let numbers = $('#digits').html();
                         let numbersB = $('#digitsB').html();
-                        if(secondDigits === 0){
+                        if(!secondDigits){
                             let remLast = numbers.slice(0,numbers.length-1);
                             $('#digits').empty();
                             $('#digits').append(remLast);
@@ -208,8 +204,18 @@
                 let numbersB = $('#digitsB').html();
                 operation = $(this).attr('name');
                 switch (operation){
+                    // for adding an .
                     case "buttonPoint":
-                    if(secondDigits===0){
+                    if(secondDigits===false){
+                        if(cleanDigitsA){
+                            $('#digits').empty();
+                            $('#symbol').empty();
+                            $('#digitsB').empty();
+                            cleanDigitsA = false;
+                            secondDigits = false;
+                            $('#digits').append('0.');
+                            return;
+                        }
                         if(!numbers.includes('.')){
                             $('#digits').append('.');
                         }
@@ -235,32 +241,37 @@
                     break;
                 }
                 cleaning("pow");
-                power = 1;
             });
             //operators + - x / and =
             $(document).on('click','#calcButton',function(){
                 let operation = $(this).val();
-                secondDigits = 1;
+                secondDigits = true;
+                //to do operation only once
+                let not = false;
                 //Include the + - x /
                 //If a symbol is pressed, do the operation and updates current number with the result one
                 if($.trim($("#symbol").html())!=''){
                     doOperation();
+                    not = true;
                     numberString = $('#result').html();
                     $('#digits').empty();
                     $('#digits').html(numberString);
                 }
-                //add a new symbol everytime it's pressed aside the =
-                if(operation !== "="){
+                //add a new symbol everytime it's pressed aside the = if there's a number
+                if(operation !== "=" && $.trim($("#digits").html())!=''){
                     $('#symbol').empty();
                     $('#digitsB').empty();
                     $('#symbol').append(operation);
                 }
-                //if = is pressed, whenever a number button is pressed added to first number after emtpy it.
+                //if = is pressed, whenever a number button is pressed added to first number after emtpy the ground.
                 else{
-                    doOperation();
-                    
-                    cleanDigitsA = 1;
-                    secondDigits = 0;
+                    if(!not){
+                        doOperation();
+                        $('#symbol').empty();
+                        $('#digitsB').empty();
+                    }
+                    cleanDigitsA = true;
+                    secondDigits = false;
                 }
             });
         });
