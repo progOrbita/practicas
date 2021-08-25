@@ -143,6 +143,8 @@
             let power = false;
             //for clean digits after a number is pressed after an =
             let cleanDigitsA = false;
+            //for operations constantly pressed
+            let canceledOp = false;
             //buttons 0123456789, add numbers
             $(document).on('click','#numButtons',function(){
                 if(!secondDigits){
@@ -159,14 +161,17 @@
                 else{
                     $('#digitsB').append($(this).val());
                 }
+                canceledOp = false;
             });
             //Removed button, either last digit, current operation or everything
             $(document).on('click','#remButton',function(){
                 switch($(this).val()){
-                    //Clean current operation
+                    //clean everything temp until I figure what *really* do
                     case 'CE':
-                        $('#digits').empty();
                         $('#result').empty();
+                        $('#digits').empty();
+                        $('#digitsB').empty();
+                        $('#symbol').empty();
                         secondDigits = false;
                         break;
                     //Clean everything
@@ -251,8 +256,11 @@
                 //Include the + - x /
                 //If a symbol is pressed, do the operation and updates current number with the result one
                 if($.trim($("#symbol").html())!=''){
-                    doOperation();
-                    not = true;
+                    if(!canceledOp){
+                        doOperation();
+                        not = true;
+                    }
+                    canceledOp = true;
                     numberString = $('#result').html();
                     $('#digits').empty();
                     $('#digits').html(numberString);
@@ -270,6 +278,7 @@
                         $('#symbol').empty();
                         $('#digitsB').empty();
                     }
+                    canceledOp = false;
                     cleanDigitsA = true;
                     secondDigits = false;
                 }
