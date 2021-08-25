@@ -105,6 +105,11 @@
             if($.trim($("#digits").html())==''){
                 numberString = resultString;
             }
+            //if second digit is empty and there's a operation take the first number value
+            if($.trim($("#digitsB").html())=='' && $.trim($("#symbol").html())!=''){
+                $('#digitsB').html(numberString);
+
+            }
             //After checks obtain the numbers
             let result = parseFloat(resultString);
             let digitsA = parseFloat(numberString);
@@ -144,6 +149,7 @@
                 }
                 if(secondDigits === 0){
                 $('#digits').append($(this).val());
+                        $('#digits').append($(this).val());
                 }
                 else{
                     $('#digitsB').append($(this).val());
@@ -227,11 +233,9 @@
                 let operation = $(this).val();
                 secondDigits = 1;
                 //Include the + - x /
-                //If there's at least a symbol, do the operation and empty the symbol and second number
-                if($('#symbol').length > 0){
+                //If there's at least a symbol, do the operation and updates current number with the result one
+                if($.trim($("#symbol").html())!=''){
                     doOperation();
-                    $('#symbol').empty();
-                    $('#digitsB').empty();
                     numberString = $('#result').html();
                     $('#digits').empty();
                     $('#digits').html(numberString);
@@ -239,6 +243,7 @@
                 //add a new symbol everytime it's pressed aside the =
                 if(operation !== "="){
                     $('#symbol').empty();
+                    $('#digitsB').empty();
                     $('#symbol').append(operation);
                 }
                 //if = is pressed, operation is executed and restart the numbers
