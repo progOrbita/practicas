@@ -151,7 +151,10 @@
                 if(secondDigits === 0){
                     if(cleanDigitsA === 1){
                         $('#digits').empty();
+                        $('#symbol').empty();
+                        $('#digitsB').empty();
                         cleanDigitsA = 0;
+                        secondDigits = 0;
                         $('#digits').append($(this).val());
                     }
                     else{
@@ -212,7 +215,6 @@
                         }
                     }
                     else{
-                        console.log($('#symbol').length);
                         if(!numbersB.includes('.') && $.trim($("#symbol").html()) !==''){
                             $('#digitsB').append('.');
                         }
@@ -240,7 +242,7 @@
                 let operation = $(this).val();
                 secondDigits = 1;
                 //Include the + - x /
-                //If there's at least a symbol, do the operation and updates current number with the result one
+                //If a symbol is pressed, do the operation and updates current number with the result one
                 if($.trim($("#symbol").html())!=''){
                     doOperation();
                     numberString = $('#result').html();
@@ -255,6 +257,8 @@
                 }
                 //if = is pressed, whenever a number button is pressed added to first number after emtpy it.
                 else{
+                    doOperation();
+                    
                     cleanDigitsA = 1;
                     secondDigits = 0;
                 }
