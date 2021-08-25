@@ -141,6 +141,7 @@
             let secondDigits = 0;
             //for pow/sqrt/inverse to empty digits if a number is pressed
             let power = 0;
+            let cleanDigitsA = 0;
             //buttons 0123456789, add numbers
             $(document).on('click','#numButtons',function(){
                 if(power == 1){
@@ -148,8 +149,14 @@
                     power = 0;
                 }
                 if(secondDigits === 0){
-                $('#digits').append($(this).val());
+                    if(cleanDigitsA === 1){
+                        $('#digits').empty();
+                        cleanDigitsA = 0;
                         $('#digits').append($(this).val());
+                    }
+                    else{
+                        $('#digits').append($(this).val());
+                    }
                 }
                 else{
                     $('#digitsB').append($(this).val());
@@ -246,11 +253,9 @@
                     $('#digitsB').empty();
                     $('#symbol').append(operation);
                 }
-                //if = is pressed, operation is executed and restart the numbers
+                //if = is pressed, whenever a number button is pressed added to first number after emtpy it.
                 else{
-                    doOperation();
-                    //clean the bottom area
-                    cleaning("bot");
+                    cleanDigitsA = 1;
                     secondDigits = 0;
                 }
             });
