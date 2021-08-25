@@ -9,6 +9,9 @@
         <title>Calculator</title>
     </head>
     <body>
+        <!-- TODO operation it's done everytime, if you want to change 2nd number operation is done before-->
+        <!-- TODO CE dunno how properly work anymore-->
+        <!-- TODO pow should get current number (A or B) and operate with it, not the result/first one-->
         <div class="container" id="calcWindow">
             <p id="result"></p>
             <p id="digits"></p>
@@ -128,12 +131,27 @@
                 $('#result').html(digitsA*digitsB);
                 break;
                 case "/":
-                $('#result').html(digitsA/digitsB);
+                if(digitsB === 0){
+                    $('#result').html('infinity');
+                    checkInfinite();
+                }
+                else{
+                    $('#result').html(digitsA/digitsB);
+                }
                 break;
                 //When there's no second number
                 default:
                 $('#result').html(digitsA);
                 break;
+            }
+        }
+        function checkInfinite(){
+            let infinity = $('#result').html();
+            if(infinity == 'infinity'){
+                $('#result').empty();
+                $('#digits').empty();
+                $('#symbol').empty();
+                $('#digitsB').empty();
             }
         }
         $(document).ready(function(){
@@ -147,6 +165,7 @@
             let canceledOp = false;
             //buttons 0123456789, add numbers
             $(document).on('click','#numButtons',function(){
+                checkInfinite();
                 if(!secondDigits){
                     if(cleanDigitsA){
                         $('#digits').empty();
@@ -165,6 +184,7 @@
             });
             //Removed button, either last digit, current operation or everything
             $(document).on('click','#remButton',function(){
+                checkInfinite();
                 switch($(this).val()){
                     //clean everything temp until I figure what *really* do
                     case 'CE':
@@ -201,6 +221,7 @@
             });
             //inverse, pow, root and change plus/min and "." operations that change current value without =
             $(document).on('click','#autoOper',function(){
+                checkInfinite();
                 let resultString = $('#result').html();
                 if($.trim($("#digits").html())==''){
                     $('#digits').html(resultString);
@@ -249,6 +270,7 @@
             });
             //operators + - x / and =
             $(document).on('click','#calcButton',function(){
+                checkInfinite();
                 let operation = $(this).val();
                 secondDigits = true;
                 //to do operation only once
